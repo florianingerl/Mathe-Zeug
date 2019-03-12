@@ -1,0 +1,38 @@
+\documentclass{article}
+% Damit die Verwendung der deutschen Sprache nicht ganz so umst\"andlich wird,
+% sollte man die folgenden Pakete einbinden: 
+\usepackage[utf8]{inputenc}% erm\"oglich die direkte Eingabe der Umlaute 
+\usepackage[T1]{fontenc} % das Trennen der Umlaute
+\usepackage{ngerman} % hiermit werden deutsche Bezeichnungen genutzt und 
+                     % die W\"orter werden anhand der neue Rechtschreibung 
+		     % automatisch getrennt.  
+\usepackage{graphicx}
+
+\usepackage{titlesec}
+\titleformat{\subsection}{\large\bfseries\sffamily}{}{0pt}{Aufgabe \thesubsection:\quad}
+
+\newcommand{\exercise}[1]{\subsection{#1}}
+
+\begin{document}
+\setcounter{section}{1}\setcounter{subsection}{0}
+\exercise{}
+Bei einer Sonnenhöhe von $35,2^\circ$ wirft eine frei stehende Tanne einen $18,3$ m langen Schatten. Wie hoch ist der Baum?
+
+\exercise{}
+Eine $2,25$ m hohe Stange wirft einen Schatten von $3,15$ m L\"ange. Unter welchem Winkel fallen die Sonnenstrahlen ein?
+
+\exercise{}
+Eine Treppe soll einen Neigungswinkel von $32^\circ$ bekommen. Die Stufen sind $15$ cm hoch. Berechne die Stufentiefe.
+
+\exercise{}
+Bestimme den Steigungswinkel $\alpha$ (Schnittwinkel $\alpha$ mit der $x$-Achse) der Geraden g:
+\begin{itemize}
+\item[a)] $g: y = 2x-1$
+\item[b)] $g: y = \frac{2}{3} x + 5$
+\end{itemize}
+
+\exercise{}
+Die Steigung einer Autobahn darf in L\"angsrichtung h\"ochstens $4,3\%$ betragen. Welchem Winkel $\alpha$ gegen die Horizontale entspricht dies?
+
+
+\end{document}
