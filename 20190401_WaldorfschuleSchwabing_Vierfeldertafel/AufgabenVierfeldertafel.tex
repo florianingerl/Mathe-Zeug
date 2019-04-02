@@ -7,6 +7,7 @@
                      % die W\"orter werden anhand der neue Rechtschreibung 
 		     % automatisch getrennt.  
 \usepackage{graphicx}
+\usepackage{amsmath}
 
 \usepackage{titlesec}
 \titleformat{\subsection}{\large\bfseries\sffamily}{}{0pt}{Aufgabe \thesubsection:\quad}
@@ -16,13 +17,59 @@
 \begin{document}
 \setcounter{section}{1}\setcounter{subsection}{0}
 
-\textbf{1.} Der Sch\"uler S f\"ahrt $50\%$ der Schultage mit dem Bus. In $70\%$ dieser F\"alle kommt er p\"unktlich zur Schule. Durchschnittlich kommt er aber nur an $60\%$ der Schultage p\"unktlich an. Heute kommt S p\"unktlich zur Schule. Mit welcher Wahrscheinlichkeit hat er den Bus benutzt?
 
-\textbf{2.} Von $100$ Sch\"ussen des Fußballers F sind $60$ mit dem linken Fuß getreten. Von den Sch\"ussen mit dem linken Fuß gehen $20\%$ in das Tor. Insgesamt gehen aber nur $10\%$ der Sch\"usse von F in das Tor. Im letzten Spiel hat F ein Tor geschossen. Mit welcher Wahrscheinlichkeit tat er dies mit dem rechten Fuß?
 
-\textbf{3.} Der Tennisspieler T macht $30\%$ seiner Aufschl\"age von unten. Von diesen Aufschl\"agen kommen dann $90\%$ in's Feld. Insgesamt kommen aber nur $60\%$ der Aufschl\"age von T in's Feld. Der letzte Aufschlag von T landete im Feld. Mit welcher Wahrscheinlichkeit war das ein Aufschlag von oben?
+\textbf{Aufgabe 1)} Von $100$ Sch\"ussen des Fußballers F sind $60$ mit dem linken Fuß getreten. Von den Sch\"ussen mit dem linken Fuß gehen $20\%$ in das Tor. Insgesamt gehen aber nur $15\%$ der Sch\"usse von F in das Tor. Im letzten Spiel hat F ein Tor geschossen. Mit welcher Wahrscheinlichkeit tat er dies mit dem rechten Fuß?
 
-\textbf{4.} Der Vogel V steht an $80\%$ der Tage fr\"uh auf. In $90\%$ dieser F\"alle f\"angt er sich einen Wurm zum Fr\"uhst\"uck. Insgesamt bekommt V aber nur an $75\%$ der Tage ein Fr\"uhst\"uck. Heute bekam V zum Fr\"uhst\"uck nichts. Mit welcher Wahrscheinlichkeit ist V fr\"uh aufgestanden? 
+L\"osung:
+$L=$``Schuss mit links''
+$R=$``Schuss mit rechts''
+$T=$``Tor''
+
+Gegeben ist $P\left(L\right) = 0,6$, $P_L\left(T\right)=0,2$ und $P\left(T\right)=0,15$.
+
+Gesucht ist $P_T\left(R\right)$.
+
+Aus den Angaben l\"asst sich außerdem bestimmen:
+\begin{align} P\left(L \cap T\right) &= P\left(L\right) \cdot P_L\left(T\right) \notag \\
+&= 0,6 \cdot 0,2 \notag \\
+&= 0,12 \notag
+\end{align}
+
+Die bisher bekannten Wahrscheinlichkeiten werden in die Vierfeldertafel eingetragen und diese wird vervollst\"andigt.
+
+\begin{center}
+
+
+\renewcommand{\arraystretch}{1.7}
+ \begin{tabular}{c|c|c|c}
+ 
+ & $T$ & $\overline{T}$ & 
+ \\
+ \hline
+ $L$ & $0,12$ & $0,48$ & $0,6$ \\
+ \hline
+ $R$ & $0,03$ & $0,37$ & $0,4$  \\ 
+ \hline
+ & $0,15$ & $0,85$ & $1$
+ \end{tabular}
+ 
+ \end{center}
+ 
+ \begin{align}
+ P_T\left(R\right) &= \frac{P\left(R \cap T\right)}{P\left(T\right)} \notag \\
+ &= \frac{0,03}{0,15} \notag \\
+ &= \frac{1}{5} \notag \\
+ &= 20\% \notag
+ \end{align}
+ 
+ Antwort: Mit einer Wahrscheinlichkeit von $20\%$ hat F das Tor mit rechts geschossen.
+ 
+ \textbf{Aufgabe 2)} Der Sch\"uler S f\"ahrt $50\%$ der Schultage mit dem Bus. In $70\%$ dieser F\"alle kommt er p\"unktlich zur Schule. Durchschnittlich kommt er aber nur an $60\%$ der Schultage p\"unktlich an. Heute kommt S p\"unktlich zur Schule. Mit welcher Wahrscheinlichkeit hat er den Bus benutzt?
+
+\textbf{Aufgabe 3)} Der Tennisspieler T macht $30\%$ seiner Aufschl\"age von unten. Von diesen Aufschl\"agen kommen dann $90\%$ in's Feld. Insgesamt kommen aber nur $60\%$ der Aufschl\"age von T in's Feld. Der letzte Aufschlag von T landete im Feld. Mit welcher Wahrscheinlichkeit war das ein Aufschlag von oben?
+
+\textbf{Aufgabe 4)} Der Vogel V steht an $80\%$ der Tage fr\"uh auf. In $90\%$ dieser F\"alle f\"angt er sich einen Wurm zum Fr\"uhst\"uck. Insgesamt bekommt V aber nur an $75\%$ der Tage ein Fr\"uhst\"uck. Heute bekam V zum Fr\"uhst\"uck nichts. Mit welcher Wahrscheinlichkeit ist V fr\"uh aufgestanden? 
 
 
 \end{document}
