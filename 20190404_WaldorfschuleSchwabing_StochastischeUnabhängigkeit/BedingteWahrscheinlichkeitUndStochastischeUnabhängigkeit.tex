@@ -1,0 +1,109 @@
+\documentclass{article}
+% Damit die Verwendung der deutschen Sprache nicht ganz so umst\"andlich wird,
+% sollte man die folgenden Pakete einbinden: 
+\usepackage[utf8]{inputenc}% erm\"oglich die direkte Eingabe der Umlaute 
+
+
+\usepackage{amsmath}
+\usepackage[T1]{fontenc} % das Trennen der Umlaute
+\usepackage[ngerman]{babel} % hiermit werden deutsche Bezeichnungen genutzt und 
+                     % die W\"orter werden anhand der neue Rechtschreibung 
+		     % automatisch getrennt.  
+\usepackage{graphicx}
+\usepackage{lmodern}
+
+\usepackage{amsthm}
+\newtheorem{theorem}{Satz}
+
+\usepackage{titlesec}
+\titleformat{\subsection}{\large\bfseries\sffamily}{}{0pt}{Aufgabe \thesubsection:\quad}
+
+\newcommand{\exercise}[1]{\subsection{#1}}
+
+\begin{document}
+\setcounter{section}{1}\setcounter{subsection}{0}
+
+\textbf{Bedingte Wahrscheinlichkeit und stochastische Unabh\"angigkeit}
+
+Du weißt bereits: Zwei Ereignisse $A$ und $B$ sind stochastisch unabh\"angig, falls die Gleichung
+
+\begin{align}
+\rule{6cm}{.4pt}\label{formelone}
+\end{align}
+
+gilt.
+
+Problem: Schießt ein Fußballer F mit links, geht der Ball mit Wahrscheinlichkeit $\frac{1}{3}$ in's Tor. Schießt F mit rechts, geht der Ball auch mit Wahrscheinlichkeit $\frac{1}{3}$ in's Tor.
+Sind nun die Ereignisse L=``Schuss mit links'' und T=``Schuss in's Tor'' stochastisch unabh\"angig?
+
+L\"osungsversuch: Wir m\"ussen \"uberpr\"ufen, ob die Gleichung 
+\begin{align}
+\rule{6cm}{.4pt} \label{formeltwo}
+\end{align}
+gilt.
+Das in $\eqref{formeltwo}$ auftauchende \rule{1cm}{.4pt} k\"onnen wir allerdings nicht berechnen. 
+
+Wir brauchen also Werkzeuge, um die stochatische Unabh\"angigkeit auf andere Weise zu pr\"ufen.
+
+\begin{theorem}
+  Ist 
+  \begin{align}
+  P_A\left(B\right) = P\left(B\right) \label{formelthree}
+  \end{align}, so sind $A$ und $B$ stochastisch unabh\"angig.
+  \label{thm:foo}
+\end{theorem}
+\begin{proof}
+Die Definition der bedingten Wahrscheinlichkeit in Gleichung $\eqref{formelthree}$ eingesetzt ergibt:
+\vspace{0,5cm}
+\begin{align}
+\rule{6cm}{.4pt} \label{formelfour}
+\end{align}
+Gleichung $\eqref{formelfour}$ auf beiden Seiten mit \rule{1cm}{.4pt} multipliziert ergibt:
+\begin{align}
+\rule{6cm}{.4pt} \notag
+\end{align}
+Also sind $A$ und $B$ stochastisch unabh\"angig.
+\end{proof}
+
+2.L\"osungsversuch: Wir versuchen Satz~\ref{thm:foo} zu verwenden. Also m\"ussen wir pr\"ufen, ob die Gleichung 
+\begin{align}
+\rule{6cm}{.4pt} \notag
+\end{align}
+gilt.
+
+$$P_L\left(T\right) = \rule{1cm}{.4pt}$$
+
+\begin{align}
+P\left(T\right) &= \rule{6cm}{.4pt} & \text{(1.Pfadregel}) \notag \\
+&= \rule{6cm}{.4pt} &\text{(2.Pfadregel)} \notag \\
+&= \rule{6cm}{.4pt} &\text{(aus der Angabe)} \notag \\
+&= \rule{6cm}{.4pt} &\text{(Distributivgesetz)} \notag \\
+&= \rule{1cm}{.4pt} \notag
+\end{align}
+Also sind $L$ und $T$ stochastisch \rule{6cm}{.4pt} .
+
+Wir wollen noch ein anderes Werkzeug lernen, mit dem man stochastische Unabh\"angigkeit nachweisen kann.
+\begin{theorem}
+  Ist 
+  \begin{align}
+  P_A\left(B\right) = P_{\overline{A}}\left(B\right) \label{formelfive}
+  \end{align}, so sind $A$ und $B$ stochastisch unabh\"angig.
+  \label{thm:bar}
+\end{theorem}
+\begin{proof}
+ \begin{align}
+ P\left(B\right) &= \rule{6cm}{.4pt} & \text{(1.Pfadregel}) \notag \\
+&= \rule{6cm}{.4pt} &\text{(2.Pfadregel)} \notag \\
+&= \rule{6cm}{.4pt} &\text{(wegen} \eqref{formelfive} \text{)} \notag \\
+&= \rule{6cm}{.4pt} &\text{(Distributivgesetz)} \notag \\
+&= \rule{1cm}{.4pt} \notag
+ \end{align}
+ Also ist $P\left(B\right)=$ \rule{1cm}{.4pt}. Damit folgt mit Satz \rule{1cm}{.4pt}, dass $A$ und $B$ stochastisch unabh\"angig sind.
+ 
+\end{proof}
+
+3.L\"osungsversuch: Wir versuchen nun Satz \rule{1cm}{.4pt} zu verwenden.
+$$ \rule{2cm}{.4pt} = \frac{1}{3} = \rule{2cm}{.4pt} $$.
+Also sind nach Satz \rule{1cm}{.4pt} $A$ und $B$ stochastisch \rule{6cm}{.4pt}.
+
+\end{document}
