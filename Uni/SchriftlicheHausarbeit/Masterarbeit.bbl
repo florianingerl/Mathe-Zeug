@@ -1,0 +1,126 @@
+\begin{thebibliography}{10}
+
+\bibitem{akhiezer}
+N.~I. Akhiezer.
+\newblock {\em The classical moment problem and some related questions in
+  analysis}.
+\newblock Translated by N. Kemmer. Hafner Publishing Co., New York, 1965.
+
+\bibitem{anderson}
+William~J. Anderson.
+\newblock {\em Continuous-Time Markov Chains - An Applications-Oriented
+  Approach}.
+\newblock Springer-Verlag, New York, 2011.
+
+\bibitem{asmussen}
+S{\o}ren Asmussen.
+\newblock {\em Applied probability and queues}, volume~51 of {\em Applications
+  of Mathematics (New York)}.
+\newblock Springer-Verlag, New York, second edition, 2003.
+\newblock Stochastic Modelling and Applied Probability.
+
+\bibitem{bauer}
+Heinz Bauer.
+\newblock {\em Wahrscheinlichkeitstheorie}.
+\newblock de Gruyter Lehrbuch. [de Gruyter Textbook]. Walter de Gruyter \& Co.,
+  Berlin, fifth edition, 2002.
+
+\bibitem{breiman}
+Leo Breiman.
+\newblock {\em Probability}, volume~7 of {\em Classics in Applied Mathematics}.
+\newblock Society for Industrial and Applied Mathematics (SIAM), Philadelphia,
+  PA, 1992.
+\newblock Corrected reprint of the 1968 original.
+
+\bibitem{cauty}
+Robert Cauty.
+\newblock Solution du probl\`eme de point fixe de {S}chauder.
+\newblock {\em Fund. Math.}, 170(3):231--246, 2001.
+
+\bibitem{chung}
+Kai~Lai Chung.
+\newblock {\em A course in probability theory}.
+\newblock Academic Press, Inc., San Diego, CA, third edition, 2001.
+
+\bibitem{bookMartinez}
+Pierre Collet, Servet Mart{\'{\i}}nez, and Jaime San~Mart{\'{\i}}n.
+\newblock {\em Quasi-stationary distributions}.
+\newblock Probability and its Applications (New York). Springer, Heidelberg,
+  2013.
+\newblock Markov chains, diffusions and dynamical systems.
+
+\bibitem{durrett}
+Rick Durrett.
+\newblock {\em Probability: theory and examples}.
+\newblock Cambridge Series in Statistical and Probabilistic Mathematics.
+  Cambridge University Press, Cambridge, fourth edition, 2010.
+
+\bibitem{ferrari}
+P.~A. Ferrari, H.~Kesten, S.~Martinez, and P.~Picco.
+\newblock Existence of quasi-stationary distributions. {A} renewal dynamical
+  approach.
+\newblock {\em Ann. Probab.}, 23(2):501--521, 1995.
+
+\bibitem{ferraripiccobirthdeath}
+Pablo~A. Ferrari, Servet Mart{\'{\i}}nez, and Pierre Picco.
+\newblock Existence of nontrivial quasi-stationary distributions in the
+  birth-death chain.
+\newblock {\em Adv. in Appl. Probab.}, 24(4):795--813, 1992.
+
+\bibitem{harkness}
+W.~L. Harkness and R.~Shantaram.
+\newblock Convergence of a sequence of transformations of distribution
+  functions.
+\newblock {\em Pacific J. Math.}, 31:403--415, 1969.
+
+\bibitem{kesten}
+Harry Kesten.
+\newblock A ratio limit theorem for (sub) {M}arkov chains on {$\{1,2,\cdots\}$}
+  with bounded jumps.
+\newblock {\em Adv. in Appl. Probab.}, 27(3):652--691, 1995.
+
+\bibitem{klenke}
+Achim Klenke.
+\newblock {\em Wahrscheinlichkeitstheorie}.
+\newblock Springer-Verlag, Berlin Heidelberg New York, 2 edition, 2008.
+
+\bibitem{naripolletcorrection}
+M.~G. Nair and P.~K. Pollett.
+\newblock Correction: ``{O}n the relationship between {$\mu$}-invariant
+  measures and quasi-stationary distributions for continuous-time {M}arkov
+  chains''.
+\newblock {\em Adv. in Appl. Probab.}, 25(3):717--719, 1993.
+
+\bibitem{nairpollet}
+M.~G. Nair and P.~K. Pollett.
+\newblock On the relationship between {$\mu$}-invariant measures and
+  quasi-stationary distributions for continuous-time {M}arkov chains.
+\newblock {\em Adv. in Appl. Probab.}, 25(1):82--102, 1993.
+
+\bibitem{neveu}
+J.~Neveu.
+\newblock {\em Discrete-parameter martingales}.
+\newblock North-Holland Publishing Co., Amsterdam-Oxford; American Elsevier
+  Publishing Co., Inc., New York, revised edition, 1975.
+\newblock Translated from the French by T. P. Speed, North-Holland Mathematical
+  Library, Vol. 10.
+
+\bibitem{pakes}
+Anthony~G. Pakes.
+\newblock Absorbing {M}arkov and branching processes with instantaneous
+  resurrection.
+\newblock {\em Stochastic Process. Appl.}, 48(1):85--106, 1993.
+
+\bibitem{vanDoorn}
+Erik~A. van Doorn.
+\newblock Quasi-stationary distributions and convergence to quasi-stationarity
+  of birth-death processes.
+\newblock {\em Adv. in Appl. Probab.}, 23(4):683--700, 1991.
+
+\bibitem{schriejner}
+Erik~A. van Doorn and Pauline Schrijner.
+\newblock Ratio limits and limiting conditional distributions for discrete-time
+  birth-death processes.
+\newblock {\em J. Math. Anal. Appl.}, 190(1):263--284, 1995.
+
+\end{thebibliography}
