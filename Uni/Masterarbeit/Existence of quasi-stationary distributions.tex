@@ -1,0 +1,2027 @@
+
+\documentclass[12pt,a4paper]{scrartcl}
+% scrartcl ist eine abgeleitete Artikel-Klasse im Koma-Skript
+% zur Kontrolle des Umbruchs Klassenoption draft verwenden
+
+
+% die folgenden Packete erlauben den Gebrauch von Umlauten und ß
+% in der Latex Datei
+\usepackage[utf8]{inputenc}
+% \usepackage[latin1]{inputenc} %  Al\hookleftarrowternativ unter Windows
+\usepackage[T1]{fontenc}
+\usepackage{enumerate}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{latexsym}
+\usepackage{amsmath,amssymb,amsthm,amstext,amsfonts,mathrsfs}
+
+
+% Abstand obere Blattkante zur Kopfzeile ist 2.54cm - 15mm
+\setlength{\topmargin}{-15mm}
+
+
+% Umgebungen für Definitionen, Sätze, usw.
+% Es werden Sätze, Definitionen etc innerhalb einer Section mit
+% 1.1, 1.2 etc durchnummeriert, ebenso die Gleichungen mit (1.1), (1.2) ..
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition} 
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definitionandtheorem}[theorem]{Definition and Theorem}
+\newtheorem {example}[theorem]{Example}  
+\newtheorem {remark}[theorem]{Remark}
+                  
+\numberwithin{equation}{section} 
+
+% einige Abkuerzungen
+\newcommand{\C}{\mathbb{C}} % komplexe
+\newcommand{\K}{\mathbb{K}} % komplexe
+\newcommand{\R}{\mathbb{R}} % reelle
+\newcommand{\Q}{\mathbb{Q}} % rationale
+\newcommand{\Z}{\mathbb{Z}} % ganze
+\newcommand{\N}{\mathbb{N}} % natuerliche
+
+\begin{document}
+  % Keine Seitenzahlen im Vorspann
+  \pagestyle{empty}
+
+  % Titelblatt der Arbeit
+  \begin{titlepage}
+
+    %\includegraphics[scale=0.45]{kit-logo.jpg} \hfill \includegraphics[scale=0.15]{mathe-logo.jpg}
+    \vspace*{2cm} 
+
+ \begin{center} \large 
+    
+    Masterarbeit
+    \vspace*{2cm}
+
+    {\huge Existence of quasi-stationary distributions}
+    \vspace*{2.5cm}
+
+    Florian Ingerl
+    \vspace*{1.5cm}
+
+    Datum der Abgabe
+		01.04.2015
+    \vspace*{4.5cm}
+
+
+    Betreuer: Prof. Vitali Wachtel \\[1cm]
+    Fakultät für Mathematik \\[1cm]
+		Ludwig-Maximilians-Universität-München
+  \end{center}
+\end{titlepage}
+
+
+\nocite{*}
+  % Inhaltsverzeichnis
+  \tableofcontents
+
+\newpage
+ 
+
+
+  % Ab sofort Seitenzahlen in der Kopfzeile anzeigen
+  \pagestyle{headings}
+
+
+\section{Introduction}
+
+In this paper, we consider continuous time Markov chains $X= \left( X\left(t\right) \right)_{t \geq 0}$ on the state space $\N_0$ with the origin $0$ as an absorbing state and $\N$ an irreducible class. It is further assumed that absorption is certain. We address the problem of the existence of so called quasi-stationary distributions, i.e. the set of initial distributions, which are such that the distribution of $X\left(t\right)$, conditioned upon non-absorption up to time $t$, is independent of $t$. These quasi-stationary distributions are interesting with respect to quasi-limiting distributions, i.e. the limit distribution of $X\left(t\right)$ as $t \to \infty$, conditioned upon non-absorption, which approximate the long time behaviour of a Markov process before absorption. In fact, it is shown that every quasi-limiting distribution must also be a quasi-stationary distribution.\\ 
+Our main result will be that under the additional assumption that the absorption time $R$ with start in $x$ goes to infinity in probability as $x \to \infty$ the existence of a quasi-stationary distribution is equivalent to $E_x e^{\lambda R} < \infty$ for some $ \lambda, x > 0$, where this last condition is satisfied by a large class of Markov processes, as we show. However in general, there is no unique quasi-stationary distribution as was pointed out by van Doorn \cite{vanDoorn} Theorem 3.2. on page 690. for birth and death processes.
+After that, we prove under additional constraints the existence of so called minimal quasi-stationary distributions, i.e. the quasi-stationary distributions taken as initial distributions where the mean time to absorption is minimal. We also prove that for a birth and death process a unique minimal quasi-stationary distribution exists.
+
+
+\section{Continuous time Markov processes}
+
+
+\subsection{General theory and definitions}
+
+Although in the present paper, we are only concerned with Markov process with values in a countable state space, we will now derive the general theory for Markov processes with values in a polish space with the Borel-$\sigma$-algebra on it.
+So let in this chapter be $\left(E, \mathcal{B}\left(E\right) \right)$ be a polish space.
+
+\begin{definition}
+A stochastic process $ X = \left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ defined on a measurable space $\left(\Omega,\mathcal{F} \right)$ with values in $\left(E, \mathcal{B}\left(E\right) \right)$, is called a (continuous-time) Markov process with starting distributions $\left(P_x\right)_{x \in E}$ on $\left(\Omega, \mathcal{F}\right)$ if 
+\begin{enumerate} [(i)]
+\item For all $x \in E$ we have $P_x\left(X\left(0\right) = x \right)=1.$
+\item \label{Markov kernel} The map $\kappa: E \times \mathcal{B}^{\otimes \R_{\geq 0}} \to \left[0,1\right] , \left(x,B\right) \mapsto P_x\left(X \in B\right) $ is a Markov kernel \label{Markov kernel}.
+\item The \textbf{weak Markov property} holds, i.e. for all $x \in E, s,t \geq 0$ and $ A \in \mathcal{B}\left(E\right)$ holds
+\begin{equation} \label{eq:weakMarkovproperty}
+P_x\left(X\left(t+s\right) \in A | \mathcal{F}_s \right) = P_{X_s}\left(X\left(t\right) \in A \right):= \kappa^t\left(X_s, A\right) \textnormal{ a.s.}
+\end{equation}
+where $\mathcal{F}_t = \sigma\lbrace X\left(s\right): s \leq t\rbrace  $ is the canonical filtration associated with the process and where $\kappa^t: E \times \mathcal{B}\left(E\right) \to \left[0,1\right], \left(x,A\right) \mapsto \kappa\left(x, \lbrace y=\left(y\left(u\right) \right)_{u \geq 0}: y\left(t\right) \in A\rbrace \right) = P_x\left(X\left(t\right) \in A \right)$ is the \textbf{ Markov kernel of the time difference  $t$}.
+\end{enumerate}
+\end{definition}
+
+If $E$ is a countable state space, then condition \eqref{Markov kernel} is always true, because every map from a space with the discrete $\sigma$-algebra on it is measurable.\\
+By applying the tower property of the conditional expectation, one easily sees that the weak Markov property implies the \textbf{elementary Markov property}, i.e. for all $x \in E, s,t \geq 0$ and $A \in \mathcal{B}\left(E\right)$ holds
+\begin{equation}
+P_x\left(X\left(t+s\right) \in A | \mathcal{F}_s \right) = P_x\left(X\left(t+s\right) \in A | X\left(s\right)\right) \textnormal{ a.s.}
+\end{equation}
+In fact “weak Markov property=elementary Markov property+homogeneity in time”.\\
+
+For the analysis of the sample paths of a Markov process, the weak Markov property of \eqref{eq:weakMarkovproperty} is still inconvenient. For that reason, we have the following theorem.
+
+\begin{theorem}
+The weak Markov property of \eqref{eq:weakMarkovproperty} has an equivalent functional form, that is for all $\mathcal{B}\left(E\right)^{\otimes \R_{\geq 0}}-\mathcal{B}\left(\R\right)$ measurable, bounded functions $f: E^{\R_{\geq 0}} \to \R$ and every $s\geq 0$ and $x \in E$ holds:
+\begin{equation} \label{eq:functionalweakMarkovproperty}
+E_x\left[f\left(\left(X\left(t+s\right)\right)_{t \in \R_{\geq 0} \right) | \mathcal{F}_s \right] = E_{X\left(s\right)}\left[f\left(X\right) \right].
+\end{equation}
+
+\begin{proof}
+"$\Leftarrow$" is trivial. "$\Rightarrow$": In this proof, we make repeated use of the Monotone Class Theorem, see Theorem \ref{th:MonotoneClass}. With the notation chosen as in this theorem, we define the sets
+$$\mathcal{H} = \lbrace f: E^{\R_{\geq 0}} \to \R \textnormal{ measurable}: \textnormal{ for all } s \geq 0, x \in E \textnormal{ holds \eqref{eq:functionalweakMarkovproperty}} \rbrace. $$ and
+\begin{align*}
+P = \lbrace \lbrace y = \left(y\left(u\right) \right)_{u \geq 0}: y\left(t_1\right) \in A_1, \ldots , y\left(t_n\right) \in A_n \rbrace |& n \in \N, 0 \leq t_1 \leq t_2 \ldots \leq t_n < \infty, \\
+&A_1, \ldots , A_n \in \mathcal{B}\left(E\right) \rbrace.
+\end{align*}
+$\mathcal{H}$ satisfies the condition of the Monotone Class Theorem, because of linearity of the conditional expectation and because of the dominated convergence of the conditional expectation. Because $P$ is a $\cap$-stable generator of the $\sigma$-algebra $\mathcal{B}\left(E\right)^{\otimes \R_{\geq 0}}$ it suffices to prove for $A \in P$ that the indicator $\textbf{1}_A$ is in $\mathcal{H}$. For this, we show the following claim by induction over $n$:\\
+For all $n \in \N$ for all $0 \leq t_1 \leq \ldots \leq t_n < \infty $, the set $\mathcal{H}$ contains all $\mathcal{B}^{t_1,\ldots,t_n}$-measurable bounded functions (where $\mathcal{B}^{t_1,\ldots,t_n}$ is the smallest $\sigma$-algebra on $E^{\R_{\geq 0}}$ such that the given projections in the exponent are measurable). For simplicity of notation, let $\Theta_s = \left(X\left(t+s\right)\right)_{t \in \R_{\geq 0}$.\\
+\textbf{n=1}: So let $0 \leq t_1$ and $A_1 \in \mathcal{B}\left(E\right).$ Then for all $s\geq 0, x \in E$ holds because of the weak Markov property
+\begin{align*}
+&E_x\left[\textbf{1}_{\lbrace y=\left(y\left(u\right)\right)_{u \geq 0}: y\left(t_1\right) \in A_1 \rbrace}\left( \Theta_s \right)| \mathcal{F}_s \right] = P_x\left( X\left(t_1 + s \right) \in A_1 |\mathcal{F}_s\right) \\
+&= P_{X\left(s\right)} \left(X\left(t_1\right) \in A_1 \right) = E_{X\left(s\right)}\left[\textbf{1}_{\lbrace y=\left(y\left(u\right)\right)_{u \geq 0}: y\left(t_1\right) \in A_1 \rbrace}\left(X\right) \right].
+\end{align*}
+Then by the Monotone Class Theorem, $\mathcal{H}$ contains all bounded $\mathcal{B}\left(E\right)^{t_1}$ measurable functions.
+
+\textbf{n $\mapsto$ n+1}: 
+So let $0 \leq t_1 \leq t_2 \leq \ldots \leq t_{n+1}$ and $A_1,\ldots,A_{n+1} \in \mathcal{B}\left(E\right).$ Then for all $s\geq 0, x \in E$ holds
+\begin{align*}
+&E_x\left[\textbf{1}_{\lbrace y=\left(y\left(u\right)\right)_{u \geq 0}: y\left(t_1\right) \in A_1,\ldots, y\left(t_{n+1}\right) \in A_{n+1} \rbrace}\left( \Theta_s \right) |\mathcal{F}_s\right] \\
+&=E_x\left[\textbf{1}_{X\left(t_1+s\right) \in A_1} \cdots \textbf{1}_{X\left(t_n+s\right) \in A_n} P_x\left(X\left(s+t_{n+1}\right) \in A_{n+1} |\mathcal{F}_{s+t_n}\right)  |\mathcal{F}_s\right] \\
+&= E_x\left[\textbf{1}_{X\left(t_1+s\right) \in A_1} \cdots \textbf{1}_{X\left(t_n+s\right) \in A_n} P_{X\left(s+t_n\right)}\left(X\left(t_{n+1} - t_n\right) \in A_{n+1}\right)  |\mathcal{F}_s\right]\\
+&= E_{X\left(s\right)}\left[ \textbf{1}_{X\left(t_1\right) \in A_1} \cdots \textbf{1}_{X\left(t_n\right) \in A_n} P_{X\left(t_n\right)}\left(X\left(t_{n+1} - t_n\right) \in A_{n+1}\right)  \right].
+\end{align*}
+Now this last expression is a random variable that maps $\omega \in \Omega$ to:
+\begin{align*}
+\omega \mapsto &E_{X\left(s\right)\left(\omega \right)}\left[ \textbf{1}_{X\left(t_1\right) \in A_1} \cdots \textbf{1}_{X\left(t_n\right) \in A_n} P_{X\left(s\right)\left(\omega \right)}\left(X\left(t_{n+1}\right) \in A_{n+1} | \mathcal{F}_{t_n}\right)  \right] \\
+&= E_{X\left(s\right)\left(\omega \right)}\left[\textbf{1}_{\lbrace y=\left(y\left(u\right)\right)_{u \geq 0}: y\left(t_1\right) \in A_1,\ldots, y\left(t_{n+1}\right) \in A_{n+1} \rbrace}\left( X \right)\right].
+\end{align*}
+Then by the Monotone Class Theorem, $\mathcal{H}$ contains all bounded $\mathcal{B}\left(E\right)^{t_1, \ldots ,t_{n+1}}$ measurable functions, completing the induction step and proving the theorem.
+\end{proof}
+\end{theorem}
+
+\begin{definition}
+We say that a Markov process $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ has the \textbf{strong Markov property} with respect to a stopping time $ \tau $, if we have a.s. on $\lbrace \tau < \infty \rbrace $
+\begin{equation} \label{eq:strongMarkovproperty}
+P_x\left(X\left(\tau+t\right) \in A | \mathcal{F}_{\tau} \right) = P_{X\left(\tau\right)}\left(X\left(t\right) \in A \right)
+\end{equation}
+for all $ x \in E, t\geq 0$ and $A \in \mathcal{B}\left(E\right) $.
+
+We say that $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ is \textbf{strong Markov} if it has the strong Markov property w.r.t. any stopping time $\tau$.
+\end{definition}
+
+As with the weak Markov property, there is an equivalent functional form of the strong Markov property, i.e. \eqref{eq:strongMarkovproperty} is equivalent to for all $\mathcal{B}\left(E\right)^{\otimes \R_{\geq 0}}-\mathcal{B}\left(\R\right)$ measurable, bounded functions $f: E^{\R_{\geq 0}} \to \R$ and $x \in E$ holds:
+\begin{equation}
+E_x\left[f\left(\left(X\left(\tau + t\right)\right)_{t \in \R_{\geq 0} \right) | \mathcal{F}_{\tau} \right] = E_{X\left(\tau\right)}\left[f\left(X\right) \right].
+\end{equation}
+The proof works similarly as above.
+
+\begin{theorem} \label{th:countablestoppingtime}
+A Markov process $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ has the strong Markov property with respect to any stopping time $\tau$ that charges only a countable number of values $\left(t_k\right)_{k \in \N} \cup \lbrace \infty \rbrace$.
+\end{theorem}
+\begin{proof}
+At first, since $\tau$ does assume only a countable number of values, $X\left(\tau\right)$ is $\mathcal{F}_{\tau}$ measurable. So we need to show that for all $x \in E, t \geq 0, A \in \mathcal{B}\left(E\right) $ and $F \in \mathcal{F}_{\tau}$ we have
+$$ P_x\left(X\left(\tau+t\right) \in A, \tau < \infty, F \right) = E_x\left[P_{X\left(\tau\right)}\left(X\left(t\right) \in A \right), \tau < \infty, F \right]. $$
+If $F \subseteq \lbrace \tau = t_k \rbrace $, then this comes down to
+\begin{align*}
+P_x\left(X\left(\tau+t\right) \in A, \tau < \infty, F \right) &= E_x\left[P_x\left(X\left(t_k + t \right) \in A |\mathcal{F}_{t_k} \right) \textbf{1}_F \right] \\ 
+&= E_x\left[ P_{X\left(t_k\right)}\left( X\left(t\right) \in A \right) \textbf{1}_F \right] \\
+&= E_x\left[P_{X\left(\tau\right)}\left(X\left(t\right) \in A \right), \tau < \infty, F \right].
+\end{align*}
+In the general case, we decompose $F$ into the disjoint union $F = \bigcup_{k \in \N} F \cap \lbrace \tau = t_k \rbrace $ and use $\sigma$-additivity.
+\end{proof}
+
+From the following theorem follows, that any Markov jump process (defined later) is strong Markov.
+
+\begin{theorem}
+Let $X= \left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ be a Markov process with right-continuous sample paths. Assume further that for any bounded and continuous function $f:E \to \R$ and every $s \geq 0$ the function $x \mapsto E_x\left[ f\left(X_s\right) \right]$ is continuous. Then $X$ is strong Markov.
+\end{theorem}
+\begin{proof}
+So let $\tau$ be a stopping time. Since $X$ has right-continuous paths $X\left(\tau\right)$ is $\mathcal{F}_{\tau}$-measurable (see for instance \cite{klenke} on page 455). We define for all $n \in \N$
+$$ \sigma_n = \sum_{k=1}^{\infty} \frac{k}{2^n} \texbf{1}_{\lbrace \frac{k-1}{2^n} < \tau \leq \frac{k}{2^n} \rbrace}. $$
+Then the $\sigma_n$'s are stopping times that charge only a countable number of values and obviously $\sigma_n \searrow \tau.$ 
+
+Now let $x \in E, t\geq 0$ and $f:E \to \R$ be bounded and continuous. If $F \in \mathcal{F}_{\tau}$, then $F \in \mathcal{F}_{\sigma_n}$ for all $n \in \N$ and because of Theorem \ref{th:countablestoppingtime}, it holds
+$$ E_x\left[ f\left(X\left(\sigma_n + t \right) \right), F \right] = E_x\left[E_{X\left(\sigma_n\right)}\left[f\left(X\left(t\right) \right) \right], F \right].$$
+Because $X$ has right-continuous sample paths and $f$ is continuous, we have $f\left(X\left(\sigma_n + t \right) \right) \overset{n \to \infty}{\to} f\left(X\left(\tau + t \right) \right)$. Because of the assumption of this theorem, also $E_{X\left(\sigma_n\right)}\left[f\left(X\left(t\right) \right) \right] \overset{n \to \infty}{\to} E_{X\left(\tau\right)}\left[f\left(X\left(t\right) \right) \right]$ and thus because of dominated convergence, we get 
+$$ E_x\left[ f\left(X\left(\tau + t \right) \right), F \right] = E_x\left[E_{X\left(\tau\right)}\left[f\left(X\left(t\right) \right) \right], F \right],$$
+and thus for all $f:E \to \R$ bounded and continuous holds
+$$ E_x\left[ f\left(X\left(\tau + t \right) \right)  |\mathcal{F}_{\tau}\right] = E_{X\left(\tau \right)}\left[f\left(X\left(\tau\right)\right) \right].$$
+Now for any closed set $ A \subseteq E $ the indicator $\textbf{1}_{A}$ can be approximated by bounded and continuous functions as follows: Let $$\Phi: \R \to \R, t \to \begin{cases} 1, \mbox{ if } t \leq 0 \\1-t, \mbox{ if } 0 \leq t \leq 1 \\0 \mbox{ else }   \end{cases}.$$
+and with $f_{\epsilon}\left(x\right) = \Phi\left( \frac{ \textnormal{dist}\left(x,A\right)}{\epsilon} \right)$ we get with dominated convergence of the conditional expectation
+\begin{align*}
+P_x\left(X\left(\tau + t \right) \in A | \mathcal{F}_{\tau}\right) &= \lim_{\epsilon \to 0} E_x\left[ f_{\epsilon}\left(X\left(\tau + t\right) \right) | \mathcal{F}_{\tau}\right] \\
+&= \lim_{\epsilon \to 0} E_{X\left(\tau\right)} \left[f_{\epsilon}\left(X\left(t\right) \right) \right] = P_{X\left(\tau \right)}\left(X\left(t\right) \in A \right).
+\end{align*}
+Since the closed sets generate the Borel-$\sigma$-algebra, the Monotone Class Theorem proves that $X$ has the strong Markov property w.r.t. $\tau$.
+\end{proof}
+
+\subsection{Transition function and $q$-matrix}
+
+From now on, we have the state space $E$ countable (with the discrete topology on it).\\[2ex]
+
+To avoid misunderstandings due to notation, for any probability distribution $\mu$ on $E$ we write $P_{\mu}$ for $P_{\mu} = \sum_{x \in E} \mu\left(x\right) P_x$ and in calculations where the starting distribution of the process does not matter, we just write $P$ for the probability measure.\\[2ex]
+
+We define the \textbf{transition function} of a Markov process by
+\begin{equation}
+P_{ij}\left(t\right) = P_i\left(X\left(t\right)=j \right), i,j \in E, t\geq 0. 
+\end{equation}
+Because the distribution of a stochastic process, i.e. the probability of the events involving countably many of the random variables $ X\left(t\right) $, is determined by its finite dimensional distributions, the distribution of a Markov process is determined by its starting distribution and its transition function. Indeed, for all $ 0 = t_0 \leq t_1 < t_2 < \ldots < t_n $ and $ i_1,\ldots,i_n \in E$, we have 
+$$ P\left(X\left(t_n\right) = i_n, \ldots, X\left(t_1\right) = i_1\right) = \sum_{i_0 \in E} P\left(X\left(0\right) = i_0 \right) \prod_{k=1}^{n} P_{i_{k-1}i_k}\left(t_k - t_{k-1}\right) $$
+as a simple application of Bayes' formula.\\
+
+
+
+The transition function $P_{ij}\left(t\right)$ of a Markov process has the following properties:
+
+\begin{enumerate}[(1)]
+\item \label{one} $ P_{ij}\left(t\right) \geq 0 $ for all $i,j \in E , t \geq 0 $ and $ P_{ij}\left(0\right) = \delta_{ij}. $ \label{one}
+
+\item \label{two} $ \sum_{j \in E} P_{ij}\left(t\right) = 1 $ for all  $ t \geq 0, i \in E $. \label{two}
+\item \label{three} For all $s,t \geq 0 $ and $ i,j \in E $, it follows from the Markov property $ P_{ij}\left(s+t\right) = \sum_{k \in \N} P_{ik}\left(s\right) P_{kj}\left(t\right) $ , and these are called the Chapman-Kolmogorov equations. \label{three}
+
+\item \label{four} If we are assuming our Markov process has right-continous sample paths (with respect to the discrete topology on $E$ of course), then we also have  $ \lim_{t \to 0} P_{ij}\left(t\right) = \delta_{ij}. $ \label{four}
+\begin{proof}
+For all $ j \in E $, because the sample paths are right-continuous and $ \lbrace X\left(0, \omega\right) \rbrace $ is a neighbourhood of $X\left(0, \omega\right)$ for all $ \omega \in \Omega $, we have $ \lim_{t \to 0} \textbf{1}_{\lbrace X\left(t\right)=j\rbrace } = \textbf{1}_{\lbrace X\left(0\right)=j\rbrace } $. Then since $ 0 \leq \textbf{1}_{\lbrace X\left(t\right)=j\rbrace } \leq 1 $, by the dominated convergence theorem, we get 
+$$ \lim_{t \to 0} E\left[\textbf{1}_{\lbrace X\left(t\right)=j\rbrace } | X\left(0\right) = i \right] = E\left[\textbf{1}_{\lbrace X\left(0\right)=j\rbrace } | X\left(0\right) = i\right] $$ which is in other notation $ \lim_{t \to 0} P_{ij}\left(t\right) = P_{ij}\left(0\right) = \delta_{ij}. $
+\end{proof}
+
+\end{enumerate}
+
+A function $ P_{ij}\left(t\right) $ without reference to any Markov process, we call a transition function, if it satisfies properties \eqref{one},\eqref{three} and if $ \sum_{j \in E} P_{ij}\left(t\right) \leq 1 $ for all  $ t \geq 0, i \in E. $ It is called \textbf{honest}, if it satisfies property \eqref{two} and \textbf{dishonest} otherwise. It is called \textbf{standard}, if it satisfies \eqref{four}. In the following and in the literature we are referring to, the term transition function always means a possibly dishonest but standard transition function. \\[2ex]
+
+Anderson (see \cite{anderson}) analyses transition functions in detail and in the following we shall establish his definitions and present some of the results of his book. 
+
+\begin{proposition} \label{th:transfcont}
+Let $P_{ij}\left(t\right)$ be a transition function. Then
+\begin{enumerate}[(1)]
+\item $P_{ii}\left(t\right) > 0 $ for all $t \geq 0$ and $i \in E.$ If $i,j \in E$ with $i \neq j$, and if $P_{ij}\left(t\right) > 0$ for some $t >0$, then $P_{ij}\left(t\right) > 0$ for all $t > 0$.
+\item If $P_{ii}\left(t\right) = 1$ for some $t >0$, then $P_{ii}\left(t\right) = 1$ for all $t\geq 0.$
+\item If $t \geq 0$, then
+$$ \left|P_{ij}\left(t+\epsilon \right) - P_{ij}\left(t\right) \right| \leq  1 - P_{ii}\left(\left|\epsilon\right| \right)$$
+and so $P_{ij}\left(t\right)$ is a uniformly continuous function of $t$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+See \cite{anderson} Proposition 1.3. on page 7.
+\end{proof}
+
+\begin{definitionandtheorem} \label{th:defqmatrixoftransitionfunction}
+Let $P_{ij}\left(t\right), i,j \in E, t\geq 0$ be a transition function on $E$. Then we call the matrix $Q$ whose $i,j$-th component is the number $q\left(i,j\right) = P_{ij}'\left(0\right)$ the \textbf{q-matrix} of the transition function $P_{ij}\left(t\right).$ The diagonal components are non-positive and possibly infinite, the off-diagonal components are finite and non-negative, and the row sums are non-positive. A state $i \in E$ is called \textbf{stable} if $q\left(i,i\right)$ is finite and \textbf{instantaneous} otherwise. $Q$ is called stable if all states $i \in E$ are stable and is further called \textbf{conservative}, if all row sums are equal to $0$, that is if $\sum_{j \in E} q\left(i,j\right) = 0$ for all $i \in E.$
+\end{definitionandtheorem}
+\begin{proof}
+See \cite{anderson} pages 5-13.
+\end{proof}
+
+\begin{proposition}
+Let $i$ be a stable state. Then
+\begin{enumerate}[(1)]
+\item $P_{ij}'\left(t\right) \geq \sum_{k \in E} q\left(i,k\right) P_{kj}\left(t\right)$ for all $t\geq0$ and $j\in E.$ \\
+(This is called the backward inequality.) \\
+$P_{ij}'\left(t\right) \geq \sum_{k \in E} P_{ik}\left(t\right) q\left(k,j\right) $ for all $t\geq0$ and $j\in E.$ \\
+(This is called the forward inequality.)
+\item If $Q$ is conservative, then $P_{ij}'\left(t\right) = \sum_{k \in E} q\left(i,k\right) P_{kj}\left(t\right)$ for all $t\geq0$ and $j \in E.$
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+See \cite{anderson} Proposition 2.7 on page 13.
+\end{proof}
+
+The differential equations 
+$$ P_{ij}'\left(t\right) = \sum_{k \in E} q\left(i,k\right) P_{kj}\left(t\right) \textnormal{ for all } t\geq0 \textnormal{ and } j\in E,$$
+which is in matrix notation just $P'\left(t\right) = Q P\left(t\right),$ are called the \textbf{Kolmogorov backward equations} and $P'\left(t\right) = P\left(t\right)Q$ are called the \textbf{Kolmogorov forward equations}.
+
+\begin{definition}
+A square matrix $ Q = \left(q\left(i,j\right)\right)_{i,j \in E} $ is called a $q$-matrix if
+\begin{align*}
+0 \leq q\left(i,j\right) < \infty & \textnormal{ for all } i,j \in E \textnormal{ with } i \neq j, \\
+\sum_{j \neq i} q\left(i,j\right) \leq q\left(i\right) \leq \infty &\textnormal{ for all } i \in E \ \left(\textnormal{where } q\left(i\right) = -q\left(i,i\right)\right).
+\end{align*}
+$Q$ is called \textbf{stable} if $q\left(i\right) <  \infty$, and \textbf{conservative} if equality holds in the second equation. \\
+A transition function $P_{ij}\left(t\right)$ is called a \textbf{$Q$-function} if $P'\left(0\right) = Q.$
+\end{definition}
+
+The $q$-matrix has significant meaning for the theory of Markov processes. In fact, $q\left(i,j\right) = P_{ij}'\left(0\right) $ is equivalent to $ P\left(X\left(t+h\right) = j | X\left(t\right) = i \right) = P_{ij}\left(h\right) = q\left(i,j\right)h + o\left(h\right).$ When attempting to model processes in real life by Markov processes, one usually has only $q\left(i,j\right)$ given from observations in a small time interval and may or may not be able to determine (maybe with the help of the Kolmogorov backward and forward equations) a possibly not unique transition function. That is the subject of the next theorem.
+
+\begin{theorem}
+Let $ Q $ be a stable $q$-matrix. 
+\begin{enumerate}
+\item There exists a (possibly dishonest) transition function $ f_{ij}\left(t\right) $ satisfying both the backward and forward Kolmogorov equations, with the property that $ f_{ij}\left(t\right) $ is the minimal solution of each of these equations, in the sense that if $ P_{ij}\left(t\right) $ is any other non-negative solution of either the forward or backward equation, then $ f_{ij}\left(t\right) \leq P_{ij}\left(t\right) $ for all $ i,j \in E, t\geq 0$. In particular $ f_{ij}\left(t\right) $ is the minimal $Q$-function.
+\item If $ f_{ij}\left(t\right) $ is honest, then it is the unique solution to both the backward and forward equations, in the sense that there are no other non-negative solutions $P_{ij}\left(t\right)$ with $\sum_{j \in E} P_{ij}\left(t\right) \leq 1 $, and in fact is the unique $Q$-function.
+\end{enumerate}
+We call $f_{ij}\left(t\right)$ the feller minimal $Q$-function and a Markov process with transition function $f_{ij}\left(t\right)$ the minimal process for $Q$.
+\end{theorem}
+\begin{proof}
+See \cite{anderson} Theorem 2.2. on page 70.
+\end{proof}
+
+\subsection{Markov jump processes}
+
+
+
+\begin{definition}
+A Markov process $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ is called a Markov jump process if its sample paths are right-continuous and constant, except for isolated jumps.
+\end{definition}
+
+\begin{theorem}
+A Markov jump process $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ is strong Markov.
+\end{theorem}
+
+\begin{proof}
+See \cite{asmussen}, Theorem 1.1. on page 40.
+\end{proof}
+
+\begin{theorem} Let
+$$ J_n=\begin{cases} 0, & \mbox{ if } n = 0 \\ \inf \lbrace t > J_{n-1} | X\left(t\right) \neq X\left(t-\right) \rbrace, & \mbox{ if } n \geq 1 \end{cases}. $$
+denote the time of the $n$-th jump of $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$. Then the $J_n$ are stopping times.
+\end{theorem}
+\begin{proof}
+$J_0 = 0$ is a stopping time.
+Now assume, that for some $ n \in \N_0 , J_n $ is a stopping time. For $ t \geq 0 $ define $ Q\left(t\right) = \lbrace  qt : 0 \leq q \leq 1, q \in \mathbb{Q} \rbrace  $ and define
+\begin{equation}
+G = \bigcup_{u,s \in Q\left(t\right)} \lbrace X\left(u\right) \neq X\left(s\right)  \rbrace  \cap \lbrace J_{n} \leq u,s \rbrace 
+\end{equation}
+
+By induction hypotheses and because when taking countable unions, we remain in $ \mathcal{F}_t $, we have $ G \in \mathcal{F}_t $. Furthermore $ G \subseteq \lbrace J_{n+1} \leq t \rbrace  $ is clear.
+On the other hand, the paths in  $\lbrace J_{n+1} \leq t \rbrace ^c $ are constant on $ \left[J_n, t\right] $, so
+$$ \lbrace J_{n+1} \leq t \rbrace ^c \subseteq G^c = \bigcap_{u,s \in Q\left(t\right)} \lbrace  X\left(u\right) = X\left(s\right)  \rbrace  \cup \lbrace J_n > u \rbrace \cup \lbrace J_n > s \rbrace  ,$$ so $ G = \lbrace J_{n+1} \leq t \rbrace  \in \mathcal{F}_t $ and $ J_{n+1} $ is a stopping time.
+\end{proof}
+
+Because $J_n$ is a stopping time and $X$ has right-continuous paths $X_n = X\left(J_n\right)$ is $\mathcal{F}_{J_n}$ measurable (see for instance \cite{klenke} on page 455) and in particular a random variable for all $n \in \N_0$. It is the state, just after the $n$-th jump. We call $ \left(X_n\right)_{n \in \N_0}  $ the jump chain or embedded Markov chain.
+Further we define the sojourn or holding times by $ T_n = J_{n+1} - J_n , n \geq 0 $.
+
+\begin{remark}
+Two phenomena require our comment here. Firstly, a state $ i \in E $ might be absorbing. So there is a last finite $ J_n $ and in this case we use the convention $T_n = T_{n+1} = \ldots = \infty$ and $X_n = X_{n+1} = \ldots = i.$ \\
+Secondly, jumps might congest, i.e. if $ J_{\infty} = \sup_{n \in \N} J_n < \infty $. Then we say that $ J_{\infty} $ is the \textbf{time of first infinity} or \textbf{explosion time}. We have some thoughts about it later.
+\end{remark}
+
+\begin{theorem}
+Let $g:\R_{\geq 0} \to \R, g \neq 0$ satisfy the functional equation
+\begin{equation}
+g\left(t+s\right) = g\left(t\right) \cdot g\left(s\right).
+\end{equation} 
+and assume further that $g$ is either continuous or monotone.
+Then $g\left(t\right) = e^{Ct}$ for some arbitrary constant $C \in \R$. If further $g \leq 1$, then $C$ must be smaller or equal $0$.
+\end{theorem}
+\begin{proof}
+See Theorem \ref{th:excauchyfunceq} in the Appendix.
+\end{proof}
+
+
+\begin{theorem}
+\label{th:embeddedchainandholdingtimes}
+Let $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ be a Markov jump process. Then the joint distribution of the sequence $ \left(X_n\right)_{n \in \N_0} $ of states visited (before explosion) and $\left(T_n\right)_{n \in \N_0}$ of holding times is given by 
+\begin{enumerate}
+\item $ \left(X_n\right)_{n \in \N_0} $ is a Markov chain with transition matrix $ P = \left(P\left(i,j\right)\right)_{i,j \in E} $ given by $ P\left(i,j\right) = P_i\left(X_1 = j\right) $.
+\item There exits $ q\left(i\right) \geq 0 , i \in E$, such that, given $ \left(X_n\right)_{n \in \N_0} $, the $ T_n $ are independent, with $T_k$ being exponentially distributed with intensity $q\left(X_k\right)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Let $ \mathcal{B} $ denote the sets of the form $ F_n = \lbrace X_k = i_k, T_{k-1} > t_k, k=1,\ldots,n \rbrace  $ for some $i_1,\ldots,i_n \in E$ and $t_1,\ldots,t_n \geq 0 $. Then $ \mathcal{B}$ together with the empty set, is a $\cap$-stable generator of $\sigma\left(X_n, n \geq 1 , T_n, n \geq 0 \right)$, so after the uniqueness theorem for measures, the joint distribution of $ Y_n, T_n $ is completely determined by the probabilities $ P_i\left(B\right) , i \in E, B \in  \mathcal{B}. $
+Letting $i_0 = i$, the claim of the theorem is
+
+\begin{equation}
+P_i\left(F_n\right) = \prod_{k=1}^n P\left(i_{k-1}, i_k\right) e^{-q\left(i_{k-1}\right)t_k }
+\label{eq:equitoclaim}
+\end{equation}
+
+for suitable $q\left(i\right)$.\\[2ex]
+We define
+$$ t + T_0 = \inf\lbrace s > t: X\left(s\right) \neq X\left(s-\right)\rbrace  $$ and consider for $s,t \geq 0$
+\begin{align*}
+P_i\left(T_0 > t+s\right) &= E_i\left[ P_i\left(T_0 > s , s+T_0 > t+s | \mathcal{F}_s \right) \right] \\
+&= E_i\left[\textbf{1}_{\lbrace T_0 > s, X\left(s\right) = i \rbrace} P_i\left(s+T_0 > t+s   | \mathcal{F}_s \right) \right]
+\end{align*}
+Now $B = \bigcap_{n \in \N} \lbrace y \in E^{\R_{\geq 0}}: y\left(k \frac{t}{n} \right) = y\left(0\right) \textnormal{ for } k=0,1,\ldots n \rbrace  \in \left(2^{E} \right)^{\otimes \R_{\geq 0}}.$
+Then because $X$ has right-continuous sample paths and Remark \ref{re:functionalweakMarkovproperty}, we have
+\begin{align*}
+P_i\left(s+T_0 > t+s | \mathcal{F}_s \right) &= P_i\left(X\left(u\right) = X\left(s\right) \textnormal{ for } u \in \left[s,s+t \right] |\mathcal{F}_s\right) \\
+&= P_i\left(\left(X\left(t+s\right) \right)_{t \in \R_{\geq 0}} \in B  | \mathcal{F}_s \right) \\
+&= P_{X\left(s\right)}\left(X \in B \right) \\
+&=P_{X\left(s\right)}\left(X\left(u\right) = X\left(0\right) \textnormal{ for } u \in \left[0,t\right] \right)\\
+&= P_{X\left(s\right)}\left(T_0 > t\right).
+\end{align*}
+So continuing the calculation, we have
+\begin{align*}
+P_i\left(T_0 > t+s\right) &= E_i\left[\textbf{1}_{\lbrace T_0 > s, X\left(s\right) = i \rbrace} P_i\left(T_0 > t\right) \right] \\
+&=P_i\left(T_0 > t\right) \cdot P_i\left(T_0 > s\right).
+\end{align*}
+Therefore the function $g\left(t\right) = P_i\left(T_0 > t\right)$ defined on $\R_{\geq 0}$ must satisfy the functional equation $g\left(t+s\right) = g\left(t\right) \cdot g\left(s\right).$ Since $g \neq 0, g \leq 1$ and $g$ monotone decreasing, $g\left(t\right) = e^{Ct}$ for some arbitrary constant $C \leq 0.$
+Thus $T_0$ must be exponentially distributed with parameter $ q\left(i\right) = -C \geq 0 $. 
+
+\begin{align*}
+P_i\left(X_1 = j, T_0 > t\right) &= E_i\left[P_i\left( T_0 > t, X\left(t+T_0\right) = j | \mathcal{F}_t\right)\right] \\
+&= E_i\left[\textbf{1}_{\lbrace T_0 > t, X\left(t\right) = i\rbrace } \cdot P_i\left( X\left(t+T_0\right) = j | \mathcal{F}_t\right) \right]
+\end{align*}
+
+Now $B = \bigcup_{q \in \Q_{>0}} \bigcap_{n \in \N} \lbrace y \in E^{\R_{\geq 0}}: y\left(q\right) = j , y\left(k \frac{q}{n} \right) = y\left(0\right) \neq j \textnormal{ for } k=0,1,\ldots n-1 \rbrace  \in \left(2^{E} \right)^{\otimes \R_{\geq 0}}.$
+Then because $X$ has right-continuous sample paths and Remark \ref{re:functionalweakMarkovproperty}, we have
+\begin{align*}
+P_i\left(X\left(t+T_0\right) = j |\mathcal{F}_t \right) &= P_i\left(\left(X\left(s+t\right) \right)_{s \in \R_{\geq 0}} \in B |\mathcal{F}_t\right) \\
+&= P_{X\left(t\right)}\left(X \in B\right) \\
+&=P_{X\left(t\right)}\left(X\left(T_0\right) = j \right).
+\end{align*}
+So continuing the calculation, we have
+\begin{align*}
+P_i\left(X_1 = j, T_0 > t\right) &= E_i\left[\textbf{1}_{\lbrace T_0 > t, X\left(t\right) = i\rbrace } \cdot P_i\left(X\left(T_0\right) = j\right) \right] \\
+&= P_i\left(X_1 = j \right) \cdot P_i\left(T_0 > t\right) \\
+&= P\left(i,j\right) e^{-q\left(i\right)t}.
+\end{align*}
+This is \eqref{eq:equitoclaim} for $ n = 1 $.\\[2ex]
+The case $ n > 1 $ follows by the \textbf{strong} Markov property (or more precisely its functional equivalent) and induction. Define $ J_{n-1} + T_0 = \inf\lbrace s > J_{n-1}: X\left(s\right) \neq X\left(s-\right)\rbrace ,$ then
+\begin{align*}
+P_i\left(F_n\right) &= E_i\left[P_i\left(F_{n-1}, X\left( J_{n-1}+T_0\right) = i_n, J_{n-1} + T_0 > t_n + J_{n-1} |\mathcal{F}_{J_{n-1}}\right)\right] \\
+& = E_i\left[\textbf{1}_{\lbrace F_{n-1}, X\left(J_{n-1}\right) = i_{n-1}\rbrace } \cdot P_i\left( X\left(J_{n-1}+T_0\right) = i_n, J_{n-1} + T_0 > t_n + J_{n-1} | X\left(J_{n-1}\right)\right)\right] \\
+&= E_i\left[\textbf{1}_{\lbrace F_{n-1}\rbrace } \cdot P_{i_{n-1}}\left(X\left(T_0\right) = i_n, T_0 > t_n\right) \right] \\
+&= P_i\left(F_{n-1}\right) \cdot P_{i_{n-1}}\left(X\left(T_0\right) = i_n, T_0 > t_n\right).
+\end{align*}
+\end{proof}
+
+Given a stochastic matrix $P = \left(P\left(i,j\right)\right)_{i,j \in E}$ on $E$ and holding times $q\left(i\right) \geq 0,  i \in E,$ can we construct a Markov jump process, whose embedded Markov chain has transition matrix given by $P$ and whose holding times are given by the $q\left(i\right)$?
+It is indeed possible, and we will describe here the so called minimal construction. Let $ \Delta \notin E$ be some extra state (to describe the process after explosions) and define $E_{\Delta} = E \cup \Delta$ and $q\left(\Delta\right) = 0, P\left(\Delta,\Delta\right) = 1.$  Let the sample space be
+$$\Omega = E_{\Delta} \times \overline{\R} \times E_{\Delta} \times \overline{\R} \ldots. $$ and let $ X_0, T_0, X_1, T_1,X_2,\ldots $ be the obvious coordinate functions. With the help of the Theorem of Ionescu-Tulcea (see for instance \cite{klenke} Theorem 14.32. on page 286), it is possible to construct probabilities $P_i$ on $\left(\Omega, 2^{E_{\Delta}} \otimes \mathcal{B}\left( \overline{\R}\right) \otimes 2^{E_{\Delta}} \otimes \ldots\right)$ such that:
+
+\begin{enumerate}
+\item $\left(X_n\right)_{n \in \N_0}$ is a Markov chain with transition matrix $P$ and $P_{i}\left(X_0= i\right) = 1.$
+\item Given $\left(X_n\right)$, the $T_n$ are independent with $T_k$ being exponentially distributed with intensity $q\left(X_k\right).$
+\end{enumerate}
+
+Set $J_0 = 0, J_n = T_0 + \ldots + T_{n-1}, \quad \omega\left(\Delta\right) = \sup_{n \in \N} J_n$ and define
+
+$$ X\left(t\right) =\begin{cases} X_k & \mbox{if } J_k \leq t < J_{k+1} \\ \Delta & \mbox{if } t\geq \omega\left(\Delta\right) \end{cases}$$
+
+\begin{theorem}
+$\left(X\left(t\right)\right)_{t\geq 0}$ is a Markov jump process on $ E \cup \Delta $.
+\end{theorem}
+\begin{proof}
+See \cite{asmussen} Theorem 2.1. on page 42.
+\end{proof}
+
+\begin{remark}
+Let $P_{ij}\left(t\right), i,j \in E \cup \Delta$ be the transition function of $\left(X\left(t\right)\right)_{t\geq 0}$. Then since $\Delta$ is an absorbing state, we have for all $t,s \geq 0$ and $i,j \in E$, $P_{ij}\left(t+s\right) = \sum_{k \in E \cup \Delta} P_{ik}\left(s\right) P_{kj}\left(t\right) = \sum_{k \in E} P_{ik}\left(s\right) P_{kj}\left(t\right),$ which means that $P_{ij}\left(t\right)$ restricted to $E$ is also a standard but possibly dishonest transition function.\\
+After explosions, there would have been several ways of continuing the construction, that would have led to a Markov jump process. The one chosen above obviously minimizes the transition function $P_{ij}\left(t\right), i,j \in E$ and is therefore called the minimal construction.
+\end{remark}
+
+Suppose $Q$ is a conservative $q$-matrix. We describe now, how we map to $Q$ a Markov jump process.
+Recall that $q\left(i\right) = -q\left(i,i\right) < \infty$ and define
+$$ P\left(i,j\right) =\begin{cases} \delta_{ij}, & \mbox{if }q\left(i\right)=0 \\ 0, & \mbox{if } q\left(i\right) >0, j = i \\ \frac{q\left(i,j\right)}{q\left(i\right)}, & \mbox{if } q\left(i\right) >0,j \neq i \end{cases}. $$
+Because $Q$ is conservative, $P$ is a stochastic matrix. With the $q\left(i\right)\geq 0$ and the stochastic matrix $P$, we construct a Markov jump process as above.
+
+\begin{theorem}
+Let $ Q $ be a stable and conservative $q$-matrix, $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ be the corresponding Markov jump process, $P_{ij}\left(t\right)$ its transition function (restricted to $E$). Then $P_{ij}\left(t\right)$ satisfies the Kolmogorov backward equation 
+
+\begin{equation}
+P_{ij}'\left(t\right) = \sum_{k \in E} q\left(i,k\right) P_{kj}\left(t\right) \textnormal{ for all } t\geq0 \textnormal{ and } j\in E.
+\end{equation}
+
+In particular $ P'\left(0\right) = Q.$
+\end{theorem}
+\begin{proof} Conditioning upon $T_0 = S$, we get with the help of Theorem \ref{th:embeddedchainandholdingtimes} and bearing in mind that $\Delta$ is an absorbing state
+\begin{align*} P_{ij}\left(t\right) &= \delta_{ij}e^{-q\left(i\right)t} + \int_{0}^t q\left(i\right) e^{-q\left(i\right) s} \sum_{k \neq i} \frac{q\left(i,k\right)}{q\left(i\right)} P_{kj}\left(t-s\right) \textnormal{d}s \\
+&= e^{-q\left(i\right) t} \left[\delta_{ij} + \int_0^t e^{q\left(i\right) s} \sum_{k \neq i} q\left(i,k\right) P_{kj}\left(s\right) \textnormal{d}s \right].
+\end{align*}
+
+If we show that $ f\left(s\right) = \sum_{k \neq i} q\left(i,k\right) P_{kj}\left(s\right) $ is continuous, we get that $P_{ij}\left(t\right)$ is differentiable with derivative
+\begin{align*}
+P_{ij}'\left(t\right) &= -q\left(i\right)e^{-q\left(i\right)t}\left[\delta_{ij} + \int_0^t e^{q\left(i\right)s}f\left(s\right) \textnormal{d}s \right] + e^{-q\left(i\right)t} e^{q\left(i\right)t} f\left(t\right) \\
+&= -q\left(i\right) P_{ij}\left(t\right) + \sum_{k \neq i} q\left(i,k\right) P_{kj}\left(t\right) = \sum_{k \in E} q\left(i,k\right) P_{kj}\left(t\right).
+\end{align*}
+
+If $A$ denotes a finite subset of $E\backslash \lbrace i\rbrace $, then $\sum_{k \in A} q\left(i,k\right) P_{kj}\left(t\right)$ is continuous and converges uniformly in $t$ to $f\left(t\right)$, because
+$$\left|f\left(t\right) - \sum_{k \in A} q\left(i,k\right) P_{kj}\left(t\right) \right| \leq \left| \sum_{k \in E\backslash A, k \neq i} q\left(i,k\right) P_{kj}\left(t\right) \right| \leq \sum_{k \in E\backslash A, k \neq i} q\left(i,k\right) \to 0 $$
+as $ A \nearrow E\backslash \lbrace i\rbrace $, since $\sum_{k \neq i} q\left(i,k\right) \leq q\left(i\right) < \infty $. Because uniform limits of continuous functions are continuous, $f\left(t\right)$ is continuous.
+
+
+\end{proof}
+
+\begin{remark}
+\label{RemarktoSetting}
+If $\left(X\left(t\right)\right)$ is a Markov process with given stable and conservative $q$-matrix $Q$ and if we further assume, that the minimal process of $Q$ is honest, then the transition function $P\left(t\right)$ of $\left(X\left(t\right)\right)$ is the only $Q$-function and thus $\left(X\left(t\right)\right)$ equals the minimal process with probability one. This process can then be constructed as a Markov jump process.
+\end{remark}
+
+\subsection{Classification of states and stationary measures}
+
+\begin{definition}
+Given $i,j \in E$, we say that $j$ \textbf{can be reached from} $i$, and write $i\hookrightarrow j $, if $P_{ij}\left(t\right) > 0 $ for some $ t > 0 $. We say that $i$ and $j$ communicate, if they can be reached from each other and write $i\leftrightarrow j$.
+\end{definition}
+
+
+It can be shown that $\leftrightarrow$ is an equivalence relation on $E$ and the equivalence classes we call irreducible classes. If there is only one irreducible class, we call the Markov process irreducible.
+
+\begin{lemma}
+\label{smalllemma}
+Let $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}} $ be a Markov jump process and $ C \subseteq E $. Then $C$ is an irreducible class for $ \left(X\left(t\right)\right)_{t \in \R_{\geq 0}} $ if and only if $C$ is an irreducible class for the embedded Markov chain $ \left(X_n\right)_{n \in \N_0}.$
+\end{lemma}
+\begin{proof}
+See \cite{asmussen} Proposition 4.1. on page 50.
+\end{proof}
+
+\begin{definitionandtheorem}
+Let $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}} $ be a Markov jump process and $ i \in E $. We call the state $i$ recurrent, if one of the following equivalent conditions hold:
+\begin{enumerate}
+\item The set $\lbrace t: X\left(t\right) = i \rbrace  $ is unbounded $P_i$ a.s.
+\item $i$ is recurrent for the embedded Markov chain $\left(X_n\right)_{n \in \N_0}. $
+\end{enumerate}
+\end{definitionandtheorem}
+
+Then it's clear from Lemma \ref{smalllemma} and the corresponding theorem for discrete time Markov chains, that being recurrent is a class property, i.e. if one state of an irreducible class is recurrent, then all states of that class are recurrent.
+We call a Markov process recurrent, if all states are recurrent.
+
+\begin{definition}
+A measure $\upsilon \neq 0$ is stationary if $ 0 \leq \upsilon\left(j\right) < \infty $, and $\upsilon P\left(t\right) = \upsilon $ for all $t > 0$.
+\end{definition}
+
+\begin{theorem}
+\label{stationarymeasuretheorem}
+Suppose that $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ is irreducible and recurrent on $E$. Then there exists an up to a multiplicative factor unique stationary measure $\upsilon$. This $\upsilon$ has the property that $ \upsilon\left(j\right) > 0 $ for all $ j \in E $ and can be found in either of the following ways:
+\begin{enumerate}[(i)]
+\item For some fixed but arbitrary state $i,$ $\upsilon\left(j\right)$ is the expected time spent in $j$ between successive entrances to $i.$ That is
+\begin{equation}
+\upsilon\left(j\right) = E_i \int_0^{\omega\left(i\right)} \textbf{1}_{\lbrace X\left(t\right) = j \rbrace} \textnormal{d}t,
+\end{equation}
+where $\omega\left(i\right) = \inf\lbrace t > 0: X\left(t\right) = i, X\left(t-0\right) \neq i \rbrace.$
+\item $\upsilon\left(j\right) = \frac{\mu\left(j\right)}{q\left(j\right)}$, where $\mu$ is stationary for the embedded Markov chain $X_n.$
+\item As solution to $\upsilon Q = 0.$
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+See \cite{asmussen} Theorem 4.2. on page 51.
+\end{proof}
+
+\section{Renewal theory}
+
+\subsection{Definitions}
+\begin{definition}
+Let $ \tau_1, \tau_2, \ldots $ be a sequence of strictly positive independent and identically distributed random variables such that $ 0 < \mu = E\left[\tau_1\right] < \infty $. We refer to $ \tau_i $ as the $i$-th interarrival time. Define for $ n \geq 1 $ 
+$$ \sigma_n = \sum_{i=1}^n \tau_i. $$
+Then $ \sigma_n $ is called the time of the $n$-th renewal and $\left(\sigma_n\right)_{n \in \N_0} $ with the convention $\sigma_0 = 0$ is called a renewal process.
+\end{definition}
+
+We call the common distribution $ F $ of $\tau_1, \tau_2, \ldots $ the interarrival distribution. Without reference to any renewal process, we call the distribution of a strictly positive random variable with finite expectation an interarrival distribution.\\[2ex]
+
+The renewal process is called \textbf{periodic}, if there exist $ d \in \N $ such that $ F\left(\lbrace nd : n \in \N \rbrace \right) = 1 $ and otherwise is called \textbf{aperiodic}. Define
+
+%We obtain from the strong law of large numbers $ \frac{\sigma_n}{n} \to \mu $ a.s. as $n \to \infty$ and thus $T_n \to \infty$ a.s. We define
+
+$$ N\left(t\right) = \sum_{n = 1}^{\infty} \textbf{1}_{\lbrace \sigma_n \leq t\rbrace } $$
+
+to be the number of renewals up to time $t$ and define
+
+$$ R_t = \sigma_{N\left(t\right)+1} - t. $$
+
+$R_t$ is called the remaining life at time $t.$
+
+\subsection{Iterates of the limit distribution of the remaining life time}
+\begin{theorem}
+Suppose that the renewal process is aperiodic, then
+\begin{equation}
+\lim_{t \to \infty} P\left(R_t > x\right) = \frac{1}{\mu} \int_{0}^{\infty} 1- F\left(y\right) \textnormal{d}y.
+\end{equation}
+\end{theorem}
+\begin{proof}
+See any book about renewal theory.
+\end{proof}
+
+Denote by $ A $ the set of aperiodic interarrival distributions. We introduce the map $\Psi : A \to A, \quad F \mapsto \Psi F$ where 
+\begin{equation}
+\label{eq:remaininglife}
+1 - \Psi F\left(x\right) = \lim_{t \to \infty} P\left(R_t > x\right) = \frac{1}{\mu} \int_{0}^{\infty} 1- F\left(y\right) \textnormal{d}y.
+\end{equation}
+
+Let now $ F $ be an aperiodic interarrival distribution. Assume further that all moments of $F$ exists, that is $m_k\left(F\right) = \text{$k$-th moment of $F$} < \infty$ for all $ k\geq 1$. Define $F_k = \Psi^k F$. These iterates were analysed by Harkness and Shantaran \cite{harkness}. They already derived the following equations, that we use heavily.
+\begin{equation}
+1- F_{k+1}\left(s\right) = \frac{1}{m_1\left(F_k\right)} \int_s^{\infty} \left(1-F_k\left(\omega\right) \right) \textnormal{d}\omega.
+\end{equation}
+\begin{equation}
+m_1\left(F_k\right) = \frac{m_{k+1}\left(F\right)}{\left(k+1\right)m_k\left(F\right)}.
+\end{equation}
+\begin{equation}
+\frac{m_k\left(F_n\right)}{k!} = \prod_{i=n}^{k+n-1} m_1\left(F_i\right).
+\end{equation}
+
+\subsection{Some convergence results}
+\begin{theorem} [Standard method of moments]
+Assume there is a unique distribution function $F$ with  moments $m_k\left(F\right) < \infty, k \geq 1$. If there is a sequence $F_n$ of distribution functions with all moments finite, i.e. $m_k\left(F_n\right) < \infty $ for all $ n,k \geq 1 $, and if
+$$  m_k\left(F_n\right) \to m_k\left(F\right) \text{ as $n \to \infty$, for all $k\geq 1$} .$$
+
+Then $F_n$ converges to $F.$
+\end{theorem}
+\begin{proof}
+See \cite{chung} Theorem 4.5.5. on page 103.
+\end{proof}
+
+\begin{theorem}
+Let $\mu$ be a measure on $\R$ such that all its moments
+$$ m_k = \int_{\R} x^k \mu\left(\textnormal{d}x\right),  k=0,1,2,\ldots $$
+are finite. If 
+\begin{equation} \label{eq:carlemanscondition}
+\sum_{k=1}^{\infty} \frac{1}{m_{2k}^{\frac{1}{2k}}} = \infty,
+\end{equation}
+then $\mu$ is the only measure on $\R$ with $\left(m_k\right)$ as its sequence of moments. \eqref{eq:carlemanscondition} is called Carleman’s condition.
+\end{theorem}
+\begin{proof}
+See \cite{akhiezer} on page 85.
+\end{proof}
+
+
+\begin{lemma}
+\label{subsequencelemmaone}
+Assume there exists a subsequence $\left(n_j\right)_{j \in \N}$ such that for all $ k \geq 1 $
+
+$$ \lim_{j \to \infty} \frac{m_{k+n_j}\left(F\right)}{n_j m_{k+n_j-1}\left(F\right)} = \theta > 0. $$
+
+Then $F_{n_j}$ converges to an exponential distribution with mean $ \theta $.
+
+\end{lemma}
+
+\begin{proof}
+
+\begin{align*}
+m_k\left(F_{n_j}\right) 
+&= k! \cdot \prod_{i=n_j}^{k+n_j-1}{m_1\left(F_i\right)} = k! \cdot \prod_{i=n_j}^{k+n_j-1} \frac{m_{i+1}\left(F\right)}{\left(i+1\right) m_i\left(F\right)} \\
+&= k! \frac{1}{\left(n_j+1\right)\cdots \left(k+n_j\right)} \frac{m_{k+n_j}\left(F\right)}{m_{n_j}\left(F\right)} = k! \prod_{i=1}^k \frac{m_{i+n_j}\left(F\right)}{\left(n_j+i\right) m_{i+n_j-1}\left(F\right)} \\
+&= k! \prod_{i=1}^k \frac{m_{i+n_j}\left(F\right)}{n_j m_{i+n_j-1}\left(F\right)} \cdot \prod_{i=1}^k \frac{n_j}{n_j+i} \to k! \theta^k \cdot 1 = k! \theta^k.
+\end{align*} \\[1ex]
+
+Of course $ m_k\left( \text{Exp}\left(\theta\right)\right) = k! \theta^k $. And since
+$$ \sum_{k=1}^{\infty} \frac{1}{\left(\left(2k\right)!\theta^{2k}\right)^{\frac{1}{2k}}} \geq \frac{1}{\theta} \sum_{k=1}^{\infty} \frac{1}{2k} = \infty.$$
+it follows by Carleman’s condition, that $\text{Exp}\left(\theta\right)$ is the only distribution with all these moments.
+Then the result follows with the standard method of moments.
+
+\end{proof}
+
+\begin{lemma} \label{Weneeditlaterr}Let
+\begin{equation*}
+\theta = \liminf_{j \to \infty} \frac{m_{j}\left(F\right)}{j m_{j-1}\left(F\right)}.
+\end{equation*}
+Then there is a subsequence $\left(j_l\right)_{l \in \N}$ such that $ F_{j_l} $ converges to an exponential distribution with mean $\theta$ (where an exponential distribution with mean $0$ is $\delta_0$).
+\end{lemma}
+
+\begin{proof}
+Let $\left(j_l\right)_{l \in \N}$ be a subsequence such that
+\begin{equation}
+\lim_{l \to \infty} \frac{m_{j_l}\left(F\right)}{j_l m_{j_l-1}\left(F\right)} = \theta.
+\end{equation}
+
+If $ \theta = 0 $, then $ m_1\left(F_{j_l-1}\right) = \frac{m_{j_l}\left(F\right)}{j_l m_{j_l-1}\left(F\right)} \to 0, $ so that $F_{j_l}$ converges to $\delta_0$ and we are done.
+
+So assume $ \theta > 0.$
+$\frac{m_{j+1}\left(F\right)}{m_{j}\left(F\right)} $ is increasing in $j.$ Indeed, if $\tau$ has distribution $F,$ because of Schwarz-inequality we have
+
+\begin{align*}
+\left(m_j\left(F\right)\right)^2 &= \left(E\left[\tau^j\right]\right)^2 = \left(E\left[\tau^{\frac{j-1}{2}} \tau^{\frac{j+1}{2}}\right]\right)^2 \\
+& \leq E\left[\tau^{j-1}\right] \cdot E\left[\tau^{j+1}\right] = m_{j-1}\left(F\right) m_{j+1}\left(F\right).
+\end{align*}
+
+Therefore, for any $k \geq 1$,
+\begin{align*}
+\theta &= \liminf_{l \to \infty} \frac{m_{j_l-k}\left(F\right)}{\left(j_l-k\right) m_{j_l-k-1}\left(F\right)} \leq \limsup_{l \to \infty} \frac{m_{j_l-k}\left(F\right)}{\left(j_l-k\right) m_{j_l-k-1}\left(F\right)} \\
+& = \limsup_{l \to \infty} \frac{m_{j_l-k}\left(F\right)}{j_l m_{j_l-k-1}\left(F\right)} \leq \limsup_{l \to \infty} \frac{m_{j_l}\left(F\right)}{j_l m_{j_l-1}\left(F\right)} = \theta.
+\end{align*}
+
+Therefore for each $ k \geq 1 $,
+
+\begin{equation}
+\label{eq:diagonalargument}
+\lim_{l \to \infty} \frac{m_{j_l-k}\left(F\right)}{\left(j_l-k\right) m_{j_l-k-1}\left(F\right)} = \theta.
+\end{equation}
+
+We are now inductively defining a sub-subsequence $ \left(i_l\right)_{l \in \N}$ such that for the subsequence $n_l = j_{i_l} - l$holds for all $k \geq 1$,
+
+\begin{equation}
+\lim_{l \to \infty} \frac{m_{n_l+k}\left(F\right)}{\left(n_l+k\right) m_{n_l+k-1}\left(F\right)} = \theta.
+\end{equation}
+If this is shown, then the claim follows with Lemma \ref{subsequencelemmaone}. \\[1ex]
+
+For shorter notation we define $m_n = \frac{m_{n}\left(F\right)}{n m_{n-1}\left(F\right)}$.
+
+Then $ m_{j_l - 1} $ converges to $\theta$. So there exists $L_1 > 1$ such that for all $l \geq L_1$ holds $\left|m_{j_l - 1} - \theta \right| < 1$. Define $i_1 = L_1$.\newline
+$ m_{j_l - k} , k=1,2 $ converge to $\theta$. So there exists $L_2 > L_1 + 1$ such that for all $l \geq L_2$ and $k=0,1$ holds $\left|m_{j_l - 2+k} - \theta \right| < \frac{1}{2}$. Define $i_2 = L_2$.\newline
+And so on $\ldots$\newline
+In the $n$-th step, $ m_{j_l - k} , k=1,2,\ldots,n $ converge to $\theta$. So there exists $ L_n > L_{n-1} + 1 $ such that for all $l \geq L_n$ and $ 0 \leq k < n $ holds $\left|m_{j_l - n + k} - \theta \right| < \frac{1}{n}$. Then we define $i_n = L_n$.\\[1ex]
+
+Then for any fixed $k \geq 1$, $m_{n_l + k}$ converges to $\theta$, because for any $l > k$, $ \left| m_{n_l+k} - \theta \right| < \frac{1}{l}$, which finishes the proof.
+
+
+\end{proof}
+
+
+\begin{theorem}
+\label{Weneeditlater}
+If for some $ C < \infty, \lambda > 0 $, it holds that $ 1- F\left(t\right) \leq Ce^{-\lambda t} $ for all $ t \geq 0 $, then there exists a $ \theta \leq \frac{1}{\lambda} $ and a subsequence $\left(n_j\right)_{j \in \N}$ such that $F_{n_j}$ converges to $\text{Exp}\left(\theta\right)$ as $ j \to \infty $.
+\end{theorem}
+
+\begin{proof}
+We apply the formula of integration by parts of the Stieltjes-integral.
+
+\begin{align*}
+m_k\left(F\right) &= \int_0^{\infty} t^k \textnormal{d}F\left(t\right) = \int_0^{\infty} -t^k \textnormal{d}\left(1-F\left(t\right)\right) \\
+&= \left[-t^k\left(1-F\left(t\right)\right)\right]_0^{\infty} + k\int_0^{\infty} t^{k-1}\left(1-F\left(t\right)\right) \textnormal{d}t = k\int_0^{\infty} t^{k-1}\left(1-F\left(t\right)\right) \textnormal{d}t \\
+& \leq C k \int_0^{\infty} t^{k-1} e^{-\lambda t} \textnormal{d}t = Ck!\lambda^{-k} 
+\end{align*}
+Thus
+\begin{equation*}
+C\lambda^{-k} \geq \frac{m_k\left(F\right)}{k!} =\prod_{j=0}^{k-1} m_1\left(F_j\right) =\prod_{j=1}^{k} \frac{m_i\left(F\right)}{im_{i-1}\left(F\right)}
+\end{equation*}
+
+It follows
+
+\begin{equation}
+\theta := \liminf_{j \to \infty} \frac{m_j\left(F\right)}{j m_{j-1}\left(F\right)} \leq \frac{1}{\lambda} 
+\end{equation}
+
+and we only need to apply the previous Lemma to get the result.
+\end{proof}
+
+
+
+\newpage
+\section{The Main Theorem}
+
+\subsection{Setting and Theorem}
+Our basic setting for the rest of this paper is the following:\\
+We consider $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$ a continuous time Markov chain with state space $\N_0$ with a given $q$- matrix $Q$. We assume $Q$ to be stable and conservative. Further, we assume that the minimal process for $Q$ is honest. Then we may assume that $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}} $ is a nice Markov jump process because of Remark \ref{RemarktoSetting}.
+In particular,
+$$ P_{\mu}\left(X\left(t\right) = \Delta \right) = 0 \text{ for all $t \geq 0$ and all initial distributions $\mu$ on $\N$ }. $$
+Further we assume $0$ to be an absorbing state, i.e. $q\left(0\right) = 0$ and that all other states form an irreducible class.
+We define
+$$ R := \inf \lbrace t\geq 0 : X\left(t\right) = 0\rbrace  $$
+the absorption time at $0$ and we assume that absorption is certain, i.e. $ P_x \left(R < \infty\right) = 1 $ for all $x \geq 1 $. \\
+For a probability distribution $\mu$ on $\N$, we further define $F^{\mu}$ as the distribution of the absorption time of the process starting out with initial distribution $\mu$, i.e.
+\begin{equation}
+F^{\mu} = P_{\mu}\left(R \in \bullet\right).
+\end{equation} 
+
+\begin{definition}
+A probability measure $\mu$ on $\N$ (also seen as a probability distribution on $\N \cup \lbrace  0\rbrace $ with $\mu\left(0\right) = 0$) is called a quasi-stationary distribution if, starting with $\mu$, the conditional distribution, given the event the process hasn't been absorbed, is still $\mu$, i.e.
+
+$$ P_{\mu}\left(X\left(t\right) = \bullet | X\left(t\right) \neq 0\right) = \mu.$$
+
+\end{definition}
+
+As we already motivated, every quasi-limiting distribution must be a quasi-stationary distribution.
+\begin{definition}
+A probability measure $\pi$ on $\N$ is called a Yaglom-limit if for all $x,y \in \N$ holds
+$$ \pi\left(y\right) = \lim_{t \to \infty} P_x\left(X\left(t\right) = y | R > t \right). $$
+\end{definition}
+
+\begin{theorem}
+Assume that $\pi$ is a Yaglom-limit. Then $\pi$ is also a quasi-stationary distribution.
+\end{theorem}
+\begin{proof}
+By hypothesis, there exists a probability measure $\mu$ on $\N$ (a Dirac measure) such that
+$$ \pi\left(\bullet\right) = \lim_{t \to \infty} P_{\mu}\left(X\left(t\right) \in \bullet | R > t \right). $$
+So for all bounded functions $f:\N \to \R$ it holds that 
+$$ E_{\pi}\left[f\right] = \sum_{x \in \N} \pi\left(x\right) f\left(x\right) = \lim_{t \to \infty} E_{\mu}\left(f\left(X_t\right) | R > t \right). $$
+%This is not clear at all to me, because if $f:\N \to \R$ is bounded and measurable and positive, then there exists a sequence of step functions $f_n \nearrow f$, then
+%\begin{align*}
+%\int_{\N} f\left(x\right) \pi\left(dx\right) &= \lim_{n \to \infty} \int_{\N} f_n\left(x\right) \pi\left(dx\right) \\
+%&= \lim_{n \to \infty} \lim_{t \to \infty} E_{\mu}\left(f_n\left(Z_t\right) | R > t \right) \textnormal{ Why can you exchange limits } \\
+%&= \lim_{t \to \infty} E_{\mu}\left(f\left(Z_t\right) | R > t \right).
+%\end{align*}
+Applying this to the bounded function $f\left(z\right) = P_z\left(R > s\right)$ we get with the Markov property and the definition $ t + R = \inf\left\{ s \geq t : X\left(s\right) = 0 \right\} $
+\begin{align*}
+\lim_{t \to \infty} E_{\mu} \left(f\left(X_t\right) | R > t \right) &= \lim_{t \to \infty} \frac{E_{\mu}\left[P_{X_t}\left(R > s\right) \textbf{1}_{\lbrace R > t \rbrace} \right]}{P_{\mu}\left(R > t \right)} \\
+&= \lim_{t \to \infty} \frac{ E_{\mu} \left[ P_{\mu}\left(t + R > s +t | \mathcal{F}_t \right) \textbf{1}_{\lbrace R > t \rbrace}  \right] }{P_{\mu}\left(R > t \right)} \\
+&= \lim_{t \to \infty} \frac{P_{\mu}\left(R > s+ t \right)}{ P_{\mu}\left( R > t\right)} \\
+&= P_{\pi}\left( R > s\right)
+\end{align*}
+Now let us denote by $g\left(s\right) = P_{\pi}\left(R > s\right)$ this last quantity. We can show that $g$ is bounded, monotone decreasing, nonzero and satisfies the Cauchy exponential functional equation $g\left(s + s'\right) = g\left(s\right) g\left(s'\right).$ Indeed with the definition $f_{s'}\left(z\right) = P_{z}\left(R > s' \right) $ we have
+\begin{align*}
+g\left(s + s' \right) &= P_{\pi}\left( R > s+s'\right) = \lim_{t \to \infty} \frac{P_{\mu}\left(R > t + s + s' \right)}{P_{\mu}\left(R > t \right)} \\
+&= \lim_{t \to \infty} \frac{E_{\mu}\left[P_{\mu}\left(t+s+R > t+s+s' | \mathcal{F}_{t+s} \right) \textbf{1}_{\brace R > t +s \rbrace} \right]}{P_{\mu}\left(R > t \right)} \\
+&= \lim_{t \to \infty} \frac{E_{\mu}\left[P_{X\left(t+s\right)}\left( R > s'\right) \textbf{1}_{\lbrace R > t+s \rbrace} \right]}{P_{\mu}\left(R > t+s \right)} \frac{P_{\mu}\left(R > t+s\right)}{P_{\mu}\left(R > t\right)} \\
+&= \lim_{t \to \infty} E_{\mu}\left[f_{s'}\left(X\left(t+s\right) \right) | R > t+s \right] \frac{P_{\mu}\left(R > t+s\right)}{P_{\mu}\left(R > t\right)} \\
+&= P_{\pi}\left( R > s' \right) \lim_{t \to \infty} \frac{P_{\mu}\left(R > t+s\right)}{P_{\mu}\left(R > t\right)} \\
+&= P_{\pi}\left( R > s'\right) P_{\pi}\left(R > s\right) = g\left(s'\right) g\left(s\right).
+\end{align*}
+Thus, there exists $0 < a < \infty$ such that $g\left(s\right) = P_{\pi}\left( R > s\right) = e^{-as}.$ We now consider for any $y \in \N$ the bounded function $f\left(z\right) = P_z\left(X\left(s\right) = y, R > s \right). $ By the Markov property, we get
+\begin{align*}
+&P_{\pi}\left(X\left(s\right) = y | R > s \right) P_{\pi}\left(R > s\right) = P_{\pi}\left(X\left(s\right) = y, R > s \right) = E_{\pi}\left[f\right] \\
+&= \lim_{t \to \infty} E_{\mu}\left[ P_{X\left(t\right)}\left(X\left(s\right) = y, R > s \right) | R > t \right] \\
+&= \lim_{t \to \infty} \frac{E_{\mu}\left[P_{X\left(t\right)} \left(X\left(s\right) = y, R > s \right) \textbf{1}_{\lbrace R > t\rbrace}\right]}{P_{\mu}\left(R > t\right) } \\
+&= \lim_{t \to \infty} \frac{E_{\mu}\left[ P_{\mu}\left(X\left(s+t\right) = y, t + R > s + t | \mathcal{F}_t \right) \textbf{1}_{\lbrace R > t\rbrace} \right] }{P_{\mu}\left(R > t \right)} \\
+&= \lim_{t \to \infty} \frac{P_{\mu}\left(X\left(s+t\right) = y, R > s+t \right)}{P_{\mu}\left(R > s+t\right) } \frac{P_{\mu}\left(R > s+t\right)}{P_{\mu}\left(R > t\right)}
+\end{align*}
+ 
+For $t \to \infty$, the term $\frac{P_{\mu}\left(X\left(s+t\right) = y, R > s+t \right)}{P_{\mu}\left(R > s+t\right) }$ goes to $\pi\left(y\right)$ by definition, whereas the second term $ \frac{P_{\mu}\left(R > s+t\right)}{P_{\mu}\left(R > t\right)} $ goes to $P_{\pi}\left(R > s\right) = e^{-a s} > 0 $ as we showed in the first part of the proof. 
+Thus we showed that for any $s >0, y \in \N$ the equation $ \pi\left(y\right) = P_{\pi}\left( X\left(s\right) = y | R > s\right)$ holds and that $\pi$ is indeed a quasi-stationary distribution.
+
+\end{proof}
+
+
+We immediately state the main result of this paper.
+
+\begin{theorem}  \label{maintheorem}
+Assume that
+
+\begin{equation} \label{eq:xtoinfty}
+\lim_{ x \to \infty} {P_{x}\left(R < t\right)} = 0 , \ \forall t \geq 0.
+\end{equation}
+Then a quasi-stationary distribution exists if and only if
+\begin{equation}
+E_{x} \left[e^{\lambda R}\right] < \infty
+\label{condition}
+\end{equation}
+for some $\lambda > 0 $ and for some $ x \in \lbrace 1,2,\ldots \rbrace .$
+\end{theorem}
+
+\begin{remark} \label{independentofx}
+If \eqref{condition} holds for some $x \in \N$, then it holds for all $y \in \N$, because $\N$ was assumed an irreducible class, so if $ x \neq y \in \N $, then there exists $ s > 0 $ such that $P_x\left(X\left(s\right)=y\right) > 0 $. Then
+
+\begin{align*}
+\infty > E_x\left[e^{\lambda R}\right] &= \int_0^{\infty} P_x\left(e^{\lambda R} > t \right) \textnormal{d}t \\
+&\geq  \int_0^{\infty} P_x\left(e^{\lambda R} > t, X\left(s\right) = y \right) \textnormal{d}t \\
+&= P_x\left(X\left(s\right) = y \right) \cdot \int_0^{\infty} P\left(e^{\lambda R} > t | X\left(s\right) = y \right) \textnormal{d}t \\
+&= P_x\left(X\left(s\right) = y \right) \cdot \int_0^{\infty} P\left(X\left(u\right) \neq 0 \text{ for  } u \in \left[s,\frac{1}{\lambda} \ln\left(t\right) \right] | X\left(s\right) = y \right) \textnormal{d}t \\
+&= P_x\left(X\left(s\right) = y \right) \cdot \int_0^{\infty} P_y\left(X\left(u\right) \neq 0 \text{ for  } u \in \left[0,\frac{1}{\lambda} \ln\left(t\right) - s \right] \right) \textnormal{d}t \\
+&= P_x\left(X\left(s\right) = y \right) \cdot \int_0^{\infty} P_y\left( e^{\lambda R} > t e^{-\lambda s} \right) \textnormal{d}t \\
+& \geq P_x\left(X\left(s\right) = y \right) \cdot \int_0^{\infty} P_y\left( e^{\lambda R} > t \right) \textnormal{d}t \\
+&= P_x\left(X\left(s\right) = y \right) \cdot E_y\left[e^{\lambda R}\right]
+\end{align*}
+
+and thus also $E_y\left[e^{\lambda R}\right] < \infty $.
+
+\end{remark}
+
+\begin{remark}
+\label{tailofR}
+Condition \eqref{condition} is equivalent to exponential decay of $ P_{x} \left(R \in \bullet \right) $, i.e.
+\begin{equation}
+\text{there exist $C,\gamma > 0$ such that  } P_{x} \left(R \in \bullet \right) \leq C e^{-\gamma t}
+\label{aeqcondition}
+\end{equation}
+\end{remark}
+\begin{proof}
+If $E_{x}\left[ e^{\lambda R} \right] < \infty$ for some $\lambda >0$ and some $ x \in \N$. Then by Markov inequality $P_{x} \left( R > t\right) = P_{x} \left(e^{\lambda R} > e^{\lambda t} \right) \leq E_{x}\left[e^{\lambda R} \right] e^{-\lambda t}$ and the claim follows with $\gamma = \lambda$ and $ C = E_{x} \left[e^{\lambda R}\right]$.\\
+On the other hand, if \eqref{aeqcondition} holds. Then let $ \lambda < \gamma $ and then $E_{x}\left[ e^{\lambda R} \right] = 1 + E_{x}\left[ e^{\lambda R} -1 \right] = 1 + \int_{0}^{\infty} P_{x}\left(e^{\lambda R} - 1 > t\right) \textnormal{d}t = 1+\int_{0}^{\infty} P_{x}\left( R > \frac{1}{\lambda} \ln\left(t+1\right)\right) \textnormal{d}t \leq 1+ \int_{0}^{\infty} C e^{-\gamma \frac{1}{\lambda} \ln\left(t+1\right)} \textnormal{d}t = 1+ C \int_{1}^{\infty} e^{-\gamma \frac{1}{\lambda} \ln\left(t\right)} \textnormal{d}t = 1 + C \int_{1}^{\infty} t^{-\frac{\gamma}{\lambda}} \textnormal{d}t < \infty $
+\end{proof}
+
+
+\begin{proof} [Proof of Theorem \ref{maintheorem}]
+We only prove that this is a necessary condition here and sketch the proof for the other direction.
+So let $ \mu $ be a quasi-stationary distribution. Then for $ s,t \geq 0 $ holds
+
+\begin{align*}
+& P_{\mu}\left(R > s+t | R > s \right) \\
+&= P_{\mu}\left(X\left(s+t\right) \neq 0 | X\left(s\right) \neq 0 \right) \\
+&= \sum_{y \in \N} P_{\mu}\left(X\left(s+t\right) \neq 0 , X\left(s\right) = y | X\left(s\right) \neq 0 \right) \\
+&= \sum_{y \in \N} P\left(X\left(s+t\right) \neq 0 | X\left(s\right) = y\right) \cdot P_{\mu}\left(X\left(s\right) = y | X\left(s\right) \neq 0 \right) \\
+&=\sum_{y \in \N} P_y \left(X\left(t\right) \neq 0 \right) \cdot \mu\left(y\right) \\
+&= P_{\mu} \left(X\left(t\right) \neq 0 \right) \\
+&= P_{\mu} \left(R > t\right)
+\end{align*}
+
+Therefore the function $g\left(t\right) = P_{\mu}\left(R > t\right)$ defined on $R_{\geq 0}$ must satisfy the functional equation $g\left(t+s\right) = g\left(t\right) g\left(s\right).$ Since $g \neq 0, g \leq 1$ and $g$ monotone decreasing, $g\left(t\right) = e^{Ct}$ for some constant $C \leq 0$. If $C$ would be $0$, then $P_{\mu}\left(R = \infty\right) = \lim_{t \to \infty} P_{\mu}\left(R > t\right) = 1,$ but because of our basic setting, $P_{\mu}\left(R < \infty\right) = \sum_{x \in \N} \mu\left(x\right) P_x\left(R < \infty\right) = 1,$ so $ C < 0.$
+So $P_{\mu}\left(R \in \bullet\right)$ is exponentially distributed with parameter $-C = \frac{1}{E_{\mu} \left[R\right]}$. Then for all $ \lambda < \frac{1}{E_{\mu} \left[R\right]} $ we have that $ E_{\mu} \left[e^{\lambda R}\right] < \infty$. Since $\mu$ is a quasi-invariant distribution and $\N$ an irreducible class, then $ \mu\left(x\right) > 0 $ must be for all $ x \in \N$. Thus from $E_{x} \left[e^{\lambda R}\right] \leq \frac{1}{\mu\left(x\right)} E_{\mu} \left[e^{\lambda R}\right] < \infty $ follows the claim.
+
+\end{proof}
+
+We now sketch as good as possible the prove for the other direction and highlight important intermediate results as a perspective to the following chapters:
+
+\begin{enumerate}
+\item For any probability measure $\mu$ on $\N$, we have the stable and conservative $q$-matrix $Q^{\mu}=\left(q^{\mu}\left(x,y\right)\right)_{x,y \in \N}$ given by
+\begin{equation} \label{eq:qmu}
+q^{\mu}\left(x,y\right) = q\left(x,y\right) + q\left(x,0\right) \mu\left(y\right) , x,y \in \N.
+\end{equation}
+It is the topic of section \ref{sq:constructionofymu} to show that if $E_{\mu} R < \infty$, the Markov jump process $Y^{\mu}$ as defined in \eqref{eq:ymu} is irreducible and recurrent and has $Q^{\mu}$ as its $q$-matrix. With the help of $Y^{\mu}$ we prove that the equation $ \upsilon Q^{\mu} = 0 $ has a unique probability distribution solution $\upsilon$ with $\upsilon\left(y\right) > 0$ for all $y \in \N$ and even more usefully
+\begin{equation} \label{eq:linktoxt}
+\upsilon\left(y\right) = \frac{1}{E_{\mu} R} \int_0^{\infty} P_{\mu} \left(X\left(t\right) = y  \right) \textnormal{d}t.
+\end{equation}
+
+\item In section \ref{sq:fixpointsareqsd}, we prove that a fixpoint of the map
+\begin{equation}
+\Phi: \mu \mapsto \upsilon, \ E_{\mu} R < \infty
+\end{equation}
+is a quasi-stationary distribution for $X\left(t\right),$ where we use that $X\left(t\right)$ is the minimal process for $Q$ and that absorption is sure. In the next sections, we prove the existence of a fixpoint of $\Phi.$
+\item We prove the existence of a fixpoint of $\Phi$ by the Schauder-Tychonov fixpoint theorem.
+\begin{theorem} [Schauder-Tychonov fixpoint theorem]
+Let $X$ be a Hausdorff, topological vectorspace,  $\emptyset \neq K \subseteq X$ convex and  compact. Then every continuous map $ \Phi: K \to K $ has at least one fixpoint.
+\end{theorem}
+\begin{proof}
+See \cite{cauty}.
+\end{proof} 
+
+In our case, $X$ is the vectorspace over $\R$ of all functions from $\N$ to $\R$, with the following metric defined on it, that makes $X$ a Hausdorff, topological vectorspace:
+\begin{equation}
+d\left(\mu, \mu'\right) = \sum_{y \in \N} \frac{1}{2^y} \frac{ \left|\mu\left(y\right) - \mu'\left(y\right) \right|}{1+\left|\mu\left(y\right) - \mu'\left(y\right) \right|}.
+\end{equation}
+A sequence $\left(\mu_k\right)_{k \in \N} \subseteq X$ converges to $\mu \in X$ with respect to this metric, if and only if $ \mu_k$ converges to $\mu$ pointwise. In metric spaces, sequential continuity is the same as continuity and sequential compactness is the same as compactness.\\[2ex]
+$K$ we choose as $\mathcal{M}_{\theta}$ with
+\begin{equation} \label{eq:mtheta}
+\mathcal{M}_{\theta} = \lbrace  \mu : \mu \text{ probability measure on } \N \text{ such that } P_{\mu}\left(R>t\right) = e^{-\frac{t}{\theta}}\rbrace
+\end{equation}
+for some $\theta > 0$ such that this set is not empty. We note here that for $\mu \in \mathcal{M}_{\theta}$ we have $E_{\mu} R = \theta < \infty$, so $\Phi\mu$ is defined.
+\item In section \ref{subsectiontychonov}, we check all assumptions from the Schauder-Tychonov theorem, i.e. if $\mathcal{M}_{\theta} \neq \emptyset$, then we show
+\begin{enumerate}
+\item \label{mapdefined} $\Phi\left(\mathcal{M}_{\theta}\right) \subseteq \mathcal{M}_{\theta}.$ \label{mapdefined}
+\item \label{mapcontinous} $\Phi: \mathcal{M}_{\theta} \to \mathcal{M}_{\theta}$ is (sequentially) continous. \label{mapcontinous}
+\item \label{convex} $\mathcal{M}_{\theta}$ is convex. \label{convex}
+\item \label{compact} $\mathcal{M}_{\theta}$ is (sequentially) compact. \label{compact}
+\end{enumerate}
+\eqref{mapdefined} and \eqref{mapcontinous} follow easily from \eqref{eq:linktoxt}. \eqref{convex} is trivial. For \eqref{compact}, we show that any sequence $\left(\mu_k\right)_{k \in \N} \subseteq \mathcal{M}_{\theta} $ is tight, where we critically use the assumption $\lim_{x \to \infty} P_x\left(R < t\right) = 0$ for all $t.$ Then we use Prohorov's theorem, to show sequential compactness.
+\item The hard part is to show, that there exists $\theta > 0$ such that $\mathcal{M}_{\theta} \neq \emptyset.$ This is actually the only part, where we use the assumption $E_x e^{\lambda R} < \infty$ for some $\lambda > 0$. \\[1ex]
+If $F^{\mu}$ denotes the distribution of the absorption time, if $X\left(t\right)$ starts out with initial distribution $\mu$, then we show that $F^{\Phi\mu}$ is the limit distribution of the remaining life time of a renewal process with interrarrival distribution $F^{\mu}$, see Corollary \ref{corlinktorenewal}. This allows us to apply our convergence results from renewal theory, and prove that if $F^{\delta_x}$ has exponentially bounded tails (which is equivalent to $E_x e^{\lambda R} < \infty$ for some $\lambda > 0$), then $F^{\Phi^n\delta_x}$converges along subsequences to an exponential distribution. 
+
+\end{enumerate}
+
+\subsection{A stationary markov jump process related to qsd.} \label{sq:constructionofymu}
+For any probability distribution $\mu$ on $\N$, we now construct a Markov jump process $\left(Y^{\mu}\left(t\right)\right)_{t \in \R_{\geq 0}}$ with $q$-matrix $Q^{\mu}$, such that it is related to the process $\left(X\left(t\right)\right)_{t \in \R_{\geq 0}}$. \\[2ex]
+
+Let $\lbrace X_k\left(t\right) : k=1,2,\ldots \rbrace  $ be a sequence of independent copies of $ X\left(t\right) $ with initial distribution $\mu$ and absorption times $ t_k = \inf\lbrace t \geq 0 : X_k\left(t\right) = 0 \rbrace .$  Then define
+\begin{align*}
+Y^{\mu}\left(t\right) &= X_1\left(t\right) &&\text{ for } 0 \leq t < t_1, \\
+Y^{\mu}\left(t_1 + t \right) &= X_2\left(t\right) &&\text{ for } 0 \leq t < t_2, \\
+&\ldots
+\end{align*}
+
+Formally, with $s_0 = 0, s_k = \sum_{i=1}^k t_i$ for $k\geq 1$,
+
+\begin{equation} \label{eq:ymu}
+Y^{\mu}\left(t\right) = \sum_{k=1}^{\infty} X_k\left(t-s_{k-1}\right) \textbf{1}_{\lbrace t \in [s_{k-1}, s_k)\rbrace }.
+\end{equation}
+
+Note, that the initial distribution of $Y^{\mu}$ is just the initial distribution of $X_1$.
+For $ i \in \N$ define
+
+$$ H_{ij}\left(t\right) = P_i\left(t_1 \leq t, Y^{\mu}\left(t_1\right) = j\right). $$
+
+%Then for all $ n \in \N $
+%\begin{align*}
+%H_{ij}\left(t\right) &=  \sum_{i=0}^{n-1} \sum_{k \in \N} P_i\left(X_1\left(i\frac{t}{n}\right)=k, i\frac{t}{n} < t_1 \leq \left(i+1\right) \frac{t}{n}, Y^{\mu}\left(t_1\right) = j\right) \\
+%&=\sum_{i=0}^{n-1} \sum_{k \in \N} p_{ik}\left(i\frac{t}{n}\right) \cdot \left(q\left(k,0\right)\frac{t}{n} + o\left(\frac{t}{n}\right)\right) \cdot \mu\left(j\right) \\
+%&=\sum_{i=0}^{n-1} \frac{t}{n} \sum_{k \in \N} p_{ik}\left(i\frac{t}{n}\right) \left(q\left(k,0\right) + o\left(1\right)\right) \mu\left(j\right)
+%\end{align*}
+
+It's $ t < t_1 < t + \textnormal{d}t $ if $X_1\left(t\right) = k$ for some $k \in \N$, then the absorption occurs with probability $ q\left(k,0\right) + o\left(\textnormal{d}t\right) $ and the new state after resurrection is $j$ with probability $\mu\left(j\right)$. So
+$$ H_{ij}\left(t\right) = \int_0^t \sum_{k \in N} P_{ik}\left(v\right) q\left(k,0\right) \mu\left(j\right) \textnormal{d}v. $$ 
+
+So $ H_{ij}\left(t\right) $ is continuously (Why??, ask Wachtel) differentiable and obviously non-decreasing.
+
+
+By definition of $ Y^{\mu}\left(t\right) $, $ Y^{\mu}\left(t\right) = j$ if and only if $X_1\left(t\right) = j $ or if for $ v \in \left(0,t\right) , t_1 = v, Y^{\mu}\left(v\right) = k \in \N$ and $Y^{\mu}$ makes a transition from  $ k $ to $ j $ during the time $t-v$.
+For the transition function $P_{i,j}^{\mu}\left(t\right)$ of $ Y^{\mu} $ holds then
+
+\begin{equation}
+P_{i,j}^{\mu}\left(t\right) = P_{ij}\left(t\right) + \int_0^t \sum_{k \in \N} H_{ik}'\left(v\right) P_{k,j}^{\mu}\left(t-v\right) dv.
+\label{solveForpmu}
+\end{equation}
+
+\begin{theorem}
+\begin{enumerate}
+\item \eqref{solveForpmu} has a minimal transition function solution $ P_{i,j}^{\mu}\left(t\right) $.
+\item Any transition function solution of \eqref{solveForpmu} has the $q$-matrix given by $Q^{\mu}$. 
+
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\eqref{solveForpmu} has the same form as equation (2.1) on page 67 of Anderson's book (see \cite{anderson}). So we just need to check the assumptions in Lemma 2.1. of Anderson. We already mentioned that $H_{ij}$ is non-decreasing and continuously differentiable. 
+Also, because of Fubini's theorem 
+\begin{align*} H_{ij}'\left(t+v\right) 
+&= \sum_{k \in N} P_{ik}\left(t+v\right) q\left(k,0\right) \mu\left(j\right) \\
+&= \sum_{k \in N} \sum_{l \in \N} P_{il}\left(t\right) P_{lk}\left(v\right) q\left(k,0\right) \mu\left(j\right) \\
+&= \sum_{l \in \N} P_{il}\left(t\right) H_{lj}' \left(v\right) 
+\end{align*}
+and $ \sum_{j \in \N} \left(P_{ij}\left(t\right) + H_{ij}\left(t\right) \right) = P_i\left(t_1 > t\right) + P_i\left(t_1 \leq t\right) = 1. $
+The claim of 1 follows now with Lemma 2.1. of Anderson. \\[2ex]
+
+For 2, let $P_{i,j}^{\mu}\left(t\right) $ be a transition function solution of \eqref{solveForpmu}. Applying Fubini and the integral mean value theorem to \eqref{solveForpmu} yields
+
+$$ P_{i,j}^{\mu}\left(t\right) = P_{ij}\left(t\right) + \sum_{k \in \N} H_{ik}\left(t\right) P_{kj}^{\mu}\left(\xi_{kj}\right), $$
+
+where $ 0 < \xi_{kj} < t $.
+In addition,
+$$ H_{ik}' \left(0\right) = \lim_{t \to 0} \frac{H_{ik}\left(t\right)}{t} = q\left(i,0\right) \mu\left(k\right). $$
+
+If $ \Omega_{ij} $ denotes the $q$-matrix of $ P_{i,j}^{\mu}\left(t\right) $, then we apply Fatuous lemma to get
+
+\begin{align*}
+\Omega_{ij} &= P_{i,j}'^{\mu}\left(0\right) \geq P_{ij}'\left(0\right) + \liminf_{t \to 0} \frac{\sum_{k \in \N}H_{ik} P_{kj}^{\mu}\left(\xi_{kj}\right) }{t} \\
+&\geq q\left(i,j\right)+  \sum_{k \in \N} \liminf_{t \to 0} \frac{H_{ik} P_{kj}^{\mu}\left(\xi_{kj}\right) }{t} \geq q_{ij}+  \sum_{k \in \N} \liminf_{t \to 0} \frac{H_{ik}}{t} \cdot \liminf_{t \to 0} P_{kj}^{\mu}\left(\xi_{kj}\right)\\
+&= q\left(i,j\right)+  \sum_{k \in \N} q\left(i,0\right) \mu\left(k\right) \cdot \delta_{kj} = q\left(i,j\right) + q\left(i,0\right) \mu\left(j\right)
+\end{align*}
+
+So $ \sum_{j \in \N} \Omega_{ij} \geq \sum_{j \in \N} q^{\mu}\left(i,j\right) = 0 $, because 
+$Q^{\mu}$ is conservative. As $\sum_{j \in \N} \Omega_{ij}$ can't be positive (see Theorem \ref{th:defqmatrixoftransitionfunction}), $ \Omega_{ij} = q^{\mu}\left(i,j\right)$.
+\end{proof}
+
+\begin{lemma} If $E_{\mu} R < \infty$, then
+$ \left(Y^{\mu}\left(t\right)\right)_{t \in \R_{\geq 0}} $ is irreducible and recurrent.
+\end{lemma}
+\begin{proof}
+$ \left(Y^{\mu}\left(t\right)\right)_{t \in \R_{\geq 0}}  $ is irreducible follows from $\N$ being an irreducible class of $ \left(X\left(t\right)\right)_{t \in \R_{\geq 0}}.$\\[2ex]
+Recurrence is a class property, so we just need to find one recurrent state.
+Let $ i \in \N$ with $ \mu\left(i\right) > 0 $. We prove
+
+$$ P_i\left( \lbrace t: Y^{\mu}\left(t\right) = i \rbrace  \textnormal{unbounded} \right) = 1,$$
+
+which is equivalent to $i$ being recurrent. $ P\left( \sum_{n \in \N} t_n = \infty \right) = 1 $, because since the $ t_n $ are all independent and identically distributed according to $ F^{\mu} $ with finite expectation $ E_{\mu} \left[R\right] < \infty $, we get from the strong law of large numbers $ \frac{s_n}{n} \to E_{\mu} \left[R\right] $ almost surely and thus $ s_n \to \infty $ almost surely.
+
+ Also $ P\left(t_n < \infty \textnormal{ for all } n\right) = 1 $, then
+
+\begin{align*}
+P_i\left( \lbrace t: Y^{\mu}\left(t\right) = i \rbrace  \textnormal{ unbounded }\right) \geq P\left(Y^{\mu}\left(s_n\right)=i \textnormal{ for infinitely many } n \right) = 1,
+\end{align*}
+
+where the last equality follows from Borel-Cantelli-lemma since $ \lbrace Y^{\mu}\left(s_n\right)=i \rbrace  $ are independent events and $ \sum_{n \in \N} P\left(Y^{\mu}\left(s_n\right) = i \right) = \sum_{n \in \N} \mu\left(i\right) = \infty $.
+ 
+\end{proof}
+
+
+Since $ Y^{\mu} $ is irreducible and recurrent, by Theorem \ref{stationarymeasuretheorem}, we get an up to a multiplicative factor unique invariant measure $ \upsilon $ on $\N$ of $ Y^{\mu} $ satisfying $ \upsilon Q^{\mu} = 0 $ with the property that $\upsilon\left(y\right) > 0$ for all $y \in \N.$ In the following theorem, we show that $ \upsilon $ can be normalized to a probability distribution.
+\begin{theorem} \label{thphimu}
+If $E_{\mu} R <\infty$, then there exists a unique invariant distribution $\Phi\mu$ of $Y^{\mu}$, given by 
+\begin{equation}
+\label{phimu}
+\Phi\mu\left(y\right) = \frac{1}{E_{\mu}R} \int_{0}^{\infty} P_{\mu}\left(X\left(t\right) = y\right) \textnormal{d} t. 
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+$ \frac{1}{E_{\mu}R} $ is just a constant, so we first show that $ \upsilon $ given by $ \upsilon\left(j\right) =  \int_{0}^{\infty} P_{\mu}\left(X\left(t\right) = y\right) \textnormal{d} t $ is an invariant measure for $ Y^{\mu} $. We also note immediately that 
+\begin{align*}
+E_{\mu} \int_{0}^{t_1} \textbf{1}_{\lbrace Y^{\mu}\left(t\right) = j\rbrace } \textnormal{d}t &= E_{\mu} \int_{0}^{\infty} \textbf{1}_{\lbrace Y^{\mu}\left(t\right) = j, t_1 > t\rbrace } \textnormal{d}t = E_{\mu} \int_{0}^{\infty} \textbf{1}_{\lbrace X_1\left(t\right) = j\rbrace } \textnormal{d}t \\
+&= \int_{0}^{\infty} P_{\mu} \left(X\left(t\right) = j\right) dt = \upsilon\left(j\right)
+\end{align*}
+where we applied Fubini's theorem in the next to last step.\\[2ex]
+
+Then we note that $\left(Y^{\mu}\left(t\right)\right)_{0\leq t \leq h}$ and $\left(Y^{\mu}\left(t+t_1\right)\right)_{0\leq t \leq h}$ have the same $P_{\mu}$ distribution. Thus for all $h >0$,
+\begin{align*}
+E_{\mu} \int_{0}^{t_1} \textbf{1}_{\lbrace Y^{\mu}\left(t\right) = j\rbrace } \textnormal{d}t &= E_{\mu} \int_{0}^{h} + \int_{h}^{t_1} \textbf{1}_{\lbrace Y^{\mu}\left(t\right) = j\rbrace } \textnormal{d}t = E_{\mu} \int_{t_1}^{t_1+h} +   \int_{h}^{t_1}\textbf{1}_{\lbrace Y^{\mu}\left(t\right) = j\rbrace } \textnormal{d}t \\
+&= E_{\mu} \int_{h}^{t_1+h} \textbf{1}_{\lbrace Y^{\mu}\left(t\right) = j\rbrace } \textnormal{d}t = E_{\mu} \int_{0}^{t_1} \textbf{1}_{\lbrace Y^{\mu}\left(t+h\right) = j\rbrace } \textnormal{d}t
+\end{align*}
+And this is also true if $t_1 < h$. So
+\begin{align*}
+E_{\mu} \int_{0}^{t_1} \textbf{1}_{\lbrace Y^{\mu}\left(t\right) = j\rbrace } \textnormal{d}t &= \int_{0}^{\infty} E_{\mu}\left[\textbf{1}_{\lbrace Y^{\mu}\left(t+h\right) = j, t_1 > t\rbrace }\right]\textnormal{d}t \\
+&= \int_{0}^{\infty} E_{\mu}\left[E\left[\textbf{1}_{\lbrace Y^{\mu}\left(t+h\right) = j, t_1 > t\rbrace }| Y^{\mu}\left(s\right), s \leq t \right]\right]\textnormal{d}t \\
+&= E_{\mu} \int_{0}^{\infty} E\left[\textbf{1}_{\lbrace Y^{\mu}\left(t+h\right) = j, t_1 > t\rbrace }| Y^{\mu}\left(s\right), s \leq t \right]\textnormal{d}t \\
+&= E_{\mu} \int_{0}^{\infty}\textbf{1}_{\lbrace t_1>t\rbrace } \cdot P_{Y^{\mu}\left(t\right)j}^{\mu}\left(h\right) \textnormal{d}t \\
+&= \sum_{k \in \N} P_{kj}^{\mu}\left(h\right) \cdot E_{\mu} \int_{0}^{t_1} \textbf{1}_{\lbrace Y^{\mu}\left(t\right) = k\rbrace } \textnormal{d}t
+\end{align*}
+and this shows that $ \upsilon $ is indeed an invariant measure for $ Y^{\mu} $. Because $\sum_{k \in \N} \upsilon\left(k\right) = \int_{0}^{\infty} \sum_{k \in \N} P_{\mu}\left(X\left(t\right) = k\right) \textnormal{d}t = \int_{0}^{\infty} P_{\mu}\left(R > t\right) \textnormal{d}t = E_{\mu} R < \infty $, we can normalize $ \upsilon $ to a probability distribution.
+So $\Phi\mu$ is the unique invariant distribution of $ Y^{\mu}\left(t\right) $.
+
+\end{proof}
+
+\subsection{Quasi-stationary distribution as fixpoint} \label{sq:fixpointsareqsd}
+ 
+We summarize the results of Pakes (see \cite{pakes}), in order to show that under our basic assumptions a fixpoint of $\Phi$ is a quasi-stationary distribution.\\[2ex]
+
+Pakes has the following setting, that is contained in our's:\\
+There is a countable state space $S = N_0$ and a stable and conservative $q$-matrix $Q$ on $S$. $0$ is the only absorbing state and $C = \N$  is irreducible for the minimal $Q$-function and hence for any $Q$-function. It is further assumed, that there is an $i \in C$ for which $q\left(i,0\right) > 0.$
+
+\begin{definition}
+Let $P$ be some $Q$-function and $\left(\mu\left(j\right)\right)_{j \in C}$ be a probability distribution on $C$ and define $P\left(\cdot\right) = \left(P_j\left(\cdot\right)\right)_{j \in S}$ by
+\begin{equation*}
+P_j\left(t\right) = \sum_{i \in C} \mu\left(i\right) P_{ij}\left(t\right), j \in S, t \geq 0.
+\end{equation*}
+Then $\mu$ is a \textbf{quasi-stationary distribution on $C$ for $P$} if, for all $t > 0$,
+\begin{equation*}
+\frac{P_j\left(t\right)}{\sum_{i \in C}P_i\left(t\right)} = \mu\left(j\right), j \in C.
+\end{equation*}
+\end{definition}
+
+\begin{definition}
+Let $\beta \geq 0$ be some non-negative real number. A collection of positive numbers $ \mu = \left(\mu\left(j\right), j \in C\right)$ is called a $\beta$-subinvariant measure on $C$ for $Q$ if
+\begin{equation}
+\sum_{i \in \C} \mu\left(i\right) q\left(i,j\right) \leq -\beta \mu\left(j\right), j \in C,
+\end{equation}
+and $\beta$-invariant if equality holds for all $j \in C.$
+\end{definition}
+
+\begin{definition}
+$\mu$ is said to be $\beta$-subinvariant on $C$ for $P$, where $P$ is a transition function, if
+\begin{equation}
+\sum_{i \in C} \mu\left(i\right) P_{ij}\left(t\right) \leq e^{-\beta t} \mu\left(j\right), j \in C, t\geq 0,
+\end{equation}
+and $\beta$-invariant if equality holds for all $j \in C$ and $t\geq 0$.
+\end{definition}
+
+A given measure $\mu$ is convergent if $\sum_{i \in C} \mu\left(i\right) < \infty.$
+
+\begin{proposition} \label{quasistationarymuinvariantforp}
+Let $P$ be an arbitrary $Q$-function and suppose that $\mu$ is a proper probability distribution on $C.$ Then $\mu$ is a quasi-stationary distribution on $C$ for $P$ if and only if, for some $\beta > 0$, $\mu$ is $\beta$-invariant on $C$ for $P$.
+\end{proposition}
+\begin{proof}
+See \cite{pakes} Proposition 3.1. on page 86.
+\end{proof}
+
+\begin{theorem} \label{eq:fromqinvarianttopinvaraint}
+Let $F_{ij}\left(t\right)$ be the minimal $Q$-function and suppose that, for some $\beta > 0$, $\mu$ is a convergent $\beta$-subinvariant measure on $C$ for $Q$. Then $\mu$ is a $\beta$-invariant measure on $C$ for $F$ if and only if
+\begin{equation} 
+\beta \sum_{i \in C} \mu\left(i\right) a_i^F = \sum_{i \in C} \mu\left(i\right) q\left(i,0\right).
+\end{equation}
+where $a_i^F = \lim_{t \to \infty} F_{i0}\left(t\right).$
+\end{theorem}
+\begin{proof}
+See \cite{pakes} Theorem 4.1. on page 91.
+\end{proof}
+
+\begin{theorem}
+Let $\mu$ be a probability distribution on $\N$ with $E_{\mu} R < \infty.$ If $\mu$ is a fixpoint of $\Phi$, then $\mu$ is a quasi-stationary distribution for $X\left(t\right).$
+\end{theorem}
+\begin{proof}
+We know from the previous subsection that $\mu\left(y\right) > 0$ for all $y \in \N$ and that $\mu$ satisfies the equation $\mu Q^{\mu} = 0$. Therefore for all $ j \in C$, we have
+$$\sum_{i \in C} \mu\left(i\right) q^{\mu}\left(i,j\right) = \sum_{i \in C} \mu\left(i\right) \left(q\left(i,j\right) + q\left(i,0\right) \mu\left(j\right) \right) = 0.$$ So for all $j \in C$ holds
+$$\sum_{i \in C} \mu\left(i\right) q\left(i,j\right) = -\left(\sum_{i \in C} \mu\left(i\right) q\left(i,0\right) \right) \mu\left(j\right).$$
+This means that $\mu$ is a $\beta$-invariant measure on $C$ for $Q$ with $\beta = \sum_{i \in C} \mu\left(i\right) q\left(i,0\right)$. We see $\beta > 0$, because $\mu\left(i\right) > 0$ for all $i \in \N$ and since absorption is certain, there must be some $i$ such that $q\left(i,0\right) > 0.$  
+
+We recall $X\left(t\right)$ equals the minimal process, so its transition function $F$ is the minimal $Q$-function. In addition, we have for all $i \in C$, since absorption is certain
+$$a_i^F = \lim_{t \to \infty} F_{i0}\left(t\right) = \lim_{t \to \infty} P_i\left(X\left(t\right)=0 \right) = \lim_{t \to \infty} P_i\left(R \leq t\right) = P_i\left(R < \infty\right) = 1. $$
+Also $\beta \sum_{i \in C} \mu\left(i\right) a_i^F = \beta \sum_{i \in C} \mu\left(i\right) \cdot 1 = \beta = \sum_{i \in C} \mu\left(i\right) q\left(i,0\right).$
+
+Then because of Theorem \ref{eq:fromqinvarianttopinvaraint}, $\mu$ is also a $\beta$-invariant measure on $C$ for $F$.
+
+Then Proposition \ref{quasistationarymuinvariantforp} shows, that $\mu$ is indeed a quasi-stationary distribution.
+\end{proof}
+
+
+\subsection{Checking the assumptions of Schauder-Tychonov fixpoint theorem} \label{subsectiontychonov}
+
+We already outlined, how we want to apply the Schauder-Tychonov fixpoint theorem to prove the existence of a fixpoint of $\Phi$, which is a quasi-stationary distribution. In this section, we assume there exists some $\theta > 0$ such that $\mathcal{M}_\theta$ as defined in \eqref{eq:mtheta} is not empty, i.e.
+$$K = \mathcal{M}_{\theta} = \lbrace  \mu : \mu \text{ probability measure on } \N \text{ such that } P_{\mu}\left(R>t\right) = e^{-\frac{t}{\theta}}\rbrace \neq \emptyset,$$
+and check the list of assumptions from the Schauder-Tychonov fixpoint theorem.
+
+\begin{theorem} \label{th:mthetacontainsfixpoint} Let \eqref{eq:xtoinfty} hold, i.e.
+\begin{equation*}
+\lim_{ x \to \infty} {P_{x}\left(R < t\right)} = 0 , \ \forall t \geq 0.
+\end{equation*}
+Then if $\mathcal{M}_{\theta} \neq \emptyset$, the transformation $\Phi$ has a fixpoint in $\mathcal{M}_{\theta}.$
+\end{theorem}
+
+\begin{proof}
+\textbf{1.$\Phi:\mathcal{M}_{\theta} \to \mathcal{M}_{\theta}$ is well defined.} \\
+
+We want to show $\Phi\left(\mathcal{M}_{\theta}\right) \subseteq \mathcal{M}_{\theta}.$ If $ \mu \in \mathcal{M}_{\theta} $, then $ E_{\mu} R = \int_0^{\infty} P_{\mu}\left(R > t\right) \textnormal{d}t = \int_0^{\infty} e^{-\frac{t}{\theta}} \textnormal{d}t = \theta < \infty.$  
+\begin{align*}
+P_{\Phi\mu}\left(R>s\right) &= \sum_{y \in \N} P_y\left(R > s \right) \Phi\mu\left(y\right)  \\
+&= \sum_{y \in \N} P_y\left(R > s \right) \frac{1}{E_{\mu}\left[R\right]} \int_0^\infty P_{\mu}\left(X\left(t\right) = y\right) \textnormal{d}t \\
+&= \frac{1}{E_{\mu}\left[R\right]} \int_0^\infty \sum_{y \in \N} P_{\mu}\left(X\left(t\right) = y\right) P\left(R > s + t | X\left(t\right) = y \right) \textnormal{d}t \\
+&= \frac{1}{E_{\mu}\left[R\right]} \int_0^\infty P_{\mu}\left(R > t+s\right) \textnormal{d}t \\
+&= \frac{1}{E_{\mu} R} \int_s^{\infty} P_{\mu}\left(R > t\right) \textnormal{d}t \\
+&= \frac{1}{\theta} \int_s^{\infty} e^{-\frac{t}{\theta}} \textnormal{d}t \\
+&= \int_{\frac{s}{\theta}}^{\infty} e^{-t} \textnormal{d}t = e^{-\frac{s}{\theta}}.
+\end{align*}
+So $\Phi\mu \in \mathcal{M}_{\theta}.$ \\[2ex]
+
+\textbf{2.$\mathcal{M}_{\theta}$ is convex.}\\
+\begin{proof}
+So let $\mu, \upsilon \in \mathcal{M}_{\theta}$ and $\lambda \in \left[0,1\right],$ then
+\begin{align*}
+P_{\lambda \mu +\left(1-\lambda\right)\upsilon}\left(R > t\right) &= \sum_{y \in \N} \left[\lambda \mu\left(y\right) + \left(1-\lambda\right) \upsilon\left(y\right) \right] P_y\left(R > t\right) \\
+&=\lambda \sum_{y \in \N} \mu\left(y\right) P_y\left(R > t\right) + \left(1- \lambda\right) \sum_{y \in \N} \upsilon\left(y\right) P_y\left(R > t\right) \\
+&= \lambda P_{\mu}\left(R > t\right) + \left(1-\lambda\right) P_{\upsilon}\left(R > t\right) \\
+&=\lambda e^{-\frac{t}{\theta}} + \left(1-\lambda\right) e^{-\frac{t}{\theta}} = e^{-\frac{t}{\theta}}.
+\end{align*}
+So $\mathcal{M}_{\theta}$ is convex. \\[2ex]
+
+
+\textbf{3.$\mathcal{M}_{\theta}$ is compact.}\\
+
+For compactness, we show sequential compactness. So let $ \left(\mu_k\right)_{k \in \N} \subseteq \mathcal{M}_{\theta} $. For every $\epsilon > 0$ there exists $t_{\epsilon} > 0$ such that $e^{-\frac{t_{\epsilon}}{\theta}} < \epsilon.$ So for all $k \in \N$ holds 
+
+\begin{align*}
+\epsilon &\geq P_{\mu_k}\left(R > t_{\epsilon}\right) = \sum_{y \in \N} \mu_k\left(y\right) P_y\left(R > t_{\epsilon}\right) \\
+&\geq \sum_{\lbrace y \in \N : P_y\left(R > t_{\epsilon}\right) > \frac{1}{2}\rbrace } \mu_k\left(y\right) P_y\left(R > t_{\epsilon}\right) \geq \frac{1}{2} \mu_k\lbrace y \in \N : P_y\left(R > t_{\epsilon}\right) > \frac{1}{2}\rbrace 
+\end{align*}
+
+and consequently for all $k \in \N, 2\epsilon \geq \mu_k\lbrace y \in \N : P_y\left(R \leq t_{\epsilon}\right) \leq \frac{1}{2}\rbrace $. Because $\lim_{y \to \infty} P_y\left(R \leq t_{\epsilon}\right) = 0$, there exists $Y_{\epsilon} \in \N$ such that for all $ y \geq Y_{\epsilon}, P_y\left(R \leq t_{\epsilon}\right) \leq \frac{1}{2}$. So for all $ k \in \N, \mu_k\lbrace y \geq Y_{\epsilon} \rbrace  \leq 2 \epsilon $ and this proves the tightness of the family $\left(\mu_k\right)_{k \in \N}.$
+
+So after the Theorem of Prohorov (see for instance \cite{klenke} Theorem 13.29 on page 261),  there is a subsequence $\left(k_j\right)_{j \in \N}$ such that 
+
+$$ \mu_{k_j} \Rightarrow \mu \textnormal{ as } j \to \infty.$$
+
+for some probability distribution $ \mu $ on $\N$. Then
+\begin{align*}
+P_{\mu}\left(R > t\right) &= \sum_{y \in \N} \mu\left(y\right) P_y\left(R > t\right) \\
+&= \lim_{Y \to \infty} \lim_{j \to \infty} \sum_{y=1}^{Y} \mu_{k_j}\left(y\right) P_y\left(R > t\right)
+\end{align*}
+Now we would like to exchange the limits and apply therefore Theorem \ref{th:exchangelimits}. The limit $\lim_{Y \to \infty} \sum_{y=1}^Y \mu_{k_j}\left(y\right) P_y\left(R > t\right)$ is reached uniformly in $j$, because for all $\epsilon > 0$ for the tightness of $\left(\mu_k\right)_{k \in \N}$ there is $Y_{\epsilon}$ such that for all $ j \in \N, \mu_{k_j}\lbrace y \geq Y_{\epsilon} \rbrace  \leq \epsilon. $ Thus we have for all $Y \geq Y_{\epsilon}, j \in \N$,
+\begin{equation} \label{eq:weshowlimitexchange}
+\begin{aligned}
+&\left|\sum_{y \in \N} \mu_{k_j}\left(y\right) P_y\left(R > t\right) - \sum_{y=1}^{Y} \mu_{k_j}\left(y\right) P_y\left(R > t\right) \right| \\
+&=\sum_{y=Y+1}^{\infty} \mu_{k_j}\left(y\right) P_y\left(R > t\right) \\
+&\leq \mu_{k_j}\lbrace y \geq Y_{\epsilon} \rbrace  \leq \epsilon.
+\end{aligned} 
+\end{equation}
+Thus
+\begin{align*}
+P_{\mu}\left(R > t\right) &= \lim_{j \to \infty} \lim_{Y \to \infty} \sum_{y=1}^{Y} \mu_{k_j}\left(y\right) P_y\left(R > t\right) \\
+&= \lim_{j \to \infty} P_{\mu_{k_j}}\left(R > t\right) = e^{-\frac{t}{\theta}}.
+\end{align*}
+and this proves that $\mu \in \mathcal{M}_{\theta}$ and thus the sequential compactness of $\mathcal{M}_{\theta}$. \\[2ex]
+
+
+\textbf{4.$\Phi:\mathcal{M}_{\theta} \to \mathcal{M}_{\theta}$ is continuous.}\\
+
+
+If $ \mu_k\left(z\right) \to \mu\left(z\right) $ for all $ z \geq 1 $ and $\mu_k, \mu \in \mathcal{M}_{\theta}$, then $ E_{\mu_k} R = E_{\mu} R = \theta $.
+Then for any $ A \subseteq \N $, by Fatuous lemma
+\begin{equation}
+\label{eq:thisisnotgreater}
+\begin{aligned}
+\liminf_{k \to \infty} \sum_{y \in A} \Phi\mu_k\left(y\right) &= \liminf_{k \to \infty} \sum_{y \in A} \frac{1}{E_{\mu_k}R} \int_0^{\infty} P_{\mu_k}\left(X\left(t\right) = y\right) \textnormal{d}t \\
+&= \liminf_{k \to \infty} \sum_{y \in A} \frac{1}{\theta} \int_0^{\infty} \sum_{z \in \N} \mu_k\left(z\right) P_z\left(X\left(t\right) = y\right) \textnormal{d}t \\
+&\geq  \sum_{y \in A} \frac{1}{\theta} \int_0^{\infty} \sum_{z \in \N} \liminf_{k \to \infty} \mu_k\left(z\right) P_z\left(X\left(t\right) = y\right) \textnormal{d}t \\
+&= \sum_{y \in A} \frac{1}{\theta} \int_0^{\infty} \sum_{z \in \N} \mu\left(z\right) P_z\left(X\left(t\right) = y\right) \textnormal{d}t \\
+&= \sum_{y \in A} \Phi\mu\left(y\right).
+\end{aligned}
+\end{equation}
+
+But since $ 1 = \liminf_{k \to \infty} \sum_{y \in \N} \Phi\mu_k\left(y\right) \geq \liminf_{k \to \infty} \sum_{y \in A} \Phi\mu_k\left(y\right) + \liminf_{k \to \infty} \sum_{y \in A^c} \Phi\mu_k\left(y\right) \geq \sum_{y \in A} \Phi\mu\left(y\right) + \sum_{y \in A^c} \Phi\mu\left(y\right) = 1 $, we must have equality in \eqref{eq:thisisnotgreater}.
+Then also
+\begin{align*}
+1 &= \limsup_{k \to \infty} \sum_{z \in \N} \Phi\mu_k\left(z\right) = \lim_{k \to \infty} \sup\lbrace \Phi\mu_K\left(y\right) + \sum_{z\neq y}\Phi\mu_K\left(z\right): K \geq k \rbrace  \\
+&\geq \lim_{k \to \infty} \sup\lbrace \Phi\mu_K\left(y\right):K \geq k\rbrace  + \inf\lbrace \sum_{z\neq y}\Phi\mu_K\left(z\right):K \geq k \rbrace \\
+&= \limsup_{k \to \infty} \Phi\mu_k\left(y\right) + \liminf_{k \to \infty} \sum_{z \neq y} \Phi\mu_k\left(z\right) = \limsup_{k \to \infty} \Phi\mu_k\left(y\right) + \sum_{z \neq y} \Phi\mu\left(z\right)
+\end{align*}
+
+so in total
+$$ \Phi\mu\left(y\right) = \liminf_{k \to \infty} \Phi\mu_k\left(y\right) \leq \limsup_{k \to \infty} \Phi\mu_k\left(y\right) \leq \Phi\mu\left(y\right) $$
+which gives the desired continuity.
+\end{proof}
+
+
+\subsection{Associated renewal processes}
+
+To complete the proof of Theorem \ref{maintheorem}, we only need to show that there is some $\theta > 0$, such that $\mathcal{M}_{\theta} \neq \emptyset.$ That is what is left to this subsection and in particular to Theorem \ref{theoremfourone}. It will be amazing to see, how we can apply our results from renewal theory here. \\[2ex]
+
+Recall that $F^{\mu}$ is the distribution of the absorption time $R$ under the initial distribution $ \mu $. Recall also the definition of the map $ \Psi $ in \eqref{eq:remaininglife} as the limit distribution of the remaining life time.
+
+\begin{lemma}
+If $ E_{\mu} \left[R\right] < \infty $, then $ F^{\Phi\mu} = \Psi F^{\mu} $.
+\end{lemma}
+
+\begin{proof}
+\begin{equation}
+\label{eq:somecalculation}
+\begin{aligned}
+1 - F^{\Phi\mu}\left(s\right) &=
+P_{\Phi\mu}\left(R>s\right) \\
+&= \sum_{y \in \N} P_y\left(R > s \right) \Phi\mu\left(y\right)  \\
+&= \sum_{y \in \N} P_y\left(R > s \right) \frac{1}{E_{\mu}\left[R\right]} \int_0^\infty P_{\mu}\left(X\left(t\right) = y\right) \textnormal{d}t \\
+&= \frac{1}{E_{\mu}\left[R\right]} \int_0^\infty \sum_{y \in \N} P_{\mu}\left(X\left(t\right) = y\right) P\left(R > s + t | X\left(t\right) = y \right) \textnormal{d}t \\
+&= \frac{1}{E_{\mu}\left[R\right]} \int_0^\infty P_{\mu}\left(R > t+s\right) \textnormal{d}t \\
+&= \frac{1}{E_{\mu} R} \int_s^{\infty} P_{\mu}\left(R > t\right) \textnormal{d}t \\
+& = \frac{1}{E_{\mu}\left[R\right]} \int_s^\infty 1 - F^{\mu}\left(t\right) \textnormal{d}t \\
+ &= 1 - \Psi F^{\mu}\left(s\right)
+\end{aligned}
+\end{equation}
+\end{proof}
+
+\begin{corollary} \label{corlinktorenewal}
+If $ E_{\mu} \left[R\right] < \infty $, then for all $n \in \N$, $ F^{\Phi^n\mu} = \Psi^n F^{\mu} $.
+\end{corollary}
+\begin{proof}
+This follows by the previous lemma and induction over $n$.
+\end{proof}
+
+\begin{theorem} \label{theoremfourone}
+Assume all assumptions from main theorem, i.e. assume \eqref{eq:xtoinfty} and \eqref{condition} hold.  Define
+
+\begin{equation}
+\lambda_0 = \sup \lbrace  \lambda : E_x\left[e^{\lambda R}\right] < \infty \rbrace. 
+\end{equation}
+
+Then $\lambda_0$ is independent of the choice of $x$ and for each $x$
+
+$$ F_n\left(t\right) := F^{\Phi^n\delta_x}\left(t\right) = P_{\Phi^n\delta_x}\left(R \leq t\right) \to 1 - e^{-t\lambda_0} $$
+with
+\begin{equation} \label{eq:limitforlambdazero}
+0 < \lambda_0 = \left(\lim_{n \to \infty} E_{\Phi^n\delta_x}R\right)^{-1} < \infty.
+\end{equation}
+
+Finally, for fixed $ x \geq 1 $, there exists a subsequence $ \left(n_j\right)_{j \in \N} $ and a probability measure $\mu_{\infty}$ on $\N$ such that $\Phi^{n_j}\delta_x$ converges weakly to $\mu_{\infty}$ and such that
+
+\begin{equation}
+\label{eq:existenceofmuinfty}
+P_{\mu_{\infty}}\left(R>t\right) = e^{-t\lambda_0}.
+\end{equation}
+
+\end{theorem} \\[2ex]
+
+\begin{remark}
+The theorem shows, that for $\theta = \frac{1}{\lambda_0} > 0$, we have $\mu_{\infty} \in \mathcal{M}_{\theta} \neq \emptyset.$
+\end{remark}
+
+\begin{proof}
+The independence of $x$ follows from irreducibility of $ Q $, see also \eqref{independentofx}.\\[0.3ex]
+
+Fix now $x \in \N$ and write $F$ for $ F_0 = F^{\delta_x}$, so $ F\left(t\right) = P_x\left(R \leq t\right)$. 
+We note that $ F $ is also an aperiodic interarrival distribution. Furthermore, all moments of $F$ exist because for any $ k \in \N $ and $ r > 0 $ large enough, we have $r^k < e^{\lambda r}$. So $E_x\left[R^k\right] = E_x\left[R^k \cdot \textbf{1}_{\lbrace R < r\rbrace }\right] + E_x\left[R^k \cdot \textbf{1}_{\lbrace R \geq r\rbrace }\right] \leq r^k  P_x\left(R < r\right) + E_x\left[e^{\lambda R}\cdot \textbf{1}_{\lbrace R \geq r\rbrace }\right] \leq r^k + E_x\left[e^{\lambda R}\right] < \infty $.
+Because of the last corollary $ F_n = F^{\Phi^n \delta_x} = \Psi^n F^{\delta_x} = \Psi^n F $ and our results in the chapter about renewal theory are applicable to the $F_n$. \\[2ex]
+
+At first, we prove
+\begin{equation}
+\liminf_{n \to \infty} \frac{m_{n+1}\left(F\right)}{\left(n+1\right) m_n\left(F\right)} \geq \frac{1}{\lambda_0}.
+\label{eq:inbetweenresult}
+\end{equation}
+
+If this would fail, then by Lemma \ref{Weneeditlaterr}, one can find a subsequence $ \left(n_j\right)_{j \in \N} $ such that $ F_{n_j} $ converges to an exponential distribution with mean $ \theta < \frac{1}{\lambda_0} $.
+
+But we show now, that this contradicts the maximality of $ \lambda_0 $. Set $ \mu_n = \Phi^n \delta_x $. Then the family
+
+\begin{equation}
+\lbrace  \mu_{n_j} : j \in \N \rbrace 
+\end{equation}
+
+is tight. To see this, let $ \epsilon > 0 $ be arbitrary. There is $t_{\epsilon}^{\ast}$ such that $ \lim_{j \to \infty} P_{\mu_{n_j}}\left(R > t_{\epsilon}^{\ast}\right) = e^{-t_{\epsilon}^{\ast} \frac{1}{\theta}} < \epsilon $. Then there is $ J \in \N $ such that for all $ j > J , P_{\mu_{n_j}}\left(R > t_{\epsilon}^{\ast}\right) < \epsilon $. Because absorption is sure and because of continuity from below of a probability measure, we have for $ j \in \lbrace 1,\ldots, J\rbrace  , \lim_{t \to \infty} P_{\mu_{n_j}}\left(R < t\right) = P_{\mu_{n_j}}\left(R < \infty\right) = 1 $. So there is $ t_{j,\epsilon} $ such that $ P_{\mu_{n_j}}\left(R > t_{j,\epsilon}\right) < \epsilon $. Then with $t_{\epsilon} = \max\lbrace t_{\epsilon}^{\ast}, t_{1,\epsilon}, \ldots , t_{J,\epsilon}\rbrace  $, we have for all $j \in \N$,
+
+\begin{align*}
+\epsilon &\geq P_{\mu_{n_j}}\left(R > t_{\epsilon}\right) = \sum_{y \in \N} \mu_{n_j}\left(y\right) P_y\left(R > t_{\epsilon}\right) \\
+&\geq \sum_{\lbrace y \in \N : P_y\left(R > t_{\epsilon}\right) > \frac{1}{2}\rbrace } \mu_{n_j}\left(y\right) P_y\left(R > t_{\epsilon}\right) \geq \frac{1}{2} \mu_{n_j}\lbrace y \in \N : P_y\left(R > t_{\epsilon}\right) > \frac{1}{2}\rbrace 
+\end{align*}
+
+and consequently for all $j \in \N, 2\epsilon \geq \mu_{n_j}\lbrace y \in \N : P_y\left(R \leq t_{\epsilon}\right) \leq \frac{1}{2}\rbrace $. Because $\lim_{y \to \infty} P_y\left(R \leq t_{\epsilon}\right) = 0$, there exists $Y_{\epsilon} \in \N$ such that for all $ y \geq Y_{\epsilon}, P_y\left(R \leq t_{\epsilon}\right) \leq \frac{1}{2}$. So for all $ j \in \N, \mu_{n_j}\lbrace y \geq Y_{\epsilon} \rbrace  \leq 2 \epsilon $ and this proves the tightness.
+
+So after the Theorem of Prohorov, by going to a sub-subsequence if necessary, we may assume 
+
+$$ \mu_{n_j} \Rightarrow \mu_{\infty} \textnormal{ as } j \to \infty,$$
+
+for some probability distribution $ \mu_{\infty} $ on $\N$. Then because of Theorem $\ref{th:exchangelimits}$ and the tightness, just as in \eqref{eq:weshowlimitexchange}, we are able to exchange limits and get
+
+\begin{align*}
+P_{\mu_{\infty}}\left(R > t\right) &= \sum_{y \in \N} \mu_{\infty}\left(y\right) P_y\left(R > t \right) = \lim_{j \to \infty} \sum_{y \in \N} \mu_{n_j}\left(y\right) P_y\left(R > t\right) \\
+&= \lim_{j\to \infty} \left(1-F_{n_j}\left(t\right)\right) = e^{-\frac{t}{\theta}}.
+\end{align*}
+
+$\mu_{\infty}$ charges some point $y$ and $ \mu_{\infty}\left(y\right) P_y\left(R > t\right) \leq P_{\mu_{\infty}}\left(R > t\right) $, thus
+
+$$ P_y\left(R > t\right) \leq \frac{1}{\mu_{\infty}\left(y\right)} e^{-\frac{t}{\theta}} $$
+
+which contradicts the maximality of $\lambda_0$, because let $\kappa >0 $ with $ \lambda_0 < \frac{1}{\kappa} < \frac{1}{\theta} $ then a contradiction would be if $ E_y\left[e^{\frac{1}{\kappa} R}\right] < \infty $ and this is so because  $E_{y}\left[ e^{\frac{1}{\kappa} R} \right] = 1 + E_{y}\left[ e^{\frac{1}{\kappa} R} -1 \right] = 1 + \int_{0}^{\infty} P_{y}\left(e^{\frac{1}{\kappa} R} - 1 > t\right) \textnormal{d}t = 1+\int_{0}^{\infty} P_{y}\left( R > \kappa \ln\left(t+1\right)\right) \textnormal{d}t \leq 1+ \frac{1}{\mu_{\infty}\left(y\right)} \int_{0}^{\infty} e^{-\frac{\kappa \ln\left(t+1\right)}{\theta}} \textnormal{d}t = 1  +  \frac{1}{\mu_{\infty}\left(y\right)} \int_1^{\infty} t^{-\frac{\kappa}{\theta}} \textnormal{d} t < \infty. $ 
+So \eqref{eq:inbetweenresult} must hold. \\[2ex]
+
+Now we prove, that there exits $ \mu_{\infty} $ such that \eqref{eq:existenceofmuinfty} holds, which works similarly to what we just did. Because of Remark \ref{tailofR}, for all $ \epsilon > 0 $, there exist a constant $ C_{\epsilon} > 0$ such that
+$$ P_x\left(R > t \right) \leq C_{\epsilon} e^{-t\left(\lambda_0 - \epsilon \right)}. $$
+Then because of Theorem \ref{Weneeditlater}, we can find a subsequence $\left(n_j\right)_{j \in \N}$ such that $ F_{n_j} $ converges to an exponential distribution with mean $\theta \leq \frac{1}{\lambda_0-\epsilon} $. By doing this for $ \epsilon \to 0 $, we can get a subsequence $\left(n_j\right)_{j \in \N}$ such that $ F_{n_j} $ converges to an exponential distribution with mean $\theta \leq \frac{1}{\lambda_0} $. If $ \theta < \frac{1}{\lambda_0} $, then we get a contradiction to the maximality of $ \lambda_0 $ just as before. So $\theta = \frac{1}{\lambda_0}$ and the argumentation before also provides us with $ \mu_{\infty} $ such that $P_{\mu_{\infty}}\left(R > t\right) = e^{-t \lambda_0}$ for all $t \geq 0$. We also note, that from the existence of $ \mu_{\infty} $ follows
+$$ P_x\left(R > t\right) \leq Ce^{-\lambda_0 t} .$$  Indeed, there exists $ y \in \N$ in the support of $\mu_{\infty}$, so we get $P_y\left(R > t\right) \leq \frac{1}{\mu_{\infty}\left(y\right)} \cdot e^{-\lambda_0 t}$ for all $ t\geq 0$. Because $\N$ is an irreducible class, there is $s > 0$ such that $P_y\left(X\left(s\right) = x\right) > 0$. Then we have for all $ t \geq s$,
+\begin{align*}
+\frac{1}{\mu_{\infty}\left(y\right)} \cdot e^{-\lambda_0 t} &\geq P_y\left(R > t\right) \geq P_y\left(R > t, X\left(s\right) = x\right) \\
+&= P_y\left(X\left(s\right) = x\right) \cdot P\left(R > t| X\left(s\right) = x\right) = P_y\left(X\left(s\right) = x\right) \cdot P_x\left(R > t-s\right).
+\end{align*}
+So we have for all $ t \geq 0 $, $P_x\left(R > t\right) \leq \frac{e^{-\lambda_0 s}}{\mu_{\infty}\left(y\right) P_y\left(X\left(s\right) = x\right) }\cdot e^{-\lambda_0 t}$. \\[2ex]
+
+
+Next we prove a converse of \eqref{eq:inbetweenresult}, namely
+
+\begin{equation}
+\limsup_{n \to \infty} \frac{m_{n+1}\left(F\right)}{\left(n+1\right) m_n\left(F\right)} \leq \frac{1}{\lambda_0}.
+\end{equation}
+
+Suppose this is not true. Then there exists $\eta > 0$ and a subsequence $ \left(n_l\right)_{l \in \N} $ such that
+
+\begin{equation}\label{eq:forlateruse}
+\frac{m_{n_l+1}\left(F\right)}{\left(n_l+1\right) m_{n_l}\left(F\right)} \geq \frac{1}{\lambda_0} + \eta
+\end{equation}
+
+for all $ l \in \N $. For $C$ satisfying
+$$ \frac{1}{1+C\eta}\left(\frac{1}{\lambda_0}+\eta\right) \geq \frac{1}{\lambda_0} + \frac{\eta}{2} $$
+we have for $n_l \leq j < j+1 \leq n_l\left(1+C\eta\right)$,
+
+\begin{align*}
+\frac{m_{j+1}\left(F\right)}{\left(j+1\right) m_j\left(F\right)} &\geq \frac{m_{n_l+1}\left(F\right)}{\left(j+1\right) m_{n_l}\left(F\right)} = \frac{m_{n_l+1}\left(F\right)}{\left(n_l+1\right) m_{n_l}\left(F\right)} \frac{n_l+1}{j+1} \\
+&\geq \frac{m_{n_l+1}\left(F\right)}{\left(n_l+1\right) m_{n_l}\left(F\right)} \frac{n_l+1}{n_l\left(1+C\eta\right)} \geq \left(\frac{1}{\lambda_0}+\eta\right) \frac{1}{1+C\eta} \geq \frac{1}{\lambda_0} + \frac{\eta}{2}.
+\end{align*} 
+For shorter notation, set $i\left(n_l\right) = \left\lfloor n_l\left(1+C\eta\right)\right\rfloor$. Then
+\begin{align*}
+\frac{m_{i\left(n_l\right)}\left(F\right)}{i\left(n_l\right)!} &= \prod_{j=0}^{i\left(n_l\right)-1} m_1\left(F_j\right) = \prod_{j=0}^{i\left(n_l\right)-1} \frac{m_{j+1}\left(F\right)}{\left(j+1\right) m_j\left(F\right)} \\
+&= \frac{m_{n_l}\left(F\right)}{n_l!} \prod_{j=n_l}^{i\left(n_l\right)-1} \frac{m_{j+1}\left(F\right)}{\left(j+1\right) m_j\left(F\right)} \geq \frac{m_{n_l}\left(F\right)}{n_l!} \left(\frac{1}{\lambda_0} + \frac{\eta}{2}\right)^{\left\lfloor n_lC\eta \right\rfloor}
+\end{align*}
+
+Now we need that
+\begin{equation}
+\liminf_{n \to \infty} \left(\frac{m_n\left(F\right)}{n!}\right)^{\frac{1}{n}} \geq \frac{1}{\lambda_0}.
+\end{equation} 
+
+Indeed, let $ \epsilon > 0 $. We know already that $\liminf_{n \to \infty} \frac{m_{n+1}\left(F\right)}{\left(n+1\right) m_n\left(F\right)} \geq \frac{1}{\lambda_0} > \frac{1}{\lambda_0 + \epsilon}.$ So there exists $N \in \N$ such that for all $ n > N , \frac{m_{n+1}\left(F\right)}{\left(n+1\right) m_n\left(F\right)} > \frac{1}{\lambda_0 + \epsilon}$ and thus $\frac{m_{n+1}\left(F\right)}{\left(n+1\right) } > \frac{m_n\left(F\right)}{\lambda_0+\epsilon}$.  Let $ Q $ be the constant, such that $ \frac{m_{N+1}\left(F\right)}{\left(N+1\right)! } = \left(\frac{1}{\lambda_0+\epsilon}\right)^{N+1} \cdot Q.$ Then for all $ n > N+1 $ holds,
+$$ \frac{m_n\left(F\right)}{n!} \geq \frac{m_{n-1}\left(F\right)}{\left(n-1\right)! \left(\lambda_0+\epsilon\right)}\geq \ldots \geq \left(\frac{1}{\lambda_0+\epsilon}\right)^{n-N-1}\frac{m_{N+1}\left(F\right)}{\left(N+1\right)!} = \left(\frac{1}{\lambda_0+\epsilon}\right)^{n} \cdot Q $$, so in total we got from this
+$$ \liminf_{n \to \infty} \left(\frac{m_n\left(F\right)}{n!}\right)^{\frac{1}{n}} \geq \frac{1}{\lambda_0+\epsilon} \cdot \lim_{n \to \infty} Q^{\frac{1}{n}} = \frac{1}{\lambda_0+\epsilon}. $$
+Letting $ \epsilon \to 0 $ yields $ \liminf_{n \to \infty} \left(\frac{m_n\left(F\right)}{n!}\right)^{\frac{1}{n}} \geq \frac{1}{\lambda_0}$.\\[2ex]
+
+So
+\begin{align*}
+\liminf_{l \to \infty} \left(\frac{m_{i\left(n_l\right)}\left(F\right)}{i\left(n_l\right)!} \right)^{\frac{1}{i\left(n_l\right)}} &\geq \liminf_{l \to \infty} \left[ \left(\frac{m_{n_l}\left(F\right)}{n_l!}\right)^{\frac{1}{n_l}} \left(\frac{1}{\lambda_0} + \frac{\eta}{2}\right)^{C\eta}\right]^{\frac{n_l}{i\left(n_l\right)}} \\
+&\geq \left[\frac{1}{\lambda_0} \left(\frac{1}{\lambda_0} + \frac{\eta}{2}\right)^{C\eta} \right]^{\frac{1}{1+C\eta}} > \frac{1}{\lambda_0}.
+\end{align*}
+
+But on the other hand, since $ P_x\left(R > t\right) \leq Ce^{-\lambda_0 t} $ implies $ m_k\left(F\right) \leq C k! \left(\frac{1}{\lambda_0}\right)^k $ as in the proof of Theorem \ref{Weneeditlater}, we have
+
+$$ \liminf_{l \to \infty} \left(\frac{m_{i\left(n_l\right)}\left(F\right)}{i\left(n_l\right)!} \right)^{\frac{1}{i\left(n_l\right)}} \leq \lim_{l \to \infty} \left(\frac{C i\left(n_l\right)! \left(\frac{1}{\lambda_0}\right)^{i\left(n_l\right)}}{i\left(n_l\right)!}\right)^{\frac{1}{i\left(n_l\right)}} = \frac{1}{\lambda_0}.$$
+
+This is a contradiction. So we have shown that
+
+$$\lim_{n \to \infty} \frac{m_{n+1}\left(F\right)}{\left(n+1\right) m_n\left(F\right)} = \frac{1}{\lambda_0}.$$
+
+Lemma \ref{subsequencelemmaone} implies now that $ F_n $ converges to an exponential distribution with mean $ \frac{1}{\lambda_0} $. In addition,
+
+$$ E_{\Phi^n\delta_x}\left[R\right] = m_1\left(F^{\Phi^n\delta_x}\right) = m_1\left(F_n\right) = \frac{m_{n+1}\left(F\right)}{\left(n+1\right) m_n\left(F\right)} \to \frac{1}{\lambda_0} .$$
+so we also proved \eqref{eq:limitforlambdazero}.
+It only remains to show that $$\lambda_0 = \left(\lim_{n \to \infty} E_{\Phi^n\delta_x}R\right)^{-1} < \infty.$$
+We note that $ \lim_{y \to \infty} E_y R = \infty $, because of our assumption $ \lim_{y \to \infty} P_y\left(R \leq t\right) = 0$ for all $t \geq 0$ and also $E_y R >0$ for all $y \in \N$. For shorter notation we set $\mu_n = \Phi^n \delta_x $. 
+We assume for contradiction that $ \lim_{n \to \infty} E_{\mu_n} R = 0 $. For some fixed $ S > 0 $ there exists $Y \in \N$ such that for all $ y > Y $ holds $ E_y R \geq S $. Then $ E_{\mu_n} R = \sum_{y \in \N} \mu_n\left(y\right) E_y R \geq \mu_n\lbrace 1,\ldots,Y\rbrace  \min_{1 \leq y \leq Y} E_y R + S \cdot \left(1 - \mu_n\lbrace 1,\ldots,Y\rbrace  \right) \to 0$ as $n \to \infty$. But this would imply $ \mu_n\lbrace 1,\ldots,Y\rbrace  \to 1 $ and $ \mu_n\lbrace 1,\ldots,Y\rbrace  \to 0 $, which is a contradiction.
+
+
+\end{proof}
+
+\subsection{Examples}
+
+Condition \eqref{condition} is equivalent to the given condition in the following lemma, which is easier verified in examples.
+
+\begin{lemma}
+Assume there exists a function $f: \N_0 \to \R_{\geq 0}$ and constants $D_1, D_4, D_5 > 0, D_2, D_3, D_6 < \infty, D_6 \in \N$ such that
+\begin{equation}
+\lim_{x \to \infty} f\left(x\right) = \infty,
+\end{equation} 
+%\begin{equation} 
+%\sum_{y \neq x} q\left(x,y\right) f\left(y\right) \leq f\left(x\right) - D_1 \textnormal{ for } x \geq D_6,
+%\end{equation}
+%Maybe this is better
+\begin{equation} \label{eq:secondD}
+\sum_{y \neq x} \frac{q\left(x,y\right)}{q\left(x\right)} f\left(y\right) \leq f\left(x\right) - D_1 \textnormal{ for } x \geq D_6,
+\end{equation}
+\begin{equation} \label{eq:thirdD}
+\left|f\left(x\right) - f\left(y\right) \right| \leq D_2 \textnormal{ for } x \geq D_6 \textnormal{ and } q\left(x,y\right) > 0,
+\end{equation}
+\begin{equation} \label{eq:fourthD}
+\sum_{y \neq x, f\left(y\right) \geq n} q\left(x,y\right) \leq D_3 e^{-D_4 n} \textnormal{ for } 1\leq x < D_6 \textnormal{ and } n \geq 1,
+\end{equation}
+and
+\begin{equation}
+-q\left(x,x\right) \geq D_5 \textnormal{ for } x \geq D_6.
+\end{equation}
+Then there exists $x, \lambda > 0$ such that $E_x e^{\lambda R} < \infty.$
+\end{lemma}
+
+\begin{proof}
+Recall that $J_1, J_2, \ldots$ are the successive jump times of $\left(X\left(t\right) \right)_{t \geq 0}$. For $\lambda \geq 0$ let 
+$$ \Phi\left(\lambda\right) = \left[D_1 + D_2 \right]^{-2} \left[e^{\lambda \left(D_1+D_2 \right)} -1 - \lambda\left(D_1 + D_2\right) \right]. $$
+According to the results of \cite{neveu} Lemma 7.2.8. on page 154, in a neighbourhood of $0$ holds
+\begin{equation} \label{eq:landauasymp}
+\Phi\left(\lambda\right) = \frac{1}{2} \lambda^2  + o\left(\lambda^2\right)
+\end{equation}
+and
+$$e^{\lambda y } \leq 1 + \lambda y + \Phi\left(\lambda\right) y^2 \textnormal{ for } y \leq \left(D_1+D_2\right).$$
+Now for $x \geq D_6$ holds almost surely on $ \lbrace X\left(0\right) = x \rbrace $
+\begin{align*}
+&\left|f\left(X\left(J_1\right) \right) - f\left(X\left(0\right)\right) + D_1 \right| \\
+&\leq \left|f\left(X\left(J_1\right) \right) - f\left(X\left(0\right)\right)\right| + D_1 \\
+& \overset{ \eqref{eq:thirdD}}{\leq} D_2 + D_1.
+\end{align*}
+
+\begin{align*}
+&E_x e^{\lambda \left[f\left(X\left(J_1\right) \right) -  f\left(x\right) + D_1 \right]} \\
+&\leq E_x \left[ 1 + \lambda \left[f\left(X\left(J_1\right) \right) - f\left(x\right) + D_1 \right] + \Phi\left(\lambda\right)\left[f\left(X\left(J_1\right) \right) - f\left(x\right) + D_1 \right]^2\right] \\
+&\overset{ \eqref{eq:thirdD}}{\leq} 1 + E_x \left[ \lambda \left[f\left(X\left(J_1\right) \right) - f\left(x\right) + D_1 \right] \right] + \Phi\left(\lambda\right) \left(D_1 + D_2\right)^2 \\
+& \leq 1 + \Phi\left(\lambda\right) \left(D_1 + D_2\right)^2 \\
+& \leq e^{\Phi\left(\lambda\right) \left(D_1 + D_2\right)^2 }.
+\end{align*}
+where the third equality follows from
+\begin{align*}
+E_x f\left(X\left(J_1\right) \right) &= \sum_{y \neq x} \frac{q\left(x,y\right)}{q\left(x\right)} f\left(y\right) \\
+&\overset{\eqref{eq:secondD}}{\leq} \left(f\left(x\right) - D_1\right).
+\end{align*}
+
+For $ 0 < \epsilon < D_5$ follows then
+\begin{align*}
+&E_x e^{\lambda\left[f\left(X\left(J_1\right) - f\left(x\right) \right) \right] + \epsilon J_1}\\
+&= E_x e^{\lambda\left[f\left(X\left(J_1\right) - f\left(x\right) \right) \right]} \cdot E_x e^{\epsilon J_1}\\
+&= E_x e^{\lambda\left[f\left(X\left(J_1\right) - f\left(x\right) \right) \right]} \cdot \frac{q\left(x\right)}{q\left(x\right) - \epsilon}\\
+&\leq e^{-\lambda D_1 + \Phi\left(\lambda\right) \left[D_1 + D_2 \right]^2} \frac{D_5}{D_5 - \epsilon}.
+\end{align*}
+where $q\left(x\right) \geq D_5$ was used in the last inequality. 
+Because of \eqref{eq:landauasymp}, we can fix $\lambda > 0$ small enough such that
+$$ -\lambda D_1 + \Phi\left(\lambda\right) \left[D_1 + D_2 \right]^2 \leq - \frac{\lambda D_1}{2}, $$
+and $\epsilon > 0$ such that
+$$ e^{-\lambda D_1 + \Phi\left(\lambda\right) \left[D_1 + D_2 \right]^2} \frac{D_5}{D_5 - \epsilon} \leq  1.$$
+With these choices, we define
+$$g\left(t\right) = e^{\lambda\left[f\left(X\left(t\right) \right) - f\left(X\left(0\right)\right) \right] + \epsilon t}$$
+which satisfies
+\begin{equation} \label{eq:supermartingale}
+E_x g\left(J_1\right) \leq 1 = g\left(0\right).
+\end{equation}
+Now we define $T:= \inf\lbrace t \geq J_1 : X\left(t\right) < D_6 \rbrace = J_{\inf\lbrace k\geq 1: X\left(J_k\right) < D_6 \rbrace}$ and $\upsilon := \inf \lbrace k: J_k \geq T\rbrace = \inf\lbrace k \geq 1 : X\left(J_k \right) < D_6 \rbrace  $,
+then $\left(Y_k\right)_{k \geq 0} =\left(g\left(J_{k \wedge \upsilon} \right)\right)_{ k \geq 0} $ is a positive supermartingale because of \eqref{eq:supermartingale} under the measure $P_x$ for all $x \geq D_6$.
+It's positive, because $g$ is positiv. We have the natural filtration $ \mathcal{F}_k = \sigma\left(Y_1,\ldots,Y_k \right). $ We need to show for all $k \geq 0$ and all $x \geq D_6$ holds the inequality $E_x\left[Y_{k+1} | \mathcal{F}_k \right] \leq Y_k.$
+For $k=0$, we have $Y_0 = g\left(J_{0 \wedge \upsilon} \right) = g\left(J_0\right) = g\left(0\right) = 1$, so we have
+\begin{align*}
+E_x\left[Y_1 | \mathcal{F}_0 \right] = E_x\left[ Y_1 | \lbrace \Omega, \emptyset \rbrace \right] = E_x\left[Y_1 \right] = E_x\left[g\left(J_{1 \wedge \upsilon} \right) \right] = E_x\left[g\left(J_1 \right) \right] \overset{\eqref{eq:supermartingale}}{\leq} 1 = Y_0.
+\end{align*}
+
+
+On the event $\lbrace T \geq t \rbrace$ we have $ J_{\upsilon} \geq t $ and hence
+$$ g\left( J_{\upsilon} \right) = \exp\left( \lambda \left[f\left(X\left(J_{\upsilon} \right) \right) - f\left(X\left(0\right) \right) \right] + \epsilon J_{\upsilon}\right) \overset{f \geq 0}{\geq} \exp\left(-\lambda f\left(X\left(0\right) \right)  + \epsilon t \right).$$
+Thus, for $x \geq D_6$,
+\begin{align*}
+P_x\left(T \geq t \right) &= E_x\left[\textbf{1}_{T \geq t} \cdot \exp\left(-\lambda f\left(X\left(0\right) \right) + \epsilon t \right) \cdot \exp\left(\lambda f\left(x\right) - \epsilon t \right) \right] \\
+&= E_x\left[\textbf{1}_{T \geq t} \cdot \exp\left(-\lambda f\left(X\left(0\right) \right) + \epsilon t \right) \right] \exp\left(\lambda f\left(x\right) - \epsilon t \right) \\
+&\leq E_x\left[\textbf{1}_{T \geq t}  g\left(J_{\upsilon} \right) \right] \exp\left(\lambda f\left(x\right) - \epsilon t \right) \\
+&\leq E_x\left[g\left(J_{\upsilon} \right) \right] \exp\left(\lambda f\left(x\right) - \epsilon t \right) \\
+&\leq \exp\left(\lambda f\left(x\right) - \epsilon t \right)
+\end{align*}
+where the last inequality follows from $\left(g\left(J_{k \wedge \upsilon} \right)\right)_{ k \geq 0}$ being a supermartingale and 
+\eqref{eq:supermartingale}. This shows that $T$ has an exponentially bounded tail, when $x \geq D_6.$
+And for $x < D_6$ one gets with the strong Markov property
+\begin{align*}
+P_x\left(T \geq t \right) &= P_x\left(T \geq t, J_1 < t \right) + P_x\left(J_1 \geq t \right) \\
+&= \sum_{y \geq D_6} P_y\left(T \geq t - s \right) P_x\left(X\left(J_1 \right) = y , J_1 \in \textnormal{d}s \right) + P_x\left(J_1 \geq t \right)\\
+&\leq \sum_{y \geq D_6 } \exp\left( \lambda f\left(y\right) - \epsilon \left(t-s\right) \right) P_x\left(X\left(J_1 \right) = y , J_1 \in \textnormal{d}s \right) + P_x\left(J_1 \geq t \right)\\
+&\leq E_x\left(\exp\left(\lambda f\left(X\left(J_1\right) \right) + \epsilon J_1 \right) \exp\left(-\epsilon t \right); X\left(J_1\right) \geq D_6 \right) + P_x\left(J_1 \geq t \right) \\
+&\leq K \exp\left(-\epsilon t \right)
+\end{align*}
+
+for some constant $K > 0$ which is finite because of \eqref{eq:fourthD}, if $\lambda$ and $\epsilon$ are taken sufficiently small. So in total, there is a constant $C >0$ such that $P_x\left(T\geq t\right) \leq C \exp\left(-\epsilon t \right)$. From this, it isn't difficult to follow that also $R$ has exponentially bounded tails, and so because of Remark \ref{tailofR} there exists $\lambda > 0$ and $ x \in \N$ such that $E_x e^{\lambda R} < \infty.$
+
+\end{proof}
+
+This theorem shows, that our Main Theorem can be applied to any Markov process on the integers with bounded jumps and with a drift towards the origin.
+
+
+%\textbf{Example: Linear birth and death process}
+%A birth and death process with birth and death coefficents is defined somewhere else. Here we have $\mu_0 = \lambda_0 = 0$ and we are given $ 0 < \lambda < \mu $ and $ \lambda_n = n \lambda, \mu_n = n \mu $ to be the birth and death coefficients.
+%
+%Take $f\left(x\right) = x .$ Take $ 0 < D_1 < \frac{\mu - \lambda}{\lambda + \mu}.$ Then for all $ x \geq 1 $ holds:
+%\begin{align*}
+%\sum_{y\neq x} \frac{q\left(x,y\right)}{q\left(x\right)} f\left(y\right) &= \frac{q\left(x,x-1\right)}{q\left(x\right)} f\left(x-1\right) + \frac{q\left(x,x+1\right)}{q\left(x\right)} f\left(x+1\right) \\
+%&= \frac{x \mu}{x \left(\lambda + \mu \right) } \left(x-1\right) + \frac{x \lambda }{x\left(\lambda + \mu \right)} \left(x+1\right) \\
+%&= x + \frac{\lambda - \mu}{\lambda + \mu} \leq x - D_1.
+%\end{align*}
+%Take $D2 = 1$ , then for all $ x \geq 0 $ and all $ y $ with $ q\left(x,y\right) > 0 $ holds $\left|f\left(x\right) - f\left(y\right) \right| \leq 1 = D_2.$ This is some bounded jumps condition!!
+%The other conditions are also easiliy verified, so this process has a quasi-stationary distribution
+%
+%\textbf{Example:}
+
+
+
+
+
+
+\section{Minimal quasi-stationary distributions}
+
+\subsection{Setting and Main Theorem}
+
+Define for a probability distribution $\mu$ on $\N$,
+
+\begin{equation}
+\lambda\left(\mu\right) = \sup\lbrace \lambda : E_{\mu} e^{\lambda R} < \infty \rbrace .
+\end{equation}
+
+Let $x \in \N$ in the support of $\mu$, then for all $\lambda$ with $E_{\mu} e^{\lambda R} < \infty$ holds $ \infty > \frac{E_{\mu} e^{\lambda R} }{\mu\left(x\right)} \geq E_x e^{\lambda R}$ and thus, we have $\lambda\left(\mu\right) \leq \lambda_0$.
+
+If $\mu$ is a quasi-stationary distribution, then we know from the proof of the easy direction of Theorem \ref{maintheorem}, that $F^{\mu}$ is exponential with mean $E_{\mu} R < \infty$ and that $\lambda\left(\mu\right) = \frac{1}{E_{\mu} R} \leq \lambda_0.$ If there is equality, we call $\mu$ a minimal quasi-stationary distribution, because the mean time to absorption is minimal. \\[2ex]
+
+In subsection \ref{subsectiontychonov}, we showed under the hypothesis $\lim_{x \to \infty} P_x\left(R < t\right) = 0$ that for any $\theta > 0$ for which $\mathcal{M}_{\theta}$ is non-empty, $\mathcal{M}_{\theta}$ contains a quasi-stationary distribution. In this section, we show that we can get a minimal quasi-stationary distribution corresponding to $\theta = \frac{1}{\lambda_0}$ as sub-sequential limit of $\Phi^n\delta_x$, when put on $Q$ the additional assumption
+
+\begin{equation} \label{eq:qmatrixuniformlybounded}
+q\left(x\right) = -q\left(x,x\right) = \sum_{y \neq x} q\left(x,y\right) \leq C_1 < \infty, \textnormal{ for some constant } C_1 \textnormal{ and all } x \in \N.
+\end{equation}
+
+The big result of this section is:
+\begin{theorem} \label{maintheoremminimalqsd}
+Assume \eqref{eq:qmatrixuniformlybounded} and \eqref{condition} hold.
+\begin{enumerate} [(a)]
+\item If $\left(n_k\right)_{k \in \N}$ is a subsequence such that for some $x \in \N$ we have that $\Phi^{n_k}\delta_x$ converges weakly to a probability distribution $\mu_{\infty}$ on $\N$, then $\mu_{\infty}$ is a minimal quasi-stationary distribution.
+\item Similarly, if $\left(t_k\right)_{k \in \N}$ is a sequence of positive real numbers with $t_k \to \infty$ and $\mu_{\infty}$ is a probability distribution on $\N$ such that for some $x \in \N$,
+\begin{equation} \label{eq:minimalqsdalongtk}
+\lim_{k \to \infty} \frac{P_x\left(X\left(t_k\right) = y\right)}{P_x\left(R > t_k\right)} = \mu_{\infty}\left(y\right), y \in \N,
+\end{equation}
+then $\mu_{\infty}$ is a minimal quasi-stationary distribution.
+\end{enumerate}
+\end{theorem}
+
+For the proof, we need some results about discrete Markov chains that are taken from \cite{kesten}.
+
+\begin{definition}
+Let $P = P\left(i,j\right)_{i,j \in \N}$ be a matrix. It is called \textbf{positive} if $P\left(i,j\right) \geq 0$ for all $i,j \in \N$. It is called \textbf{irreducible}, if for all $i,j \in \N$ there exists $n = n\left(i,j\right) > 0$ such that $P^{\left(n\right)}\left(i,j\right) > 0.$ It is called aperiodic if for all $i \in \N, \gcd\lbrace n: P^{\left(n\right)}\left(i,i\right) > 0 \rbrace = 1.$ And finally it is called sub-stochastic if it is positive and for all $i \in \N$, $\sum_{j \in \N} P\left(i,j\right) \leq 1$.
+\end{definition}
+
+
+\begin{lemma} \label{kestenlemmaone} Let $P$ be a positive, irreducible and aperiodic matrix. Then the limit
+\begin{equation} \label{eq:R}
+\lim_{n \to \infty} \left[P^{\left(n\right)}\left(i,j\right) \right]^{\frac{1}{n}} = R^{-1} \in \left[0, \infty\right]
+\end{equation}
+exists for all $i,j$ and is independent of $i,j.$
+\end{lemma}
+\begin{proof}
+See \cite{kesten} Lemma 3 on page 661.
+\end{proof}
+
+\begin{lemma} \label{kestenlemmatwo}
+Let $P$ be a sub-stochastic, irreducible matrix. Further assume that $P$ is uniformly aperiodic, i.e. assume there exists constants $\delta_1 > 0$ and $N < \infty$ such that for each $i \in \N$ there are integers $1\leq k_1,\ldots,k_r \leq N$ (with $k_j = k_j\left(i\right)$ and $r=r\left(i\right)$) such that $P^{\left(k_s\right)}\left(i,i\right) \geq \delta_1$ for $1\leq s \leq r$ and $\gcd\left(k_1,\ldots,k_r\right) = 1.$
+Then with $R$ as in \eqref{eq:R}, it is $1 \leq R < \infty$ (so $1\geq \frac{1}{R} > 0$) and for all $i,j,l \in \N$ holds
+\begin{equation}
+\lim_{n \to \infty} \frac{P^{\left(n+l\right)}\left(i,j\right)}{P^{\left(n\right)}\left(i,j\right)} = R^{-l}.
+\end{equation}
+
+\end{lemma}
+\begin{proof}
+See \cite{kesten} Lemma 4 on page 661.
+\end{proof}
+
+\begin{remark}
+For every $h > 0,$ the matrix $P_h$ on $\N$ given by $P_h\left(x,y\right) = P_x\left(X\left(h\right)=y \right)$ is a substochastic matrix, that is irreducible and aperiodic because of Proposition \ref{th:transfcont}.\\
+Moreover with $\delta_1 = e^{-C_1 h}$, we have for all $x \in \N,$
+\begin{align*}
+P_h\left(x,x\right) &= P_x\left(X\left(h\right)=x \right) \geq P_x\left(T_0 > h \right) \\
+&= e^{-q\left(x\right)h} \geq e^{-C_1 h} = \delta_1.
+\end{align*}
+So $P_h$ satisfies the assumptions from Lemmas \ref{kestenlemmaone} and \ref{kestenlemmatwo}.
+
+\end{remark}
+
+
+\begin{lemma} \label{th:thelimitsdiscrete}
+If \eqref{eq:qmatrixuniformlybounded} holds, then there exists $\lambda_1 \geq 0$ such that for all $h > 0$
+\begin{equation} \label{eq:helpdiscretefirst}
+\lim_{k \to \infty} \left(P_x\left(X\left(hk\right)=y \right) \right)^{\frac{1}{k}} = e^{-\lambda_1 h},
+\end{equation}
+and for all $l \geq 1,$
+\begin{equation} \label{eq:helpdiscretesecond}
+\lim_{k \to \infty} \frac{P_x\left(X\left(h\left(k+l\right)\right)=y\right)}{P_x\left(X\left(hk\right)=y\right)} = e^{-\lambda_1 h l}.
+\end{equation} 
+\end{lemma}
+\begin{proof}
+For each $h >0$ the matrix $P_h$ given by $P_h\left(x,y\right) = P_x\left(X\left(h\right) = y\right)$ satisfies the conditions from Lemma \ref{kestenlemmatwo}. Thus there is $1 \leq R_h < \infty$ such that $\lim_{k \to \infty}  \left(P_h^{\left(k\right)}\left(x,y\right)\right)^{\frac{1}{k}} = R_h^{-1}.$ Let $\lambda_h \geq 0$ be such that $e^{-\lambda_h \cdot h} = R_h^{-1}. $ Then we have for all $ h > 0$
+$$ \lim_{k \to \infty} \left(P_x\left(X\left(kh \right)=y \right) \right)^{\frac{1}{kh}} = e^{-\lambda_h}. $$
+Because $\left(P_{xy}\left(t\right)\right)^{\frac{1}{t}}$ is continuous and Proposition \ref{limitlemma}, $\lambda_h$ is independent of $h$ and with $\lambda_1$ the common value of the $\lambda_h$, we got \eqref{eq:helpdiscretefirst}.
+With \eqref{eq:helpdiscretefirst} and Lemma \ref{kestenlemmatwo}, we get \eqref{eq:helpdiscretesecond}.
+
+
+\end{proof}
+
+
+\begin{lemma}
+If \eqref{eq:qmatrixuniformlybounded} holds, then for some $\lambda_1 \in [\lambda_0, \infty)$ we have for all $x,y \in \N,$
+\begin{equation} \label{firstlimitlemma}
+\lim_{t \to \infty}\left(P_x\left(X\left(t\right)=y\right)\right)^{\frac{1}{t}} = e^{-\lambda_1}.
+\end{equation}
+Moreover, for all $x,y \in \N$ and all $s \geq 0$,
+\begin{equation} \label{secondlimitlemma}
+\lim_{t \to \infty} \frac{P_x\left(X\left(t+s\right)=y\right)}{P_x\left(X\left(t\right)=y\right)} = e^{-\lambda_1 s}.
+\end{equation}
+($\lambda_1$ is independent of $x$ and $y$.)
+\end{lemma}
+\begin{proof}
+We now from Lemma \ref{th:thelimitsdiscrete} that
+\begin{equation} \label{seeverejones}
+\lim_{k \to \infty} \left(P_x\left(X\left(hk\right)=y\right) \right)^{\frac{1}{kh}} = e^{-\lambda_1}
+\end{equation}
+for all $x,y \in \N, h > 0.$ \\[2ex]
+
+Now with $k \in \N$ such that $ k \leq t \leq k+1 $, we have on the one hand
+\begin{align*}
+P_x\left(X\left(t\right)=y \right)^{\frac{1}{t}} &\geq \left(P_x\left(X\left(t - k\right)=x \right)\cdot P_x\left(X\left(k\right) = y\right) \right)^{\frac{1}{k}} \\
+&\geq \underbrace{\left(\min_{u \in \left[0,1\right]}P_x\left(X\left(u\right)=x\right)\right)^{\frac{1}{k}}}_{\overset{t \to \infty}{\to} 1} P_x\left(X\left(k\right) = y\right)^{\frac{1}{k}} \overset{t \to \infty}{\to} e^{-\lambda_1}.
+\end{align*}
+and on the other hand
+\begin{align*}
+P_x\left(X\left(t\right)=y \right)^{\frac{1}{t}} &\leq \left(P_x\left(X\left(k+1\right)=y \right) \cdot P_y\left(X\left(k+1-t\right)=y \right)^{-1} \right)^{\frac{1}{k+1}} \\
+&\leq P_x\left(X\left(k+1\right)=y \right)^{\frac{1}{k+1}} \left(\min_{u \in \left[0,1\right]}P_y\left(X\left(u\right) = y \right)\right)^{-\frac{1}{k+1}} \overset{t \to \infty}{\to} e^{-\lambda_1}.
+\end{align*}
+and this shows \eqref{firstlimitlemma}. \\[3ex]
+For \eqref{secondlimitlemma}, let $s \geq 0$. Let $k$ be such that $kh \leq t \leq \left(k+1\right)h$ and $l$ be such that $\left(l-1\right)h \leq s\leq lh.$ Then holds
+\begin{align*}
+\frac{P_x\left(X\left(t+s\right)=y\right)}{P_x\left(X\left(t\right)=y\right)} &\leq \frac{P_x\left(X\left(h\left(k+1+l\right)\right)=y \right) P_y\left(X\left(h\left(k+1+l\right)-\left(t+s\right)\right)=y\right)^{-1} }{P_x\left(X\left(hk\right)=y\right)\cdot P_y\left(X\left(t-hk\right)=y\right)} \\
+&\leq \frac{P_x\left(X\left(h\left(k+1+l\right)\right)=y \right)}{P_x\left(X\left(hk\right)=y\right)} \cdot \min_{u \in \left[0,2h\right]} P_y\left(X\left(u\right)=y \right)^{-2} \\
+& \overset{t \to \infty}{\to} e^{-\lambda_1 \left(l+1\right) h} \min_{u \in \left[0,2h\right]} P_y\left(X\left(u\right)=y \right)^{-2} \overset{h \to 0}{\to} e^{-\lambda_1 s}.
+\end{align*}
+and on the other hand
+
+\begin{align*}
+\frac{P_x\left(X\left(t+s\right)=y\right)}{P_x\left(X\left(t\right)=y\right)} &\geq \frac{ P_x\left(X\left(h\left(k+l-1\right)\right)=y \right) P_y\left(X\left(t+s-h\left(k+l-1\right)\right)=y\right)}{P_x\left(X\left(h\left(k+1\right)\right)=y\right)\cdot P_y\left(X\left(h\left(k+1\right)-t\right)=y\right)^{-1}} \\ 
+&\geq \frac{P_x\left(X\left(h\left(k+l-1\right)\right)=y \right)}{P_x\left(X\left(h\left(k+1\right)\right)=y\right)} \cdot \min_{u \in \left[0,2h\right]} P_y\left(X\left(u\right)=y\right)^2 \\
+& \overset{t \to \infty}{\to} e^{-\lambda_1 h \left(l-2\right)} \min_{u \in \left[0,2h\right]} P_y\left(X\left(u\right)=y\right)^2 \overset{h \to 0}{\to} e^{-\lambda_1 s}.
+\end{align*}
+and this shows \eqref{secondlimitlemma}. \\[2ex]
+
+It remains to show that $\lambda_1 \geq \lambda_0.$
+By the definition of $\lambda_0$, for all $\epsilon > 0$ and $t$ sufficiently large, we have
+\begin{align*}
+P_x\left(R > t\right) &= P_x\left(e^{\left(\lambda_0 - \frac{\epsilon}{2}\right)R } > e^{\left(\lambda_0 - \frac{\epsilon}{2}\right)t} \right) \\
+&\leq E_x \left[ e^{\left(\lambda_0 - \frac{\epsilon}{2}\right)R } \right] e^{-\left(\lambda_0 - \frac{\epsilon}{2}\right)t} \leq e^{\frac{\epsilon}{2} t} e^{-\left(\lambda_0 - \epsilon/2\right)t} \\
+&\leq e^{-\left(\lambda_0 - \epsilon\right)t}.
+\end{align*}
+But one the other hand, because of \eqref{firstlimitlemma} for all $\epsilon > 0$ and $t$ large enough, we have
+$$e^{-\left(\lambda_1+\epsilon\right)} \leq P_x\left(X\left(t\right)=x\right)^{1/t}.$$ 
+Thus, we have for all $\epsilon >0$ and $t$ sufficiently large
+$$e^{-\left(\lambda_1+\epsilon\right)} \leq P_x\left(X\left(t\right)=x\right)^{1/t} \leq \left(\sum_{y \in \N}P_x\left(X\left(t\right)=y \right) \right)^{1/t} = P_x\left(R > t \right)^{1/t} \leq e^{-\left(\lambda_0 - \epsilon\right)}.$$
+And this shows that it must be $\lambda_1 \geq \lambda_0.$
+
+\end{proof}
+
+\begin{proof}[Proof of Theorem \ref{maintheoremminimalqsd}]
+By Theorem \ref{thphimu}, for any probability measure $\upsilon$ on $\N$ with $E_{\upsilon} R < \infty$ and $y\in \N$ holds
+$$ \Phi\upsilon\left(y\right) = \frac{1}{E_{\upsilon} R} \int_0^{\infty} \sum_{x \in \N} \upsilon\left(x\right) P_x\left(X\left(t\right) = y\right) \textnormal{d}t. $$
+
+Now, we show by induction over $n$, that for all $n \in \N$ holds
+\begin{equation}\label{eq:showbyinduction}
+\begin{aligned}
+\Phi^n\upsilon\left(y\right) &= \prod_{k=0}^{n-1} \left(E_{\Phi^k\upsilon} R\right)^{-1} \int_0^{\infty}\ldots \int_0^{\infty} P_{\upsilon}\left(X\left(t_1+\ldots+t_n\right)=y\right) \textnormal{d}t_n \ldots \textnormal{d}t_1 \\
+&=\prod_{k=0}^{n-1} \left(E_{\Phi^k\upsilon} R\right)^{-1} \frac{1}{\left(n-1\right)!}\int_0^{\infty} t^{n-1} P_{\upsilon}\left(X\left(t\right)=y\right) \textnormal{d}t.
+\end{aligned}
+\end{equation}
+This is clear for $n=1.$ Assume now there is some $n \in \N$ such that \eqref{eq:showbyinduction} holds.
+Then
+\begin{align*}
+\Phi^{n+1}\upsilon\left(y\right) &= \frac{1}{E_{\Phi^n\upsilon}R} \int_0^{\infty} \sum_{x \in \N} \Phi^n\upsilon\left(x\right) P_x\left(X\left(t\right) = y\right) \textnormal{d}t \\
+&=\frac{1}{E_{\Phi^n\upsilon}R} \int_0^{\infty} \sum_{x \in \N} \prod_{k=0}^{n-1} \left(E_{\Phi^k\upsilon} R\right)^{-1} \int_0^{\infty}\ldots \int_0^{\infty} P_{\upsilon}\left(X\left(t_1+\ldots+t_n\right)=x\right) \textnormal{d}t_n \ldots \textnormal{d}t_1 \cdot \\
+& \cdot P_x\left(X\left(t\right)=y\right) \textnormal{d}t \\
+&=\prod_{k=0}^{n} \left(E_{\Phi^k\upsilon} R\right)^{-1} \int_0^{\infty} \ldots \int_0^{\infty} \sum_{x \in \N} P_{\upsilon}\left(X\left(t_1+\ldots+t_n\right)=x\right) \cdot \\
+& \cdot P\left(X\left(t_1+\ldots+t_{n+1}\right)=y | X\left(t_1+\ldots+t_n\right)=x \right) \textnormal{d}t_{n+1} \ldots \textnormal{d}t_1 \\
+&= \prod_{k=0}^{n} \left(E_{\Phi^k\upsilon} R\right)^{-1} \int_0^{\infty}\ldots \int_0^{\infty} P_{\upsilon}\left(X\left(t_1+\ldots+t_{n+1}\right)=y\right) \textnormal{d}t_{n+1} \ldots \textnormal{d}t_1.
+\end{align*}
+The rest is not clear to me, but it seems, it has to follow from the induction showed here.
+
+If we fix $x \in \N$ and write
+$$c_n = \frac{1}{\left(n-1\right)!} \prod_{k=0}^{n-1} \left(E_{\Phi^k\upsilon} R\right)^{-1},$$
+then
+$$\left(\Phi^n\delta_x\right)\left(y\right) = c_n \int_0^{\infty} t^{n-1} P_x\left( X\left(t\right)=y \right) \textnormal{d}t. $$
+Assume now there is a subsequence $\left(n_k\right)_{k \in \N}$ such that $\Phi^{n_k}\delta_x \Rightarrow \mu_{\infty}$ for some probability measure $\mu_{\infty}$ on $\N.$ Then for $s \geq 0, y \in \N,$
+\begin{align}
+P_{\mu_{\infty}}\left(X\left(s\right) = y\right) &= \sum_{z \in \N} \mu_{\infty}\left(z\right) P_z\left(X\left(s\right) = y\right)  \nonumber \\
+&=\lim_{Z \to \infty} \lim_{k \to \infty} \sum_{z=1}^Z \Phi^{n_k}\delta_x\left(z\right) P_z\left(X\left(s\right) = y\right) \nonumber \\ 
+&=\lim_{k \to \infty} \sum_{z \in \N} \Phi^{n_k}\delta_x\left(z\right) P_z\left(X\left(s\right) = y\right) \nonumber\\ 
+&=\lim_{k \to \infty} \sum_{z \in \N} c_{n_k} \int_0^{\infty} t^{n_k-1} P_x\left(X\left(t\right) = z\right) P\left(X\left(t+s\right)=y | X\left(t\right) = z\right) \textnormal{d} t \nonumber \\ 
+&=\lim_{k \to \infty} c_{n_k} \int_0^{\infty} t^{n_k-1} P_x\left(X\left(t+s\right) = y\right) \textnormal{d}t. \label{eq:lastlinewerefer}
+\end{align}
+We note here that after the Theorem of Prohorov, because the family $\left(\Phi^{n_k}\delta_x \right)_{k \in \N}$ is weakly relative sequentially compact, it is tight. And it is therefore that we can exchange the limits in the second step above as we did in \eqref{eq:weshowlimitexchange}.
+
+If we can show, that for each fixed $T$ the contribution of the integral over $\left[0,T\right]$ in \eqref{eq:lastlinewerefer} is negligible, then it follows from \eqref{secondlimitlemma} that 
+$$P_{\mu_{\infty}}\left(X\left(s\right) = y \right) = \lim_{k \to \infty} e^{-\lambda_1 s} c_{n_k} \int_0^{\infty} t^{n_k-1} P_x\left(X\left(t\right) = y\right) \textnormal{d}t = e^{-\lambda_1 s} \mu_{\infty}\left(y\right).$$
+and by summing over $y \in \N$,
+\begin{equation} \label{eq:fromhereitismqsd}
+P_{\mu_{\infty}}\left(R > s \right) = \sum_{y \in \N} P_{\mu_{\infty}}\left(X\left(s\right) = y \right) = e^{-\lambda_1 s}.
+\end{equation}
+and hence
+$$P_{\mu_{\infty}}\left(X\left(s\right) = y | R > s \right) = \mu_{\infty}\left(y\right).$$
+and $\mu_{\infty}$ is a quasi-stationary distribution.\\[2ex]
+
+$\mu_{\infty}$ is also minimal, because on the one hand $\lambda_1 \geq \lambda_0$ and on the other hand we have for $\epsilon > 0$,
+\begin{align*}
+E_{\mu_{\infty}}\left[e^{\left(\lambda_1-\epsilon\right)R} \right] &= 1 + \int_0^{\infty} P_{\mu_{\infty}}\left(e^{\left(\lambda_1-\epsilon\right)R}-1 > t\right) \textnormal{d}t \\
+&=1+ \int_0^{\infty} P_{\mu_{\infty}} \left(R > \frac{\ln\left(t+1\right)}{\lambda_1-\epsilon} \right) \textnormal{d}t \\
+&=1+\int_1^{\infty} e^{-\frac{\lambda_1}{\lambda_1-\epsilon}\ln\left(t\right)} \textnormal{d}t \\
+&=1+\int_1^{\infty} t^{-\frac{\lambda_1}{\lambda_1-\epsilon}} \textnormal{d} t < \infty.
+\end{align*}
+Hence, we have for every $x$ in the support of $\mu_{\infty}$ and every $\epsilon > 0$
+$$ E_x\left[e^{\left(\lambda_1-\epsilon\right)R}\right] \leq \frac{E_{\mu_{\infty}}\left[e^{\left(\lambda_1-\epsilon\right)R} \right]}{\mu_{\infty}\left(x\right)} < \infty. $$
+which shows that $\lambda_1 = \lambda_0$ and $\mu_{\infty}$ a minimal quasi-stationary distribution.\\[2ex]
+
+It remains to show that for all $T$ the integral over $\left[0,T\right]$ can be neglected. On the one hand,
+\begin{equation}
+\int_0^T t^{n-1} P_x\left(X\left(t\right) = y \right) \textnormal{d}t \leq \int_0^T t^{n-1} \textnormal{d}t = \frac{T^n}{n}.
+\end{equation}
+while on the other hand, for $0 < \epsilon < \frac{\lambda_1}{2}$ and $n$ large, we have
+\begin{align*}
+\int_0^{\infty} t^{n-1} P_x\left(X\left(t\right)=y \right) &\geq \int_{\frac{n}{2e\lambda_1}}^{\infty} t^{n-1} e^{-\left(\lambda_1 + \epsilon \right) t} \textnormal{d}t \quad \left[\textnormal{by \eqref{firstlimitlemma}} \right] \\
+&\geq \int_0^{\infty} t^{n-1} e^{-\left(\lambda_1 + \epsilon \right) t } \textnormal{d}t - \frac{n^{n-1}}{\left(2e\lambda_1\right)^n} \\
+&= \frac{\left(n-1\right)!}{\left(\lambda_1+\epsilon\right)^n} - \frac{n^{n-1}}{\left(2e\lambda_1\right)^n} \\
+&= \frac{\left(n-1\right)!}{2\left(\lambda_1+\epsilon\right)^n} + \frac{\left(n-1\right)!}{2\left(\lambda_1+\epsilon\right)^n} - \frac{n^{n-1}}{\left(2e\lambda_1\right)^n} \\
+&\geq \frac{\left(n-1\right)!}{2\left(\lambda_1+\epsilon\right)^n}.
+\end{align*}
+
+The last inequality follows from the underneath calculation:
+\begin{align*}
+\frac{\left(n-1\right)!}{2\left(\lambda_1+\epsilon\right)^n} - \frac{n^{n-1}}{\left(2e\lambda_1\right)^n} &\geq \frac{n!}{2n\left(2\lambda_1\right)^n} - \frac{2n^n}{2n\left(2\lambda_1\right)^n e^n} \quad \left[\textnormal{because } \epsilon < \lambda_1/2 \right]\\
+&= \frac{1}{2n \left(2 \lambda_1 \right)^n} \left(n! - 2\left(\frac{n}{e}\right)^n \right) \geq 0,
+\end{align*}
+where the last inequality, we prove by induction over $n$. For $n = 1$ this is clear. And then we note that $\left(1+\frac{1}{n} \right)^n$ converges monotone increasingly to $e$, then we get
+\begin{align*}
+\left(n+1\right)! &= n! \cdot \left(n+1\right) > 2 \left( \frac{n}{e} \right)^n \left(n+1\right) \\
+&= 2\left(\frac{n+1}{e} \right)^{n+1} \cdot \left(\frac{n}{n+1}\right)^n \cdot e = 2\left(\frac{n+1}{e} \right)^{n+1} \frac{1}{\left(1 + \frac{1}{n} \right)^n} \cdot e > 2\left(\frac{n+1}{e} \right)^{n+1}.
+\end{align*}
+
+Therefore, we have
+\begin{equation} \label{eq:increasesfast}
+\int_0^{\infty} t^{n-1} P_x\left(X\left(t\right)=y \right) \geq \frac{\left(n-1\right)!}{2\left(\lambda_1+\epsilon\right)^n}.
+\end{equation}
+
+Because the contribution of the integral over $\left[0,T\right]$ does increase at most as fast as $\frac{T^n}{n}$, this shows that for large $n$ this contribution is negligible and this concludes part one of the Theorem. \\[2ex]
+
+Now if $\mu_{\infty}$ is such that \eqref{eq:minimalqsdalongtk} holds. Then
+\begin{align*}
+P_{\mu_{\infty}}\left(X\left(s\right)=y \right) &= \sum_{z \in \N} \mu_{\infty}\left(z\right) P_z\left(X\left(s\right)=y \right) \\
+&=\lim_{Z \to \infty} \lim_{k \to \infty} \sum_{z=1}^Z \frac{P_x\left(X\left(t_k\right)=z\right)}{P_x\left(R>t_k\right)} \cdot P_z\left(X\left(s\right)=y\right) \\
+&=\lim_{k \to \infty} \sum_{z \in \N} c_k P_x\left(X\left(t_k\right)=z \right) P_z\left(X\left(s\right) = y\right),
+\end{align*}
+where $$c_k := \left(P_x\left(R > t_k\right) \right)^{-1}.$$
+We note again, that the family $\left(P_k\right)_{k \in \N} = \left(P_x\left(X\left(t_k\right)= \bullet | R > t_k \right) \right)_{k \in \N} $ is weakly relative sequentially compact, and thus after Prohorov's theorem, it is tight, so we can exchange limits above with the same argument as in \eqref{eq:weshowlimitexchange}. Continuing, we have
+\begin{align*}
+P_{\mu_{\infty}}\left( X\left(s\right) = y \right) &= \lim_{k \to \infty} c_k \sum_{z \in \N} P_x\left(X\left(t_k\right)=z \right) P\left(X\left(t_k +s \right) = y | X\left(t_k\right)= z \right) \\
+&= \lim_{k \to \infty} c_k P_x\left(X\left(t_k +s\right)=y \right) \\
+&= e^{-\lambda_1 s} \lim_{k \to \infty} c_k P_x\left(X\left(t_k\right) = y \right) \left[\textnormal{ by \eqref{secondlimitlemma}} \right]\\
+&= e^{-\lambda_1 s}\mu_{\infty}\left(y\right).
+\end{align*}
+This is \eqref{eq:fromhereitismqsd} again, and we prove $\mu_{\infty}$ is a minimal quasi-stationary distribution as before.
+
+
+
+\end{proof}
+
+\subsection{Birth and Death Process}
+\begin{definition}
+Let $\left(\lambda_n \right)_{n \in \N_0}$ and $\left(\mu_n \right)_{n \in \N_0}$ be sequences of non-negative numbers. A continuous-time Markov chain $\left(X\left(t\right) \right)_{t \in \R_{\geq 0}$ having state space $\N_0$ and $q$-matrix given by 
+$$ q\left(i,j\right) = \begin{cases} \lambda_i &\mbox{ if } j=i+1, i \geq 0 \\ \mu_i &\mbox{ if } j= i-1, i\geq 1 \\ -\left(\lambda_i + \mu_i \right) &\mbox{ if } j=i, i \geq 0 \\ 0 &\mbox{ otherwise }\end{cases} $$
+is called a \textbf{birth and death process} on $\N_0$ with birth coefficients $\lambda_n$ and death coefficients $\mu_n, n \geq 0. $
+\end{definition}
+ 
+The $q$-matrix $Q$ of a birth and death process is conservative if and only if $\mu_0 = 0.$ \\[2ex]
+
+Here, we treat birth and death processes with $0$ as absorbing state, i.e. $q\left(0,y\right) = 0$ for all $y \in \N_0$. Further we assume, that the holding parameters $q\left(x\right)$ are uniformly bounded, i.e. there is $C < \infty$ such that 
+\begin{equation} \label{eq:uniformlyboundedqmatrix}
+q\left(x\right) = -q\left(x,x\right) < C, \quad \textnormal{ for all } x \in \N_0.
+\end{equation}
+
+In this case, the minimal $Q$-function $P_{xy}\left(t\right)$ is the only $Q$-function and is honest (see \cite{anderson} Proposition 2.10 on page 84) and the minimal process $X = \left(X\left(t\right)\right)_{t \geq 0}$ can be constructed as a Markov jump process. \\[2ex]
+In this setting, also \eqref{eq:xtoinfty} is satisfied. Indeed, we have
+\begin{align*}
+P_x\left(R > t \right) &= P_x\left( X\left(t\right) \neq 0 \right) \\
+&= E_x\left[ P_x\left(X\left(t\right) \neq 0 | X_0, X_1 \ldots X_{x-1} \right)  \right] \\
+&\geq E_x\left[ P_x\left(T_0 + T_1 + \ldots + T_{x-1} > t | X_0, \ldots X_{x-1} \right) \right]
+\end{align*}
+because we need at least $x$ jumps to reach $0$ starting at $x \in \N.$
+Given $X_0,\ldots,X_{x-1}$ Theorem \ref{th:embeddedchainandholdingtimes} tells that $T_0,\ldots,T_{x-1}$ are independent with $T_i$ being exponential with parameter $q\left(X_i\right) \leq C.$ Thus if $W_0,W_1,\ldots, W_{x-1}$ are independent identically distributed with $W_0$ being exponentially distributed with parameter $C$, then
+$$ P_x\left(T_0 + T_1 + \ldots + T_{x-1} > t | X_1, \ldots X_x \right) \geq P\left(W_0 + \ldots + W_1 > t \right) \overset{x \to \infty}{\to} 1. $$
+because of the strong law of large numbers.
+So $\lim_{x \to \infty} P_x\left( R > t\right) = 1.$ \\[2ex]
+
+
+
+We further assume, that all neighbouring, nonzero states connect, i.e. for all $x \in \N$
+\begin{equation} 
+q\left(x,x+1\right) = \lambda_x > 0 \textnormal{ and } q\left(x,x-1\right) = \mu_x > 0.
+\end{equation}
+and that there is $\lambda > 0$ such that $E_x e^{\lambda R} < \infty.$ Then by Theorem \ref{maintheorem}, there exists a quasi-stationary distribution. 
+
+\begin{theorem} \label{th:birthanddeathmaintheorem}
+$\lim_{n \to \infty} \Phi^n \delta_x$ exists and is the unique minimal quasi-stationary distribution.
+\end{theorem}  
+
+First, we prove that the distribution of the absorption time determines the initial measure.
+
+\begin{lemma}
+The function $\upsilon \mapsto F^{\upsilon}$ is injective.
+\end{lemma}
+
+\begin{proof}
+Because $Q$ is conservative, the transition function $P_{ij}\left(t\right)$ of $X$ satisfies the Kolmogorov backward equation $$P_{xy}'\left(t\right) = \sum_{z = 0}^{\infty} q\left(x,z\right) P_{zy}\left(t\right) \textnormal{ for all } t\geq0 \textnormal{ and } j\in E. $$ 
+With the holding parameters $q\left(i\right) \leq C$ uniformly bounded, $q^{\left(n\right)}\left(x,z\right) = 0$ if $\left|x - z\right| > n$ and $ \sum_{y \in \N_0} \left|\frac{d}{dt} P_{zy}\left(t\right) \right| \leq  2 q\left(z\right) \leq 2 C$ for all $t \geq 0$ (see \cite{anderson} Proposition 2.6. on page 12), we can show by induction over $n$ that
+\begin{equation} \label{eq:sameargumentsneeded}
+\frac{d^n}{dt^n} P_{xy}\left(t\right) = \sum_{z=0}^{\infty} q^{\left(n\right)}\left(x,z\right) P_{zy}\left(t\right),
+\end{equation}
+where $q^{\left(n\right)}\left(x,z\right)$ denotes the $\left(x,z\right)$ entry of the matrix $Q^n.$ So
+\begin{align*}
+\frac{d^n}{dt^n} P_{x0}\left(t\right) |_{t=0} &=q^{\left(n\right)}\left(x,0\right)\\
+&= \sum_{z=0}^{\infty} q^{\left(n-1\right)}\left(x,z\right) q\left(z,0\right) \\
+&= q^{\left(n-1\right)}\left(x,1\right) q\left(1,0\right)\\
+&= \sum_{z_1,\ldots, z_{n-2} \in \N} q\left(x,z_1\right)q\left(z_1,z_2\right)\cdots q\left(z_{n-2},1\right) q\left(1,0\right).
+\end{align*}
+So
+$$ \frac{d^n}{dt^n} P_{n0}\left(t\right) |_{t=0} = q\left(n,n-1\right) q\left(n-1,n-2\right) \cdots q\left(1,0\right), $$
+and
+$$\frac{d^n}{dt^n} P_{z0}\left(t\right) = 0 \textnormal{ if } z > n.$$
+Now if $\upsilon$ is a probability distribution on $\N$, with the same arguments used for proving \eqref{eq:sameargumentsneeded} we can show that the $n$-th derivative of $F^{\upsilon}\left(t\right) = \sum_{z=1}^{\infty} \upsilon\left(z\right) P_z\left(X\left(t\right) = 0 \right) = \sum_{z=1}^{\infty} \upsilon\left(z\right) P_{z0}\left(t\right)$ exists and is given by
+\begin{equation} \label{eq:evaluatedattzero}
+\frac{d^n}{dt^n}F^{\upsilon}\left(t\right) = \sum_{z=1}^{\infty} \upsilon\left(z\right) \frac{d^n}{dt^n} P_{z0}\left(t\right).
+\end{equation}
+
+Let $\mu$ be another probability distribution on $\N$ with $F^{\upsilon} = F^{\mu}$. We need to show that $\mu = \upsilon.$ We note that \eqref{eq:evaluatedattzero} evaluated at $t=0.$ is just the finite sum
+\begin{equation}
+\frac{d^n}{dt^n}F^{\upsilon}\left(t\right)|_{t=0} = \sum_{z=1}^{n} \upsilon\left(z\right) \frac{d^n}{dt^n} P_{z0}\left(t\right)|_{t=0}.
+\end{equation}
+Further for all $k \geq 1$ we have $\frac{d^k}{dt^k}P_{k0}\left(t\right)|_{t=0} = q\left(k,k-1\right) \cdots q\left(1,0\right) > 0.$ So we get
+$$\upsilon\left(1\right) \frac{d}{dt}P_{10}\left(t\right)|_{t=0} = \frac{d}{dt}F^{\upsilon}\left(t\right)|_{t=0}. $$
+And it follows from this that
+$$\upsilon\left(1\right) = \frac{\frac{d}{dt}F^{\upsilon}\left(t\right)|_{t=0}}{\frac{d}{dt}P_{10}\left(t\right)|_{t=0}} = \frac{\frac{d}{dt}F^{\mu}\left(t\right)|_{t=0}}{\frac{d}{dt}P_{10}\left(t\right)|_{t=0}} = \mu\left(1\right). $$
+Then if we suppose for induction hypothesis that for $n \in \N$ we have $\mu\left(k\right) = \upsilon\left(k\right), k=1,\ldots, n$, then from
+$$\frac{d^{n+1}}{dt^{n+1}}F^{\upsilon}\left(t\right)|_{t=0} = \sum_{z=1}^{n+1} \upsilon\left(z\right) \frac{d^{n+1}}{dt^{n+1}} P_{z0}\left(t\right)|_{t=0} $$
+follows that
+\begin{align*}
+\upsilon\left(n+1\right) &= \frac{\frac{d^{n+1}}{dt^{n+1}}F^{\upsilon}\left(t\right)|_{t=0} - \sum_{z=1}^{n} \upsilon\left(z\right) \frac{d^{n+1}}{dt^{n+1}} P_{z0}\left(t\right)|_{t=0} }{\frac{d^{n+1}}{dt^{n+1}}P_{n+1,0}\left(t\right)|_{t=0} } \\
+&= \frac{\frac{d^{n+1}}{dt^{n+1}}F^{\mu}\left(t\right)|_{t=0} - \sum_{z=1}^{n} \mu\left(z\right) \frac{d^{n+1}}{dt^{n+1}} P_{z0}\left(t\right)|_{t=0} }{\frac{d^{n+1}}{dt^{n+1}}P_{n+1,0}\left(t\right)|_{t=0} } \\
+&= \mu\left(n+1\right).
+\end{align*}
+
+
+\end{proof}
+
+\begin{corollary}
+A probability distribution $\mu$ on $\N$ is a quasi-stationary distribution if and only if the distribution of the absorption time $F^{\mu}$ is exponential. Furthermore for any $\theta > 0$ there exists at most one quasi-stationary distribution $\mu$ with $E_{\mu} R = \theta. $
+\end{corollary}
+\begin{proof}
+If $\mu$ is a quasi-stationary distribution, we know from the proof of the easy direction of Theorem \ref{maintheorem} that $F^{\mu}$ is exponential.\\
+On the other hand, if $F^{\mu}$ is exponential, then with $\theta = E_{\mu} R$ by the previous Lemma $\mathcal{M}_{\theta} = \lbrace \mu \rbrace$ and by Theorem \ref{th:mthetacontainsfixpoint} $\mu$ is a quasi-stationary distribution. 
+\end{proof}
+
+\begin{proof} [Proof of Theorem \ref{th:birthanddeathmaintheorem}]
+Just as in the proof of Theorem \ref{theoremfourone} the family $\lbrace \Phi^n \delta_x \rbrace$ is tight. So after the Theorem of Prohorov, $\lbrace \Phi^n \delta_x \rbrace$ is weakly relative sequentially compact, and that means that every subsequence $\left(\Phi^{n_k} \delta_x \right)_{k \in \N}$ has a subsequence $\left(\Phi^{n_{k_j}} \delta_x \right)_{j \in \N}$ that converges to some probability measure $\mu.$ Because of Theorem \ref{maintheoremminimalqsd} these limits are minimal quasi-stationary distributions and because of the previous corollary, the minimal quasi-stationary distribution is unique. With Lemma \ref{subsubsubsequencelemma} follows the assertion.
+\end{proof}
+
+\appendix
+\section{Appendix}
+
+\begin{theorem}[Monotone class theorem] \label{th:MonotoneClass}
+Let $\left(\Omega, \mathcal{F} \right)$ be a measurble space and let $P \subseteq \mathcal{F}$ be $\cap$-stable with $\Omega \in P.$ Suppose $\mathcal{H}$ is a vector space of random variables satisfying the following properties:
+\begin{enumerate}[(i)]
+\item $A \in P$ implies $\textbf{1}_A \in \mathcal{H}$.
+\item $X_n \in \mathcal{H}, n \in \N$ and $X$ bounded and $X_n \nearrow X$ implies $X \in \mathcal{H}.$
+\end{enumerate}
+Then $\mathcal{H}$ contains all $\sigma\left(P\right)$-measurable random variables.
+\end{theorem}
+
+
+\begin{theorem} \label{th:excauchyfunceq}
+Let $g:\R_{\geq 0} \to \R, g \neq 0$ satisfy the functional equation
+\begin{equation}
+g\left(t+s\right) = g\left(t\right) \cdot g\left(s\right).
+\end{equation} 
+and assume further that $g$ is either continuous or monotone.
+Then $g\left(t\right) = e^{Ct}$ for some arbitrary constant $C \in \R$. If further $g \leq 1$, then $C$ must be smaller or equal $0$.
+\end{theorem}
+\begin{proof}
+If there would be some $x_0 \geq 0$ with $g\left(x_0\right) = 0$, then for all $x \geq x_0$, $g\left(x\right) = g\left(x_0 + \left(x - x_0\right)\right) = g\left(x_0\right) g\left(x-x_0\right) = 0.$ Since $0 = g\left(x_0\right) = g\left(\frac{x_0}{2}\right)^2$, also $g\left(\frac{x_0}{2}\right) = 0$ and by induction $g\left(\frac{x_0}{2^n}\right) = 0$ for all $n \in \N.$ Since $\frac{x_0}{2^n} \overset{n \to \infty}{\to} 0$, $g\left(x\right) = 0$ for all $x \geq 0,$ which contradicts $g \neq 0.$\\
+If there would be some $x_0 \geq 0$ with $g\left(x_0\right) < 0$, then $0 > g\left(\frac{x_0}{2}\right)^2$ which is a contradiction. So it must be $g > 0.$
+Thus we can define the map $ f = \ln \circ g:\R_{\geq 0} \to \R $. Then $f$ satisfies the functional equation $f\left(t+s\right) = f\left(t\right) + f\left(s\right).$
+We show that $f$ must satisfy $f\left(q\right) = q \cdot C , q \in \Q$ for some arbitrary constant $C \in \R$.
+$f\left(1\right) = f\left(1+0\right) = f\left(1\right) + f\left(0\right)$ shows that $f\left(0\right) = 0.$
+Every $q \in \Q, q > 0$ has the form $q = \frac{a}{b}$ where $a,b \in \N.$ Then we have $q f\left(1\right) = \frac{a}{b} f\left(\frac{b}{b}\right) = a f\left(\frac{1}{b}\right) = f\left(\frac{a}{b}\right) = f\left(q\right).$
+$f\left(1\right) = C$ can be chosen arbitrarily. \\
+Now if $g$ is either monotone or continuous, so is $f$ either monotone or continuous.
+\begin{enumerate}
+\item Assume $g$ continuous. Let $x \in \R_{\geq 0}$, then there exists a sequence $\left(q_n\right)_{n \in \N} \subseteq \Q_{\geq 0}$ with $\lim_{n \to \infty} q_n = x$, so $f\left(x\right) = \lim_{n \to \infty} f\left(q_n\right) = \lim_{n \to \infty} C q_n = Cx.$
+\item Assume $g$ is monotone, without loss of generality monotone increasing. Let  $x \in \R_{\geq 0}$, then there exists a sequences $\left(q_n\right)_{n \in \N} \subseteq \Q_{\geq 0}$ and $\left(r_n\right)_{n \in \N} \subseteq \Q_{\geq 0}$ with $ q_n \searrow x$ and $r_n\nearrow x$ as $n \to \infty.$ So $f\left(x\right) \geq \lim_{n \to \infty} f\left(r_n\right) = \lim_{n \to \infty} C r_n = C x$ and $f\left(x\right) \leq \lim_{n \to \infty} f\left(q_n\right) = \lim_{n \to \infty} C q_n = C x$, so in total $f\left(x\right) = C x$ for all $ x \geq 0.$
+\end{enumerate}
+So $g\left(x\right) = e^{f\left(x\right)} = e^{Cx}.$
+If $g \leq 1$, then it's clear that $C \leq 0.$
+  
+\end{proof}
+
+\begin{theorem} \label{th:exchangelimits}
+Let $\left(M,d\right)$ be a complete metric space and $a: \N \times \N \to M$ be a double-sequence of elements $a_{n,p} \in M.$ Assume the following limits exist
+\begin{equation}\label{eq:firstlimit}
+v\left(n\right) = \lim_{p \to \infty} a_{n,p}, \textnormal{ for all } n \in \N,
+\end{equation}
+\begin{equation}\label{eq:secondlimit}
+u\left(p\right) = \lim_{n \to \infty} a_{n,p}, \textnormal{ for all } p \in \N,
+\end{equation}
+\end{theorem}
+and assume further that either the limit \eqref{eq:firstlimit} is reached uniformly in $n$ or that the limit \eqref{eq:secondlimit} is reached uniformly in $p.$ Then the sequences $\left(v\left(n\right)\right)_{n \in \N}$ and $\left(u\left(p\right)\right)_{p \in \N}$ converge, and it holds
+$$\lim_{n \to \infty} v\left(n\right) = \lim_{n \to \infty} \lim_{p \to \infty} a_{n,p} = \lim_{p \to \infty} \lim_{n \to \infty} a_{n,p} = \lim_{p \to \infty} u\left(p\right). $$
+
+\begin{proposition}[Kingman, 1963] \label{limitlemma}
+Let $f:\left(0, \infty\right) \to \R$ be continuous, and suppose that for each $h > 0$, the limit
+$$ L\left(h\right) = \lim_{n \to \infty} f\left(nh\right) $$
+exists and is finite. Then $L\left(h\right)$ is independent of $h$, and if we denote the common limit by $L$, then
+$$\lim_{t \to \infty} f\left(t\right) = L.$$  
+\end{proposition}
+\begin{proof}
+See \cite{anderson} Proposition 6.5.5. on page 225.
+\end{proof}
+
+\begin{theorem} \label{subsubsubsequencelemma}
+Let $\left(M,d\right)$ be a metric space and $\left(a_n\right)_{n \in \N}$ be a sequence in $M$. Assume there exists $a \in M$ such that every subsequence $\left(a_{n_k}\right)_{k \in \N}$ has a convergent sub-subsequence $\left(a_{n_{k_j}}\right)_{j \in \N}$ with $\lim_{j \to \infty} a_{n_{k_j}} = a.$ Then $a_n$ converges to $a.$
+\end{theorem}
+\begin{proof}
+Trivial.
+\end{proof}
+
+
+
+  % Literaturverzeichnis (beginnt auf einer ungeraden Seite)
+  \newpage
+
+\bibliography{lit}{}
+\bibliographystyle{plain}    
+
+
+      
+  % ggf. hier Tabelle mit Symbolen 
+  % (kann auch auf das Inhaltsverzeichnis folgen)
+
+\newpage
+  
+ \thispagestyle{empty}
+
+
+\vspace*{8cm}
+
+
+\section*{Erklärung}
+
+Hiermit versichere ich, dass ich diese Arbeit selbständig verfasst und keine anderen, als die angegebenen Quellen und Hilfsmittel benutzt, die wörtlich oder inhaltlich übernommenen Stellen als solche kenntlich gemacht und die Satzung der Ludwig-Maximilians-Universität zur Sicherung guter wissenschaftlicher Praxis in der jeweils gültigen Fassung beachtet habe. \\[2ex] 
+
+\noindent
+Ort, den Datum\\[5ex]
+
+% Unterschrift (handgeschrieben)
+
+
+
+\end{document}
+
+
