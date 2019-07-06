@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane fx:controller="com.florianingerl.school.dicerelativefrequencyofhead.Controller" xmlns:fx="http://javafx.com/fxml"
+    prefHeight="1000" prefWidth="1000">
+         
+    <center>
+        <Pane id="pane" fx:id="pane"/>
+    </center>
+    <bottom>
+        <Button text="Start" onAction="#startAnimation"/>
+    </bottom>
+ 
+</BorderPane>
