@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample</title>
+    <link rel="stylesheet" type="text/css" href="MyCSS.css"/>
+	
+	<script type="text/javascript" src="RomanNumbers.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#stopButton').prop("disabled", true);
+
+            var typed = true;
+
+            function increaseScore() {
+                var d = parseInt($('#score').val());
+                $('#score').val((d + 1).toString());
+            }
+
+            function decreaseScore() {
+                var d = parseInt($('#score').val());
+                $('#score').val((d - 1).toString());
+            }
+
+            $('#startButton').on('click', function() {
+                $(this).prop("disabled", true);
+                $('#stopButton').prop("disabled", false);
+                var worker = new Worker("RandomNumberGenerator.js");
+                $('#stopButton').on('click', function() {
+                    worker.terminate();
+                    $(this).prop("disabled", true);
+                    $('#startButton').prop("disabled", false);
+                });
+
+                worker.addEventListener('message', function(e) {
+                    if (!typed) {
+                        decreaseScore();
+                    }
+                    typed = false;
+                    var d = e.data;
+                    var elem = document.getElementById("decimalNumber");
+                    elem.value = d.toString();
+                    $('#romanNumber').css("color", "black").val("");
+                }, false);
+
+                worker.onerror = function(e) {
+                    alert("Error at " + e.filename + ":" + e.lineno + ": " + e.message);
+                };
+
+                worker.postMessage("start");
+            });
+
+
+            $('#romanNumber').on('keyup', function(e) {
+
+                if (e.keyCode == 13) {
+                    typed = true;
+                    var d = parseInt(document.getElementById("decimalNumber").value);
+
+                    var elem = document.getElementById("romanNumber");
+                    if (elem.value === DecimalToRomanNumber(d)) {
+                        elem.style.color = "green";
+                        increaseScore();
+                    } else {
+                        elem.style.color = "red";
+                        decreaseScore();
+                    }
+                }
+            });
+        });
+
+        function CalculateRomanNumber() {
+            var decimalNumber = document.getElementById("decimalNumber").value;
+
+            if (!decimalNumber.match(/\d+/)) {
+                alert("Please type in a decimal number!");
+                return;
+            }
+            var d = parseInt(decimalNumber);
+            if (d < 1 || d > 3999) {
+                alert("Please type in a decimal number between 1 and 3999");
+                return;
+            }
+
+
+            document.getElementById("romanNumber").value = DecimalToRomanNumber(d);
+
+        }
+    </script>
+
+	
+</head>
+
+
+<body>
+<div id="wrapper">
+
+<div id="game">
+    <h2>Spiel "Römische Zahlen"</h2>
+
+    <p>
+		Genießen Sie dieses Spiel, bei dem man römische Zahlen lernen kann. Die einfachen Regeln für römische Zahlen 
+		können hier <a href="http://www.forumtraiani.de/die-roemischen-zahlen-ziffern-ueberblick/" target="_blank">Römische Zahlen</a> angeschaut werden. Um das Spiel zu starten, drücken Sie auf den Start-Button. Sie haben exakt 10 Sekuden Zeit um die richtige römische Zahl in das Textfeld einzugeben. Falls Sie schnell genug sind, geht der Score eins nach oben, sonst eins nach unten.
+	</p>
+
+
+    <table>
+        <tr>
+            <td>Spielstand: </td>
+            <td><input id="score" value="0" type="text" size="40" style="text-align: center;" disabled/></td>
+        </tr>
+        <tr>
+            <td>Dezimale Zahl:</td>
+            <td><input id="decimalNumber" type="text" size="40" style="text-align: center;" disabled/></td>
+
+        </tr>
+        <tr>
+            <td>Römische Zahl:</td>
+            <td><input id="romanNumber" type="text" size="40" style="text-align: center; text-transform: uppercase;"/></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table style="horiz-align: center;">
+                    <tr>
+                        <td>
+                            <input id="startButton" type="button" value="Start"/>
+                        </td>
+                        <td>
+                            <input id="stopButton" type="button" value="Stop"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+﻿body {
+    background-color: yellow;
+}
+
+#wrapper {
+    background-color: bisque;
+    width: 800px;
+    margin: auto;
+    height: 10000px;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+
+            #game {
+                margin: 20px;
+                padding: 10px;
+                border: solid 2px black;
+            }
