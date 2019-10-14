@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,left=3cm,right=3cm,top=2cm,bottom=4cm,bindingoffset=5mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amsmath}
+
+
+\title{ Lage-und Formver\"anderung von Funktionen }
+
+
+\begin{document}
+
+\maketitle
+
+\textbf{Aufgabe 1} Ueberpr\"ufen Sie, ob der Punkt $P$ auf dem Graphen $G_f$ der Funktion $f$ liegt!
+\begin{enumerate}[label=(\alph*)]
+\item $f(x)=x^2+1, P(2|4)$ \\
+L\"osungsbeispiel: $f(2) = 2^2+1=4+1=5 \neq 4 \Rightarrow P$ liegt nicht auf $G_f$ 
+\item $f(x)=x^2+1, P(-2|5)$ 
+\item $f(x)=sin\left( x + \frac{\pi}{2} \right), P\left( \frac{\pi}{2} | -1 \right)$
+\item $f(x)=sin\left( x + \frac{\pi}{2} \right), P\left( \pi | 1 \right)$
+\item $f(x)=sin\left( x + \frac{\pi}{2} \right), P\left( -\frac{\pi}{2} | 0 \right)$
+\end{enumerate}
+
+\textbf{Aufgabe 2} Es sei $P(2|5)$ ein Punkt auf dem Graphen $G_f$ der Funktion $f$ (d.h. $f(2)=5$). \\
+Gib die Koordinaten des Punktes $Q$ an, der auf dem Graphen $G_g$ der Funktion $g$ liegt, falls
+\begin{enumerate}[label=(\alph*)]
+\item $G_g$ aus $G_f$ durch Verschiebung um $2$ in $x$-Richtung entsteht. \\
+L\"osungsbeispiel: $Q(2+2|5)$
+\item $G_g$ aus $G_f$ durch Verschiebung um $-1$ in $x$-Richtung entsteht.
+\item $G_g$ aus $G_f$ durch Stauchung um den Faktor $\frac{1}{3}$ in $x$-Richtung entsteht. 
+\item $G_g$ aus $G_f$ durch Streckung um den Faktor $3$ in $x$-Richtung entsteht.
+\end{enumerate}
+
+\textbf{Aufgabe 3} Gebe den Funktionsterm $g(x)$ zu dem Graphen an, der aus dem Graphen von $f$ durch die folgenden Ver\"anderungen entsteht. \\
+\"Uberpr\"ufe dein Ergebnis wie im L\"osungsbeispiel.
+
+\begin{enumerate}[label=(\alph*)]
+\item $f(x)=\sin(x)$, Verschiebung um $3$ in $x$-Richtung \\
+L\"osungsbeispiel: \\
+$g(x)=\sin(x-3)$ \\
+Probe: \\
+Der Punkt $P( \frac{\pi}{2} | \underbrace{ f\left( \frac{\pi}{2} \right) }_{ = \sin\left( \frac{\pi}{2} \right) = 1  })$ liegt auf dem Graphen von $f$. \\
+Der Punkt $Q\left( \frac{\pi}{2} + 3 |  1 \right)$ sollte auf dem Graphen von $g$ liegen. \\
+Es sollte also $g\left( \frac{\pi}{2} + 3 \right) =  1 $ gelten. \\
+Wir pr\"ufen das nach: \\
+$g\left( \frac{\pi}{2} + 3 \right) = \sin\left( \left( \frac{\pi}{2} + 3 \right) - 3 \right) = \sin\left( \frac{\pi}{2} \right) = f\left( \frac{\pi}{2} \right) = 1  $
+\item $f(x)= \sin(x)$, Verschiebung um $2$ in $x$-Richtung
+\item $f(x) = \cos(x)$, Verschiebung um $-1$ in $x$-Richtung
+\item $f(x)= \sin(x)$, Stauchung um den Faktor $\frac{1}{3}$ in $x$-Richtung
+\item $f(x) = \cos(x)$, Streckung um den Faktor $3$ in $x$-Richtung
+\item $f(x) = 2 \cdot \sin(x) + 3 \cdot \cos(x) $, Verschiebung um $4$ in $x$-Richtung
+\item $f(x) = \sin(x) + x^2$, Verschiebung um $-1$ in $x$-Richtung
+\end{enumerate}
+
+\end{document}
